@@ -7,11 +7,13 @@
 #include "MetaliaCharacter.generated.h"
 
 /**
- * 
+ * Represents a playable Metalia character.
  */
 UCLASS()
 class METALIA_API AMetaliaCharacter : public AMetaliaCharacterBase
 {
 	GENERATED_BODY()
 	
+public:
+	AMetaliaCharacter();
 };

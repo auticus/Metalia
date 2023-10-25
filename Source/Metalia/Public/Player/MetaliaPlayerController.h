@@ -7,6 +7,7 @@
 #include "MetaliaPlayerController.generated.h"
 
 class UInputMappingContext;
+class UInputAction;
 
 /**
  * Main player controller.
@@ -21,9 +22,15 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
 
 private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> MetaliaPlayerContext;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> MoveAction;
+
+	void Move(const struct FInputActionValue& InputActionValue);
 };
