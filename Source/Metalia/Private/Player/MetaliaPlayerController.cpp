@@ -2,6 +2,7 @@
 
 
 #include "Player/MetaliaPlayerController.h"
+#include "Characters/EnemyInterface.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
@@ -9,6 +10,13 @@ AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
 {
 	bReplicates = true;
+}
+
+void AMetaliaPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
 }
 
 void AMetaliaPlayerController::BeginPlay()
@@ -63,5 +71,32 @@ void AMetaliaPlayerController::Move(const FInputActionValue& InputActionValue)
 	{
 		pawn->AddMovementInput(ForwardDirection, InputY);
 		pawn->AddMovementInput(RightDirection, InputX);
+	}
+}
+
+void AMetaliaPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+
+	// note this requires meshes to block the Visible channel to work
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+
+	LastEnemy = CurrentEnemy;
+	CurrentEnemy = Cast<IEnemyInterface>(CursorHit.GetActor()); // if not valid interface actor, will be null
+
+	if (LastEnemy == nullptr && CurrentEnemy == nullptr) return;
+	else if (LastEnemy == nullptr && CurrentEnemy != nullptr)
+	{
+		CurrentEnemy->HighlightActor();
+	}
+	else if (LastEnemy != nullptr && CurrentEnemy == nullptr)
+	{
+		LastEnemy->UnhighlightActor();
+	}
+	else if (LastEnemy != nullptr && CurrentEnemy != nullptr && LastEnemy != CurrentEnemy)
+	{
+		LastEnemy->UnhighlightActor();
+		CurrentEnemy->HighlightActor();
 	}
 }

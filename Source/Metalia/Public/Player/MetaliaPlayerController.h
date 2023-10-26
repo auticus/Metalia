@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+class IEnemyInterface;
 
 /**
  * Main player controller.
@@ -19,6 +20,7 @@ class METALIA_API AMetaliaPlayerController : public APlayerController
 	
 public:
 	AMetaliaPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -36,5 +38,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float GamepadDeadZone;
 
+	IEnemyInterface* LastEnemy;
+	IEnemyInterface* CurrentEnemy;
+
+	/* Moves the possessed actor */
 	void Move(const struct FInputActionValue& InputActionValue);
+
+	/* Responsible for tracing from the mouse cursor down to see what actors it hits */
+	void CursorTrace();
 };

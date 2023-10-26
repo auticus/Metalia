@@ -5,10 +5,10 @@
 
 void AMetaliaEnemy::HighlightActor()
 {
-
+	bHighlighted = true;
 }
 
 void AMetaliaEnemy::UnhighlightActor()
 {
-
+	bHighlighted = false;
 }

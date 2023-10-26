@@ -14,10 +14,16 @@ class METALIA_API AMetaliaCharacterBase : public ACharacter
 public:
 	AMetaliaCharacterBase();
 
+	UPROPERTY(BlueprintReadOnly)
+	bool bHighlighted = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+
+public:
+
 };
