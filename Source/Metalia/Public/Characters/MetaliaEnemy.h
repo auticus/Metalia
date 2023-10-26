@@ -14,6 +14,7 @@ UCLASS()
 class METALIA_API AMetaliaEnemy : public AMetaliaCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
+	AMetaliaEnemy();
 
 public:
 	/* Highlight the actor that implements this interface */

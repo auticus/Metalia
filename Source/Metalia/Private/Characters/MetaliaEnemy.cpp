@@ -4,6 +4,11 @@
 #include "Characters/MetaliaEnemy.h"
 #include "Metalia/Metalia.h"
 
+AMetaliaEnemy::AMetaliaEnemy()
+{
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
+}
+
 void AMetaliaEnemy::HighlightActor()
 {
 	bHighlighted = true;
