@@ -3,3 +3,12 @@
 
 #include "Characters/MetaliaEnemy.h"
 
+void AMetaliaEnemy::HighlightActor()
+{
+
+}
+
+void AMetaliaEnemy::UnhighlightActor()
+{
+
+}
