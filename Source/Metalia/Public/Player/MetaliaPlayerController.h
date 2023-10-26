@@ -32,5 +32,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
+	/* The tolerance level of the game pad dead zone.  The higher the value, the more drift will be ignored.*/
+	UPROPERTY(EditAnywhere, Category = "Input")
+	float GamepadDeadZone;
+
 	void Move(const struct FInputActionValue& InputActionValue);
 };

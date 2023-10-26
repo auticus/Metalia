@@ -5,7 +5,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
-AMetaliaPlayerController::AMetaliaPlayerController()
+AMetaliaPlayerController::AMetaliaPlayerController() :
+	GamepadDeadZone(0.25f)
 {
 	bReplicates = true;
 }
@@ -47,9 +48,20 @@ void AMetaliaPlayerController::Move(const FInputActionValue& InputActionValue)
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
+	double InputX = InputAxisVector.X;
+	double InputY = InputAxisVector.Y;
+
+	// check for deadzone and if less than that value, cull the value completely 
+	// to get rid of joystick drift.
+	if (InputAxisVector.Length() < GamepadDeadZone)
+	{
+		InputX = 0;
+		InputY = 0;
+	}
+
 	if (APawn* pawn = GetPawn<APawn>())
 	{
-		pawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
-		pawn->AddMovementInput(RightDirection, InputAxisVector.X);
+		pawn->AddMovementInput(ForwardDirection, InputY);
+		pawn->AddMovementInput(RightDirection, InputX);
 	}
 }
