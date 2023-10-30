@@ -3,10 +3,17 @@
 
 #include "Characters/MetaliaEnemy.h"
 #include "Metalia/Metalia.h"
+#include "AbilitySystemComponent.h"
+#include "AttributeSet.h"
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
 }
 
 void AMetaliaEnemy::HighlightActor()

@@ -18,3 +18,8 @@ void AMetaliaCharacterBase::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
