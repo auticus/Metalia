@@ -4,6 +4,8 @@
 #include "Characters/MetaliaCharacter.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/MetaliaPlayerState.h"
+#include "AbilitySystemComponent.h"
 
 AMetaliaCharacter::AMetaliaCharacter()
 {
@@ -15,4 +17,29 @@ AMetaliaCharacter::AMetaliaCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+}
+
+void AMetaliaCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// Init ability actor info on the server.
+	InitAbilityActorInfo();
+}
+
+void AMetaliaCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Init ability actor info for the client
+	InitAbilityActorInfo();
+}
+
+void AMetaliaCharacter::InitAbilityActorInfo()
+{
+	AMetaliaPlayerState* MetaliaPlayerState = GetPlayerState<AMetaliaPlayerState>();
+	check(MetaliaPlayerState);
+	MetaliaPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(MetaliaPlayerState, this);
+	AbilitySystemComponent = MetaliaPlayerState->GetAbilitySystemComponent();
+	AttributeSet = MetaliaPlayerState->GetAttributeSet();
 }

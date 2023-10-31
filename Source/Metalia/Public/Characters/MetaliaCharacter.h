@@ -16,4 +16,10 @@ class METALIA_API AMetaliaCharacter : public AMetaliaCharacterBase
 	
 public:
 	AMetaliaCharacter();
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
+	void InitAbilityActorInfo();
 };

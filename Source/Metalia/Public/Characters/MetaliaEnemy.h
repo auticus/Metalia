@@ -17,10 +17,15 @@ class METALIA_API AMetaliaEnemy : public AMetaliaCharacterBase, public IEnemyInt
 	AMetaliaEnemy();
 
 public:
+	/** Enemy Interface functions */
 	/* Highlight the actor that implements this interface */
 	void HighlightActor() override;
 
 	/* Unhighlight the actor that implements this interface */
 	void UnhighlightActor() override;
+	/** END Enemy Interface functions */
+
+protected:
+	virtual void BeginPlay() override;
 
 };
