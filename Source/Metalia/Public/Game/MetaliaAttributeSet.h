@@ -4,7 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "AbilitySystemComponent.h"
 #include "MetaliaAttributeSet.generated.h"
+
+#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_INITTER (PropertyName)
 
 /**
  * Attribute set for Metalia characters.
@@ -17,15 +24,19 @@ class METALIA_API UMetaliaAttributeSet : public UAttributeSet
 public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Primary Attributes")
 	FGameplayAttributeData Health;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Health);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Primary Attributes")
 	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxHealth);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Metal, Category = "Primary Attributes")
 	FGameplayAttributeData Metal;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Metal);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMetal, Category = "Primary Attributes")
 	FGameplayAttributeData MaxMetal;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetal);
 
 public:
 	UMetaliaAttributeSet();

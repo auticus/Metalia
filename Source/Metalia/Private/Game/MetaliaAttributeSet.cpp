@@ -2,11 +2,14 @@
 
 
 #include "Game/MetaliaAttributeSet.h"
-#include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
+	InitHealth(100.f);
+	InitMaxHealth(100.f);
+	InitMetal(50.f);
+	InitMaxMetal(50.f);
 }
 
 void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
