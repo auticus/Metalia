@@ -70,14 +70,12 @@ void AMetaliaPlayerController::CreateHud()
 
 	AMetaliaHUD* HUD = Cast<AMetaliaHUD>(GetHUD());
 
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController::CreateHud trying to draw HUD"));
 	if (!HUD)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController::CreateHud trying to draw HUD fails - HUD NOT SET!"));
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController::CreateHud Initializing Overlay"));
 	FWidgetControllerParams params(this, PlayerState, AbilitySystemComponent, AttributeSet);
 	HUD->InitializeOverlay(params);
 }
