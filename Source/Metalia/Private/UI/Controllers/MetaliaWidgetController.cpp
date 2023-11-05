@@ -10,3 +10,8 @@ void UMetaliaWidgetController::SetWidgetControllerParams(const FWidgetController
 	AbilitySystemComponent = params.AbilitySystemComponent;
 	AttributeSet = params.AttributeSet;
 }
+
+void UMetaliaWidgetController::BroadcastInitialValues()
+{
+	
+}

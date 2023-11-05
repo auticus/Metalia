@@ -11,17 +11,6 @@ void AMetaliaHUD::BeginPlay()
 
 }
 
-UOverlayWidgetController* AMetaliaHUD::GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams)
-{
-	if (OverlayWidgetController == nullptr)
-	{
-		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
-		OverlayWidgetController->SetWidgetControllerParams(WidgetControllerParams);
-	}
-
-	return OverlayWidgetController;
-}
-
 void AMetaliaHUD::InitializeOverlay(FWidgetControllerParams params)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class uninitialized, please fill out the HUD blueprint"));
@@ -31,6 +20,18 @@ void AMetaliaHUD::InitializeOverlay(FWidgetControllerParams params)
 	OverlayWidget = Cast<UMetaliaUIWidget>(Widget);
 	UOverlayWidgetController* Controller = GetOverlayWidgetController(params);
 	OverlayWidget->SetWidgetController(Controller);
+	Controller->BroadcastInitialValues();
 
 	Widget->AddToViewport();
+}
+
+UOverlayWidgetController* AMetaliaHUD::GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams)
+{
+	if (OverlayWidgetController == nullptr)
+	{
+		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
+		OverlayWidgetController->SetWidgetControllerParams(WidgetControllerParams);
+	}
+
+	return OverlayWidgetController;
 }

@@ -2,18 +2,18 @@
 
 
 #include "Player/MetaliaPlayerState.h"
-#include "AbilitySystemComponent.h"
-#include "AttributeSet.h"
+#include "Game/MetaliaAttributeSet.h"
+#include "Game/MetaliaAbilitySystemComponent.h"
 
 AMetaliaPlayerState::AMetaliaPlayerState()
 {
 	NetUpdateFrequency = 100.f;
 
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UMetaliaAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UMetaliaAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* AMetaliaPlayerState::GetAbilitySystemComponent() const

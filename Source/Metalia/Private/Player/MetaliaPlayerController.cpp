@@ -9,6 +9,7 @@
 #include "AbilitySystemComponent.h"
 #include "UI/MetaliaHUD.h"
 #include "UI/Controllers/MetaliaWidgetController.h"
+#include "Game/MetaliaAttributeSet.h"
 
 AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
@@ -74,6 +75,11 @@ void AMetaliaPlayerController::CreateHud()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController::CreateHud trying to draw HUD fails - HUD NOT SET!"));
 		return;
+	}
+
+	if (Cast<UMetaliaAttributeSet>(AttributeSet) == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Playercontroller::PlayerState->GetAttributeSet() returns something not a UMetaliaAttributeSet"));
 	}
 
 	FWidgetControllerParams params(this, PlayerState, AbilitySystemComponent, AttributeSet);
