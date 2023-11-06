@@ -27,3 +27,27 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 	UE_LOG(LogTemp, Warning, TEXT("WidgetController is broadcasting initial values"));
 }
+
+void UOverlayWidgetController::BindCallbacksToDependencies()
+{
+	const UMetaliaAttributeSet* MetaliaAttributeSet = CastChecked<UMetaliaAttributeSet>(AttributeSet);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		MetaliaAttributeSet->GetHealthAttribute()).AddUObject(
+			this, 
+			&UOverlayWidgetController::HealthChanged);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		MetaliaAttributeSet->GetMaxHealthAttribute()).AddUObject(
+			this,
+			&UOverlayWidgetController::MaxHealthChanged);
+}
+
+void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
+{
+	OnHealthChanged.Broadcast(Data.NewValue);
+}
+
+void UOverlayWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
+{
+	OnMaxHealthChanged.Broadcast(Data.NewValue);
+}

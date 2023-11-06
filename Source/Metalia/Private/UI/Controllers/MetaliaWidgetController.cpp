@@ -13,5 +13,10 @@ void UMetaliaWidgetController::SetWidgetControllerParams(const FWidgetController
 
 void UMetaliaWidgetController::BroadcastInitialValues()
 {
-	
+	// let child override
+}
+
+void UMetaliaWidgetController::BindCallbacksToDependencies()
+{
+	// let child override
 }

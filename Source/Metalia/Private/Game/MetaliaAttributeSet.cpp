@@ -6,7 +6,7 @@
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
-	InitHealth(100.f);
+	InitHealth(50.f);
 	InitMaxHealth(100.f);
 	InitMetal(50.f);
 	InitMaxMetal(50.f);

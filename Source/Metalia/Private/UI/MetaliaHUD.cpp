@@ -31,6 +31,7 @@ UOverlayWidgetController* AMetaliaHUD::GetOverlayWidgetController(const FWidgetC
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WidgetControllerParams);
+		OverlayWidgetController->BindCallbacksToDependencies();
 	}
 
 	return OverlayWidgetController;

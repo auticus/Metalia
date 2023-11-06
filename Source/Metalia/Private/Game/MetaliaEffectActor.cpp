@@ -37,7 +37,6 @@ void AMetaliaEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent,
 {
 	/* ATTEMPTING TO READ THE ATTRIBUTE RESULTS IN ACCESS VIOLATION CRASH*/
 
-	/*
 	// the below is not the best way to do this - we have better ways we just dont know yet
 	if (IAbilitySystemInterface* otherAbilitySystem = Cast<IAbilitySystemInterface>(OtherActor))
 	{
@@ -48,9 +47,8 @@ void AMetaliaEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent,
 		UMetaliaAttributeSet* attributeSet = const_cast<UMetaliaAttributeSet*>(MetaliaAttributeSet);
 		float currentHealth = MetaliaAttributeSet->GetHealth();
 		attributeSet->SetHealth(currentHealth + 25.f);
-		Destroy();
 	}
-	*/
+
 	Destroy();
 }
 

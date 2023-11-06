@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UI/Controllers/MetaliaWidgetController.h"
+#include "GameplayEffectTypes.h"
 #include "OverlayWidgetController.generated.h"
 
 // want these to be broadcast in blueprints so they will be dynamic multicast
@@ -13,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float,
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class METALIA_API UOverlayWidgetController : public UMetaliaWidgetController
 {
 	GENERATED_BODY()
@@ -26,4 +27,9 @@ public:
 
 public:
 	virtual void BroadcastInitialValues() override;
+	virtual void BindCallbacksToDependencies() override;
+
+protected:
+	void HealthChanged(const FOnAttributeChangeData& Data) const;
+	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
 };
