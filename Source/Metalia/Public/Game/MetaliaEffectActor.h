@@ -21,6 +21,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadonly, Category="Effects")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadonly, Category = "Effects")
+	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

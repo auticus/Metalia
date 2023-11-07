@@ -26,6 +26,7 @@ void AMetaliaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<U
 	if (TargetSystem == nullptr) return;
 
 	check(GameplayEffectClass);
+
 	float AbilityLevel = 1.f;
 	FGameplayEffectContextHandle EffectContextHandle = TargetSystem->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
