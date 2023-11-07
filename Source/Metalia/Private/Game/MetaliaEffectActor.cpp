@@ -20,9 +20,9 @@ void AMetaliaEffectActor::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AMetaliaEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+void AMetaliaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-	UAbilitySystemComponent* TargetSystem = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	UAbilitySystemComponent* TargetSystem = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetSystem == nullptr) return;
 
 	check(GameplayEffectClass);

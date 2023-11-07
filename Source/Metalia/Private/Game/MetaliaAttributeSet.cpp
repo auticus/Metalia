@@ -9,7 +9,7 @@ UMetaliaAttributeSet::UMetaliaAttributeSet()
 	// init functions stem from the macro defined in the h file
 	InitHealth(50.f);
 	InitMaxHealth(100.f);
-	InitMetalMana(50.f);
+	InitMetalMana(25.f);
 	InitMaxMetalMana(50.f);
 	UE_LOG(LogTemp, Warning, TEXT("Attribute Set Initialized"));
 }
