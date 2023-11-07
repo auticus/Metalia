@@ -31,12 +31,12 @@ public:
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxHealth);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Metal, Category = "Primary Attributes")
-	FGameplayAttributeData Metal;
-	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Metal);
+	FGameplayAttributeData MetalMana;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MetalMana);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMetal, Category = "Primary Attributes")
-	FGameplayAttributeData MaxMetal;
-	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetal);
+	FGameplayAttributeData MaxMetalMana;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetalMana);
 
 public:
 	UMetaliaAttributeSet();

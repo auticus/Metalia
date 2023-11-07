@@ -6,10 +6,12 @@
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
+	// init functions stem from the macro defined in the h file
 	InitHealth(50.f);
 	InitMaxHealth(100.f);
-	InitMetal(50.f);
-	InitMaxMetal(50.f);
+	InitMetalMana(50.f);
+	InitMaxMetalMana(50.f);
+	UE_LOG(LogTemp, Warning, TEXT("Attribute Set Initialized"));
 }
 
 void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -21,8 +23,8 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	*  we can get notified by server when any attempt came to change it, even if the values are the same */
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Metal, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxMetal, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MetalMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxMetalMana, COND_None, REPNOTIFY_Always);
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
@@ -37,10 +39,10 @@ void UMetaliaAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxH
 
 void UMetaliaAttributeSet::OnRep_Metal(const FGameplayAttributeData& OldMetal) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Metal, OldMetal);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MetalMana, OldMetal);
 }
 
 void UMetaliaAttributeSet::OnRep_MaxMetal(const FGameplayAttributeData& OldMaxMetal) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxMetal, OldMaxMetal);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxMetalMana, OldMaxMetal);
 }

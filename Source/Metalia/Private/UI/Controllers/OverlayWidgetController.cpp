@@ -24,13 +24,16 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 	OnHealthChanged.Broadcast(MetaliaAttributeSet->GetHealth());
 	OnMaxHealthChanged.Broadcast(MetaliaAttributeSet->GetMaxHealth());
+	OnMetalManaChanged.Broadcast(MetaliaAttributeSet->GetMetalMana());
+	OnMaxMetalManaChanged.Broadcast(MetaliaAttributeSet->GetMaxMetalMana());
 
-	UE_LOG(LogTemp, Warning, TEXT("WidgetController is broadcasting initial values"));
+	UE_LOG(LogTemp, Warning, TEXT("WidgetController is broadcasting initial values, if you dont see your changes reflected look at BroadcastInitialValues()"));
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UMetaliaAttributeSet* MetaliaAttributeSet = CastChecked<UMetaliaAttributeSet>(AttributeSet);
+	
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		MetaliaAttributeSet->GetHealthAttribute()).AddUObject(
 			this, 
@@ -40,6 +43,16 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		MetaliaAttributeSet->GetMaxHealthAttribute()).AddUObject(
 			this,
 			&UOverlayWidgetController::MaxHealthChanged);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		MetaliaAttributeSet->GetMetalManaAttribute()).AddUObject(
+			this,
+			&UOverlayWidgetController::MetalManaChanged);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		MetaliaAttributeSet->GetMaxMetalManaAttribute()).AddUObject(
+			this,
+			&UOverlayWidgetController::MaxMetalManaChanged);
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
@@ -50,4 +63,14 @@ void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data)
 void UOverlayWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
 {
 	OnMaxHealthChanged.Broadcast(Data.NewValue);
+}
+
+void UOverlayWidgetController::MetalManaChanged(const FOnAttributeChangeData& Data) const
+{
+	OnMetalManaChanged.Broadcast(Data.NewValue);
+}
+
+void UOverlayWidgetController::MaxMetalManaChanged(const FOnAttributeChangeData& Data) const
+{
+	OnMaxMetalManaChanged.Broadcast(Data.NewValue);
 }
