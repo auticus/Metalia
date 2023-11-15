@@ -28,10 +28,9 @@ void AMetaliaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<U
 
 	check(GameplayEffectClass);
 
-	float AbilityLevel = 1.f;
 	FGameplayEffectContextHandle EffectContextHandle = TargetSystem->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
-	FGameplayEffectSpecHandle EffectSpecHandle = TargetSystem->MakeOutgoingSpec(GameplayEffectClass, AbilityLevel, EffectContextHandle);
+	FGameplayEffectSpecHandle EffectSpecHandle = TargetSystem->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle);
 	const FActiveGameplayEffectHandle EffectHandle = TargetSystem->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get()); // the * dereferences this to the object
 
 	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
