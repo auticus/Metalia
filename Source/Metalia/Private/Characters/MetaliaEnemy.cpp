@@ -5,6 +5,7 @@
 #include "Metalia/Metalia.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
+#include <Game/MetaliaAbilitySystemComponent.h>
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -36,5 +37,13 @@ void AMetaliaEnemy::UnhighlightActor()
 void AMetaliaEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
+
+void AMetaliaEnemy::InitAbilityActorInfo()
+{
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+	// there is currently nothing set here and this will cause it to crash if you use it on the enemy.
+	// Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->Initialize();
 }

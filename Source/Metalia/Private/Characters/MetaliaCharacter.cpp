@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/MetaliaPlayerState.h"
 #include "AbilitySystemComponent.h"
+#include <Game/MetaliaAbilitySystemComponent.h>
 
 AMetaliaCharacter::AMetaliaCharacter()
 {
@@ -40,6 +41,9 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 	AMetaliaPlayerState* MetaliaPlayerState = GetPlayerState<AMetaliaPlayerState>();
 	check(MetaliaPlayerState);
 	MetaliaPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(MetaliaPlayerState, this);
+
 	AbilitySystemComponent = MetaliaPlayerState->GetAbilitySystemComponent();
 	AttributeSet = MetaliaPlayerState->GetAttributeSet();
+
+	Cast<UMetaliaAbilitySystemComponent>(MetaliaPlayerState->GetAbilitySystemComponent())->Initialize();
 }

@@ -23,3 +23,8 @@ UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() cons
 {
 	return AbilitySystemComponent;
 }
+
+void AMetaliaCharacterBase::InitAbilityActorInfo()
+{
+	//does nothing in the base
+}
