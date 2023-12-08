@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "MetaliaAbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer&);
+
 /**
  * 
  */
@@ -14,6 +16,12 @@ class METALIA_API UMetaliaAbilitySystemComponent : public UAbilitySystemComponen
 {
 	GENERATED_BODY()
 	
+public:
+	/// <summary>
+	/// Delegate that holds the tag container that will be broadcast when the tags change
+	/// </summary>
+	FEffectAssetTags OnEffectAssetTagsChanged;
+
 public:
 	void Initialize();
 

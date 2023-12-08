@@ -4,6 +4,7 @@
 #include "UI/Controllers/OverlayWidgetController.h"
 #include "AttributeSet.h"
 #include "Game/MetaliaAttributeSet.h"
+#include <Game/MetaliaAbilitySystemComponent.h>
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -53,6 +54,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		MetaliaAttributeSet->GetMaxMetalManaAttribute()).AddUObject(
 			this,
 			&UOverlayWidgetController::MaxMetalManaChanged);
+
+	Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->OnEffectAssetTagsChanged.AddLambda(
+		[](const FGameplayTagContainer& AssetTags)
+		{
+			for (const FGameplayTag& Tag : AssetTags)
+			{
+				const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
+				GEngine->AddOnScreenDebugMessage(1, 8.f, FColor::Blue, Msg);
+			}
+		}
+	);
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
