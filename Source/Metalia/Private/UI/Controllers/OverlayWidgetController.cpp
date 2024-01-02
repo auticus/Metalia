@@ -35,25 +35,44 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UMetaliaAttributeSet* MetaliaAttributeSet = CastChecked<UMetaliaAttributeSet>(AttributeSet);
 	
+	/* LEAVINT THIS HERE AS AN EXAMPLE
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		MetaliaAttributeSet->GetHealthAttribute()).AddUObject(
 			this, 
 			&UOverlayWidgetController::HealthChanged);
+	*/
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		MetaliaAttributeSet->GetMaxHealthAttribute()).AddUObject(
-			this,
-			&UOverlayWidgetController::MaxHealthChanged);
+		MetaliaAttributeSet->GetHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+	);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		MetaliaAttributeSet->GetMetalManaAttribute()).AddUObject(
-			this,
-			&UOverlayWidgetController::MetalManaChanged);
+		MetaliaAttributeSet->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+	);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		MetaliaAttributeSet->GetMaxMetalManaAttribute()).AddUObject(
-			this,
-			&UOverlayWidgetController::MaxMetalManaChanged);
+		MetaliaAttributeSet->GetMetalManaAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMetalManaChanged.Broadcast(Data.NewValue);
+			}
+	);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+		MetaliaAttributeSet->GetMaxMetalManaAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxMetalManaChanged.Broadcast(Data.NewValue);
+			}
+	);
 
 	Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->OnEffectAssetTagsChanged.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags)
@@ -69,24 +88,4 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		}
 	);
-}
-
-void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
-{
-	OnHealthChanged.Broadcast(Data.NewValue);
-}
-
-void UOverlayWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxHealthChanged.Broadcast(Data.NewValue);
-}
-
-void UOverlayWidgetController::MetalManaChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMetalManaChanged.Broadcast(Data.NewValue);
-}
-
-void UOverlayWidgetController::MaxMetalManaChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxMetalManaChanged.Broadcast(Data.NewValue);
 }

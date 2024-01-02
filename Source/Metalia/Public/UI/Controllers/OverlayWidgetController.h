@@ -72,10 +72,4 @@ protected:
 public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
-
-protected:
-	void HealthChanged(const FOnAttributeChangeData& Data) const;
-	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
-	void MetalManaChanged(const FOnAttributeChangeData& Data) const;
-	void MaxMetalManaChanged(const FOnAttributeChangeData& Data) const;
 };
