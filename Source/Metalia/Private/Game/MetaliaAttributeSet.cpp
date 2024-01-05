@@ -35,6 +35,8 @@ void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribut
 
 	Super::PreAttributeChange(Attribute, NewValue);
 
+	// Note that these clamps are only clamping the value of NewValue... GAS will still be working with the pre-adjusted values
+	// which may cause you bugs.
 	if (Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
@@ -86,6 +88,16 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+
+	// because the data used by GAS may break our clamp, we have to clamp it after its been changed
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
+	if (Data.EvaluatedData.Attribute == GetMetalManaAttribute())
+	{
+		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, GetMaxMetalMana()));
+	}
 
 }
 
