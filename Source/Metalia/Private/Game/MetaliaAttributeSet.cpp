@@ -111,12 +111,42 @@ void UMetaliaAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxH
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxHealth, OldMaxHealth);
 }
 
-void UMetaliaAttributeSet::OnRep_Metal(const FGameplayAttributeData& OldMetal) const
+void UMetaliaAttributeSet::OnRep_MetalMana(const FGameplayAttributeData& OldMetalMana) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MetalMana, OldMetal);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MetalMana, OldMetalMana);
 }
 
-void UMetaliaAttributeSet::OnRep_MaxMetal(const FGameplayAttributeData& OldMaxMetal) const
+void UMetaliaAttributeSet::OnRep_MaxMetalMana(const FGameplayAttributeData& OldMaxMetalMana) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxMetalMana, OldMaxMetal);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxMetalMana, OldMaxMetalMana);
+}
+
+void UMetaliaAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Strength, OldStrength);
+}
+
+void UMetaliaAttributeSet::OnRep_Agility(const FGameplayAttributeData& OldAgility) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Agility, OldAgility);
+}
+
+void UMetaliaAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Stamina, OldStamina);
+}
+
+void UMetaliaAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Intelligence, OldIntelligence);
+}
+
+void UMetaliaAttributeSet::OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Willpower, OldWillpower);
+}
+
+void UMetaliaAttributeSet::OnRep_Metal(const FGameplayAttributeData& OldMetal) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Metal, OldMetal);
 }

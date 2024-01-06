@@ -60,19 +60,43 @@ class METALIA_API UMetaliaAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Strength);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Agility, Category = "Primary Attributes")
+	FGameplayAttributeData Agility;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Agility);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Stamina, Category = "Primary Attributes")
+	FGameplayAttributeData Stamina;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Stamina);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
+	FGameplayAttributeData Intelligence;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Intelligence);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Willpower, Category = "Primary Attributes")
+	FGameplayAttributeData Willpower;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Willpower);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Metal, Category = "Primary Attributes")
+	FGameplayAttributeData Metal;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Metal);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Health);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Vital Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxHealth);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Metal, Category = "Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MetalMana, Category = "Vital Attributes")
 	FGameplayAttributeData MetalMana;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MetalMana);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMetal, Category = "Primary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMetalMana, Category = "Vital Attributes")
 	FGameplayAttributeData MaxMetalMana;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetalMana);
 
@@ -89,10 +113,28 @@ public:
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 
 	UFUNCTION()
-	void OnRep_Metal(const FGameplayAttributeData& OldMetal) const;
+	void OnRep_MetalMana(const FGameplayAttributeData& OldMetalMana) const;
 
 	UFUNCTION()
-	void OnRep_MaxMetal(const FGameplayAttributeData& OldMaxMetal) const;
+	void OnRep_MaxMetalMana(const FGameplayAttributeData& OldMaxMetalMana) const;
+
+	UFUNCTION()
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+
+	UFUNCTION()
+	void OnRep_Agility(const FGameplayAttributeData& OldAgility) const;
+
+	UFUNCTION()
+	void OnRep_Stamina(const FGameplayAttributeData& OldStamina) const;
+
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+
+	UFUNCTION()
+	void OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const;
+
+	UFUNCTION()
+	void OnRep_Metal(const FGameplayAttributeData& OldMetal) const;
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);

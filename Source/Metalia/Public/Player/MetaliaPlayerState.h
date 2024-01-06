@@ -21,10 +21,10 @@ class METALIA_API AMetaliaPlayerState : public APlayerState, public IAbilitySyst
 	AMetaliaPlayerState();
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 public:
