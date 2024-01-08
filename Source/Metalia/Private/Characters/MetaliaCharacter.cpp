@@ -46,4 +46,5 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 	AttributeSet = MetaliaPlayerState->GetAttributeSet();
 
 	Cast<UMetaliaAbilitySystemComponent>(MetaliaPlayerState->GetAbilitySystemComponent())->Initialize();
+	InitializePrimaryAttributes();
 }

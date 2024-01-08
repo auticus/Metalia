@@ -8,12 +8,6 @@
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
-	// init functions stem from the macro defined in the h file
-	InitHealth(50.f);
-	InitMaxHealth(100.f);
-	InitMetalMana(25.f);
-	InitMaxMetalMana(50.f);
-	UE_LOG(LogTemp, Warning, TEXT("Attribute Set Initialized"));
 }
 
 void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -37,13 +31,16 @@ void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribut
 
 	// Note that these clamps are only clamping the value of NewValue... GAS will still be working with the pre-adjusted values
 	// which may cause you bugs.
+	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
+	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
+
 	if (Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
+		NewValue = FMath::Clamp(NewValue, 0.f, MaxHealthScore);
 	}
 	else if (Attribute == GetMetalManaAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMetalMana());
+		NewValue = FMath::Clamp(NewValue, 0.f, MaxMetalManaScore);
 	}
 }
 
@@ -90,13 +87,16 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	SetEffectProperties(Data, Props);
 
 	// because the data used by GAS may break our clamp, we have to clamp it after its been changed
+	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
+	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
+
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
-		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, MaxHealthScore));
 	}
 	if (Data.EvaluatedData.Attribute == GetMetalManaAttribute())
 	{
-		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, GetMaxMetalMana()));
+		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, MaxMetalManaScore));
 	}
 
 }

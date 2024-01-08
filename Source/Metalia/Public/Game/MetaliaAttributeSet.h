@@ -100,6 +100,9 @@ public:
 	FGameplayAttributeData MaxMetalMana;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetalMana);
 
+private:
+	const float DefaultVitalityScore = 50.f;
+
 public:
 	UMetaliaAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
