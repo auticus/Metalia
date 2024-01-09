@@ -60,6 +60,7 @@ class METALIA_API UMetaliaAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 	
 public:
+	//* PRIMARY ATTRIBUTES *//
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
 	FGameplayAttributeData Strength;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Strength);
@@ -72,9 +73,9 @@ public:
 	FGameplayAttributeData Stamina;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Stamina);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
-	FGameplayAttributeData Intelligence;
-	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Intelligence);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
+	FGameplayAttributeData Vigor;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Vigor);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Willpower, Category = "Primary Attributes")
 	FGameplayAttributeData Willpower;
@@ -83,6 +84,57 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Metal, Category = "Primary Attributes")
 	FGameplayAttributeData Metal;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Metal);
+
+	//* SECONDARY ATTRIBUTES *//
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category = "Secondary Attributes")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ArmorPenetration);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Block, Category = "Secondary Attributes")
+	FGameplayAttributeData Block;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Block);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CarryCapacity, Category = "Secondary Attributes")
+	FGameplayAttributeData CarryCapacity;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, CarryCapacity);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Critical, Category = "Secondary Attributes")
+	FGameplayAttributeData Critical;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Critical);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalDamage, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalDamage;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, CriticalDamage);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_DamageModifier, Category = "Secondary Attributes")
+	FGameplayAttributeData DamageModifier;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, DamageModifier);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Defense, Category = "Secondary Attributes")
+	FGameplayAttributeData Defense;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Defense);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Fortitude, Category = "Secondary Attributes")
+	FGameplayAttributeData Fortitude;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Fortitude);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegen, Category = "Secondary Attributes")
+	FGameplayAttributeData HealthRegen;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, HealthRegen);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MetalManaRegen, Category = "Secondary Attributes")
+	FGameplayAttributeData MetalManaRegen;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MetalManaRegen);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resolve, Category = "Secondary Attributes")
+	FGameplayAttributeData Resolve;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Resolve);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Speed, Category = "Secondary Attributes")
+	FGameplayAttributeData Speed;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Speed);
+
+	//* VITAL ATTRIBUTES *//
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
 	FGameplayAttributeData Health;
@@ -131,13 +183,49 @@ public:
 	void OnRep_Stamina(const FGameplayAttributeData& OldStamina) const;
 
 	UFUNCTION()
-	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
 
 	UFUNCTION()
 	void OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const;
 
 	UFUNCTION()
 	void OnRep_Metal(const FGameplayAttributeData& OldMetal) const;
+
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
+
+	UFUNCTION()
+	void OnRep_Block(const FGameplayAttributeData& OldBlock) const;
+
+	UFUNCTION()
+	void OnRep_CarryCapacity(const FGameplayAttributeData& OldCarryCapacity) const;
+
+	UFUNCTION()
+	void OnRep_Critical(const FGameplayAttributeData& OldCritical) const;
+
+	UFUNCTION()
+	void OnRep_CriticalDamage(const FGameplayAttributeData& OldCriticalDamage) const;
+
+	UFUNCTION()
+	void OnRep_DamageModifier(const FGameplayAttributeData& OldDamageModifier) const;
+
+	UFUNCTION()
+	void OnRep_Defense(const FGameplayAttributeData& OldDefense) const;
+
+	UFUNCTION()
+	void OnRep_Fortitude(const FGameplayAttributeData& OldFortitude) const;
+
+	UFUNCTION()
+	void OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen) const;
+
+	UFUNCTION()
+	void OnRep_MetalManaRegen(const FGameplayAttributeData& OldMetalManaRegen) const;
+
+	UFUNCTION()
+	void OnRep_Resolve(const FGameplayAttributeData& OldResolve) const;
+
+	UFUNCTION()
+	void OnRep_Speed(const FGameplayAttributeData& OldSpeed) const;
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);

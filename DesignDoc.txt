@@ -1,0 +1,29 @@
+PRIMARY
+Str (physical damage and carry capacity)
+Agi (speed and Defense and Critical)
+Sta (fortitude and fatigue bar)
+End (health)
+Metal (number metal arcana spells, spell modifiers)
+Wil (resolve, metal divinity spells)
+
+
+SECONDARY
+ArmorPenetration (percentage that you ignore armor)
+Block - percentage of physical damage you can ignore in conjunction with armor
+CarryCapacity - based on strength - weight of shit you can carry
+Critical - percentage a hit will do crit damage
+CriticalDamage - bonus damage a crit does (defaults to 2x)
+DamageModifier - added damage in addition to weapon
+Defense (reduces physical damage)
+Fortitude - armor against poisons, diseases, etc - based on sta
+HealthRegen - default to 0 - health gain per second
+MetalManaRegn - default to 0 - mana gain per second
+Max Health - based on vigor
+Max Mana - based on Metal
+Resolve - armor against mental attacks based on Wil
+Speed - how fast you move - based on Agi
+
+VITAL
+Health and Max Health
+MetalMana and Max Metal Mana
+Fatigue and Max Fatigue

@@ -17,6 +17,30 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	/* This is the area where we register our variables for replication*/
 	/* Look up the various conditions and when to notify.  In this case we will always notify so that
 	*  we can get notified by server when any attempt came to change it, even if the values are the same */
+
+	/* Primary Attributes */
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Agility, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Vigor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Metal, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Willpower, COND_None, REPNOTIFY_Always);
+
+	/* Secondary Attributes*/
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Block, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, CarryCapacity, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Critical, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, CriticalDamage, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, DamageModifier, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Defense, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Fortitude, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, HealthRegen, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MetalManaRegen, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Resolve, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Speed, COND_None, REPNOTIFY_Always);
+
+	/* Vital Attributes */
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MetalMana, COND_None, REPNOTIFY_Always);
@@ -136,9 +160,9 @@ void UMetaliaAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamin
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Stamina, OldStamina);
 }
 
-void UMetaliaAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+void UMetaliaAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Intelligence, OldIntelligence);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Vigor, OldVigor);
 }
 
 void UMetaliaAttributeSet::OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const
@@ -149,4 +173,64 @@ void UMetaliaAttributeSet::OnRep_Willpower(const FGameplayAttributeData& OldWill
 void UMetaliaAttributeSet::OnRep_Metal(const FGameplayAttributeData& OldMetal) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Metal, OldMetal);
+}
+
+void UMetaliaAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, ArmorPenetration, OldArmorPenetration);
+}
+
+void UMetaliaAttributeSet::OnRep_Block(const FGameplayAttributeData& OldBlock) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Block, OldBlock);
+}
+
+void UMetaliaAttributeSet::OnRep_CarryCapacity(const FGameplayAttributeData& OldCarryCapacity) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, CarryCapacity, OldCarryCapacity);
+}
+
+void UMetaliaAttributeSet::OnRep_Critical(const FGameplayAttributeData& OldCritical) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Critical, OldCritical);
+}
+
+void UMetaliaAttributeSet::OnRep_CriticalDamage(const FGameplayAttributeData& OldCriticalDamage) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, CriticalDamage, OldCriticalDamage);
+}
+
+void UMetaliaAttributeSet::OnRep_DamageModifier(const FGameplayAttributeData& OldDamageModifier) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, DamageModifier, OldDamageModifier);
+}
+
+void UMetaliaAttributeSet::OnRep_Defense(const FGameplayAttributeData& OldDefense) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Defense, OldDefense);
+}
+
+void UMetaliaAttributeSet::OnRep_Fortitude(const FGameplayAttributeData& OldFortitude) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Fortitude, OldFortitude);
+}
+
+void UMetaliaAttributeSet::OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, HealthRegen, OldHealthRegen);
+}
+
+void UMetaliaAttributeSet::OnRep_MetalManaRegen(const FGameplayAttributeData& OldMetalManaRegen) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MetalManaRegen, OldMetalManaRegen);
+}
+
+void UMetaliaAttributeSet::OnRep_Resolve(const FGameplayAttributeData& OldResolve) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Resolve, OldResolve);
+}
+
+void UMetaliaAttributeSet::OnRep_Speed(const FGameplayAttributeData& OldSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Speed, OldSpeed);
 }
