@@ -45,6 +45,8 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MetalMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxMetalMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Fatigue, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxFatigue, COND_None, REPNOTIFY_Always);
 }
 
 void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -57,6 +59,7 @@ void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribut
 	// which may cause you bugs.
 	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
 	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
+	float MaxFatigueScore = GetMaxFatigue() > 0 ? GetMaxFatigue() : DefaultVitalityScore;
 
 	if (Attribute == GetHealthAttribute())
 	{
@@ -65,6 +68,10 @@ void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribut
 	else if (Attribute == GetMetalManaAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, MaxMetalManaScore);
+	}
+	else if (Attribute == GetFatigueAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, MaxFatigueScore);
 	}
 }
 
@@ -113,6 +120,7 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	// because the data used by GAS may break our clamp, we have to clamp it after its been changed
 	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
 	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
+	float MaxFatigueScore = GetMaxFatigue() > 0 ? GetMaxFatigue() : DefaultVitalityScore;
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -121,6 +129,10 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	if (Data.EvaluatedData.Attribute == GetMetalManaAttribute())
 	{
 		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, MaxMetalManaScore));
+	}
+	if (Data.EvaluatedData.Attribute == GetFatigueAttribute())
+	{
+		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
 	}
 
 }
@@ -143,6 +155,16 @@ void UMetaliaAttributeSet::OnRep_MetalMana(const FGameplayAttributeData& OldMeta
 void UMetaliaAttributeSet::OnRep_MaxMetalMana(const FGameplayAttributeData& OldMaxMetalMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxMetalMana, OldMaxMetalMana);
+}
+
+void UMetaliaAttributeSet::OnRep_MaxFatigue(const FGameplayAttributeData& OldMaxFatigue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, MaxFatigue, OldMaxFatigue);
+}
+
+void UMetaliaAttributeSet::OnRep_Fatigue(const FGameplayAttributeData& OldFatigue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Fatigue, OldFatigue);
 }
 
 void UMetaliaAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const

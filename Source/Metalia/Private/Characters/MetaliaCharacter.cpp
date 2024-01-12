@@ -7,6 +7,7 @@
 #include "Player/MetaliaPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include <Game/MetaliaAbilitySystemComponent.h>
+#include <Game/MetaliaAttributeSet.h>
 
 AMetaliaCharacter::AMetaliaCharacter()
 {
@@ -46,5 +47,9 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 	AttributeSet = MetaliaPlayerState->GetAttributeSet();
 
 	Cast<UMetaliaAbilitySystemComponent>(MetaliaPlayerState->GetAbilitySystemComponent())->Initialize();
-	InitializePrimaryAttributes();
+	InitializeDefaultAttributes();
+
+	UMetaliaAttributeSet* metalia = Cast<UMetaliaAttributeSet>(AttributeSet);
+	float str = metalia->GetStrength();
+	UE_LOG(LogTemp, Warning, TEXT("My strength is %f"), str);
 }

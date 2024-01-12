@@ -152,8 +152,16 @@ public:
 	FGameplayAttributeData MaxMetalMana;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxMetalMana);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Fatigue, Category = "Vital Attributes")
+	FGameplayAttributeData Fatigue;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Fatigue);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxFatigue, Category = "Vital Attributes")
+	FGameplayAttributeData MaxFatigue;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxFatigue);
+
 private:
-	const float DefaultVitalityScore = 50.f;
+	const float DefaultVitalityScore = 20.f; // TODO: this will be shuttled out for the appropriate attributes when STEPHEN gets to it
 
 public:
 	UMetaliaAttributeSet();
@@ -172,6 +180,13 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMetalMana(const FGameplayAttributeData& OldMaxMetalMana) const;
+
+	UFUNCTION()
+	void OnRep_MaxFatigue(const FGameplayAttributeData& OldMaxFatigue) const;
+
+	UFUNCTION()
+	void OnRep_Fatigue(const FGameplayAttributeData& OldFatigue) const;
+
 
 	UFUNCTION()
 	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;

@@ -3,6 +3,7 @@
 
 #include "Characters/MetaliaCharacterBase.h"
 #include <AbilitySystemComponent.h>
+#include <Game/MetaliaAttributeSet.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -30,13 +31,21 @@ void AMetaliaCharacterBase::InitAbilityActorInfo()
 	//does nothing in the base
 }
 
-void AMetaliaCharacterBase::InitializePrimaryAttributes()
+void AMetaliaCharacterBase::InitializeDefaultAttributes()
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
+
+	UE_LOG(LogTemp, Warning, TEXT("InitializeDefaultAttributes concludes"));	
+}
+
+void AMetaliaCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level)
 {
 	UAbilitySystemComponent* abilitySystemComponent = GetAbilitySystemComponent();
 	UObject* boxedComponent = Cast<UObject>(abilitySystemComponent);
 	check(IsValid(boxedComponent));
-	check(DefaultPrimaryAttributes);
+	check(GameplayEffectClass);
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f, ContextHandle);
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, ContextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
