@@ -121,7 +121,8 @@ void AMetaliaPlayerController::CursorTrace()
 	if (!CursorHit.bBlockingHit) return;
 
 	LastEnemy = CurrentEnemy;
-	CurrentEnemy = Cast<IEnemyInterface>(CursorHit.GetActor()); // if not valid interface actor, will be null
+	//CurrentEnemy = Cast<IEnemyInterface>(CursorHit.GetActor()); // if not valid interface actor, will be null
+	CurrentEnemy.SetObject(Cast<UObject>(CursorHit.GetActor()));
 
 	if (LastEnemy == nullptr && CurrentEnemy == nullptr) return;
 	else if (LastEnemy == nullptr && CurrentEnemy != nullptr)

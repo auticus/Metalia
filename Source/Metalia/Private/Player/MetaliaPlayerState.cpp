@@ -4,6 +4,7 @@
 #include "Player/MetaliaPlayerState.h"
 #include "Game/MetaliaAttributeSet.h"
 #include "Game/MetaliaAbilitySystemComponent.h"
+#include <Net/UnrealNetwork.h>
 
 AMetaliaPlayerState::AMetaliaPlayerState()
 {
@@ -19,4 +20,16 @@ AMetaliaPlayerState::AMetaliaPlayerState()
 UAbilitySystemComponent* AMetaliaPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AMetaliaPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AMetaliaPlayerState, Level);
+}
+
+void AMetaliaPlayerState::OnRep_Level(int32 OldLevel)
+{
+
 }

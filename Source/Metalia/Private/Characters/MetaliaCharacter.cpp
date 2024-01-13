@@ -51,5 +51,11 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 
 	UMetaliaAttributeSet* metalia = Cast<UMetaliaAttributeSet>(AttributeSet);
 	float str = metalia->GetStrength();
-	UE_LOG(LogTemp, Warning, TEXT("My strength is %f"), str);
+}
+
+int32 AMetaliaCharacter::GetCharacterLevel() const
+{
+	const AMetaliaPlayerState* MetaliaPlayerState = GetPlayerState<AMetaliaPlayerState>();
+	check(MetaliaPlayerState);
+	return MetaliaPlayerState->GetCharacterLevel();
 }

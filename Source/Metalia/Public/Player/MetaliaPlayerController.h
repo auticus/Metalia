@@ -38,8 +38,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float GamepadDeadZone;
 
-	TObjectPtr<IEnemyInterface> LastEnemy;
-	TObjectPtr<IEnemyInterface> CurrentEnemy;
+	//TObjectPtr<IEnemyInterface> LastEnemy;
+	//TObjectPtr<IEnemyInterface> CurrentEnemy;
+	TScriptInterface<IEnemyInterface> LastEnemy;
+	TScriptInterface<IEnemyInterface> CurrentEnemy;
 
 	/* Moves the possessed actor */
 	void Move(const struct FInputActionValue& InputActionValue);
