@@ -50,7 +50,8 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 	InitializeDefaultAttributes();
 
 	UMetaliaAttributeSet* metalia = Cast<UMetaliaAttributeSet>(AttributeSet);
-	float str = metalia->GetStrength();
+	float health = metalia->GetHealth();
+	UE_LOG(LogTemp, Warning, TEXT("Character initialized, health = %f"), health);
 }
 
 int32 AMetaliaCharacter::GetCharacterLevel() const
