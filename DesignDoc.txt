@@ -34,9 +34,10 @@ Resolve - armor against mental attacks based on Wil - 10
 Speed - how fast you move - based on Agi - right now just make it agi
 
 VITAL - going to start these at 20 - not hooked up properly currently just hardcoded 20
-Health and Max Health (based on vigor + 10)
-MetalMana and Max Metal Mana (based on metal + 10)
-Fatigue and Max Fatigue (based on stamina + 10)
+This will be based off of custom calculation
+Health and Max Health (80 + (2.5*Vigor) + (10 * Level)) = 115 to start
+MetalMana and Max Metal Mana (50 + (2.5*Metal) + (10 * Level))
+Fatigue and Max Fatigue (based on stamina * 2.5 + 10)
 
 DAMAGE
 Sword will do 5 damage out of the gate
@@ -44,4 +45,3 @@ Short Sword will do 3 damage out of the gate
 Dagger will do 2 damage out of the gate
 
 Level 0 mook guy take him down in 4 swings with sword means thats 20 damage but Defense 2 means he's ignoring 8 damage but takes 12 - give him 10 health
-
