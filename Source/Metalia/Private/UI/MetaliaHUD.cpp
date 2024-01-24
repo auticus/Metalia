@@ -16,6 +16,7 @@ void AMetaliaHUD::InitializeOverlay(FWidgetControllerParams params)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class uninitialized, please fill out the HUD blueprint"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller Class uninitialized, please fill out the HUD blueprint"));
+	checkf(AttributeMenuWidgetControllerClass, TEXT("Attribute Menu Widget Controller Class uninitialized, please fill out the HUD blueprint"));
 
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
 	OverlayWidget = Cast<UMetaliaUIWidget>(Widget);
