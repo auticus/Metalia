@@ -23,3 +23,20 @@ UOverlayWidgetController* UMetaliaAbilitySystemLibrary::GetOverlayWidgetControll
 
 	return nullptr;
 }
+
+UAttributeMenuWidgetController* UMetaliaAbilitySystemLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (AMetaliaHUD* HUD = Cast<AMetaliaHUD>(PC->GetHUD()))
+		{
+			AMetaliaPlayerState* PS = PC->GetPlayerState<AMetaliaPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+			const FWidgetControllerParams Params(PC, PS, ASC, AS);
+			return HUD->GetAttributeMenuWidgetController(Params);
+		}
+	}
+
+	return nullptr;
+}

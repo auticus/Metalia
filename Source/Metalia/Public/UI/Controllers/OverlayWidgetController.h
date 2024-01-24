@@ -9,6 +9,7 @@
 
 class UMetaliaUIWidget;
 
+/* The widget row is used to house data that comes back in the form of on screen messages */
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
 {

@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class METALIA_API UAttributeMenuWidgetController : public UMetaliaWidgetController
 {
 	GENERATED_BODY()

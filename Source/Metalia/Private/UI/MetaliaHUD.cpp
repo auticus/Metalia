@@ -4,6 +4,7 @@
 #include "UI/MetaliaHUD.h"
 #include "UI/View/MetaliaUIWidget.h"
 #include "UI/Controllers/OverlayWidgetController.h"
+#include "UI/Controllers/AttributeMenuWidgetController.h"
 
 void AMetaliaHUD::BeginPlay()
 {
@@ -35,4 +36,16 @@ UOverlayWidgetController* AMetaliaHUD::GetOverlayWidgetController(const FWidgetC
 	}
 
 	return OverlayWidgetController;
+}
+
+UAttributeMenuWidgetController* AMetaliaHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WidgetControllerParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WidgetControllerParams);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+
+	return AttributeMenuWidgetController;
 }

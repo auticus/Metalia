@@ -7,6 +7,7 @@
 #include "MetaliaAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
+class UAttributeMenuWidgetController;
 
 /**
  * 
@@ -20,4 +21,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="MetaliaAbilitySystemLibrary|WidgetController")
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "MetaliaAbilitySystemLibrary|WidgetController")
+	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
 };

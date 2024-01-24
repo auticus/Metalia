@@ -8,6 +8,7 @@
 
 class UMetaliaUIWidget;
 class UOverlayWidgetController;
+class UAttributeMenuWidgetController;
 struct FWidgetControllerParams;
 
 /**
@@ -23,6 +24,7 @@ public:
 	TObjectPtr<UMetaliaUIWidget> OverlayWidget;
 
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams);
+	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WidgetControllerParams);
 	
 	void InitializeOverlay(FWidgetControllerParams params);
 	
@@ -36,6 +38,13 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
+
+	/* Attribute Menu Controller*/
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
 
 /* Functions */
 protected:
