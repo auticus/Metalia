@@ -17,9 +17,6 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	{
 		BroadcastAttributeInfo(TagAttributePair.Key, TagAttributePair.Value());
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("AttributeMenuWidgetController::BroadcastInitialValues() runs"));
-	AS->LogStrength();
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()

@@ -248,9 +248,6 @@ public:
 	UFUNCTION()
 	void OnRep_Speed(const FGameplayAttributeData& OldSpeed) const;
 
-	UFUNCTION()
-	void LogStrength() const;
-
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	void AddPrimaryAttributesToMap();

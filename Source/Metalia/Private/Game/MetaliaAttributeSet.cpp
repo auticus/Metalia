@@ -10,7 +10,6 @@
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
 	AttributeSetId = FGuid::NewGuid();
-	UE_LOG(LogTemp, Warning, TEXT("UMetaliaAtributeSet() constructor runs, sets Id to %s"), *AttributeSetId.ToString());
 	AddPrimaryAttributesToMap();
 	AddSecondaryAttributesToMap();
 }
@@ -56,8 +55,6 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 
 void UMetaliaAttributeSet::AddPrimaryAttributesToMap()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AddPrimaryAttributesToMap runs"));
-
 	const FMetaliaGameplayTags& GameplayTags = FMetaliaGameplayTags::Get();
 
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
@@ -172,11 +169,6 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	if (Data.EvaluatedData.Attribute == GetFatigueAttribute())
 	{
 		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
-	}
-	if (Data.EvaluatedData.Attribute == GetStrengthAttribute())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AttributeSet::PostGameplayEffectExecute - ID = %s, Attribute = Strength, GetStrength() = %f"), *AttributeSetId.ToString(), GetStrength());
-		LogStrength();
 	}
 }
 
@@ -298,9 +290,4 @@ void UMetaliaAttributeSet::OnRep_Resolve(const FGameplayAttributeData& OldResolv
 void UMetaliaAttributeSet::OnRep_Speed(const FGameplayAttributeData& OldSpeed) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Speed, OldSpeed);
-}
-
-void UMetaliaAttributeSet::LogStrength() const
-{
-	UE_LOG(LogTemp, Warning, TEXT("MetaliaAttributeSet::LogStrength() = %f, AttributeSetId = %s"), GetStrength(), *AttributeSetId.ToString());
 }

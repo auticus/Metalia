@@ -29,9 +29,6 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxMetalManaChanged.Broadcast(MetaliaAttributeSet->GetMaxMetalMana());
 
 	UMetaliaAttributeSet* AS = CastChecked<UMetaliaAttributeSet>(AttributeSet);
-
-	UE_LOG(LogTemp, Warning, TEXT("OverlayWidgetController::BroadcastInitialValues() runs"));
-	AS->LogStrength();
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
