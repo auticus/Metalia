@@ -14,6 +14,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER (PropertyName)
 
+template<class T>
+using TStaticAttributeFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 USTRUCT()
 struct FEffectProperties
 {
@@ -60,6 +63,9 @@ class METALIA_API UMetaliaAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 	
 public:
+	TMap<FGameplayTag, TStaticAttributeFuncPtr<FGameplayAttribute()>> TagsToAttributesMap;
+	FGuid AttributeSetId;
+
 	//* PRIMARY ATTRIBUTES *//
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
 	FGameplayAttributeData Strength;
@@ -242,6 +248,11 @@ public:
 	UFUNCTION()
 	void OnRep_Speed(const FGameplayAttributeData& OldSpeed) const;
 
+	UFUNCTION()
+	void LogStrength() const;
+
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
+	void AddPrimaryAttributesToMap();
+	void AddSecondaryAttributesToMap();
 };

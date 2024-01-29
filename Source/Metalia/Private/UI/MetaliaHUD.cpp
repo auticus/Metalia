@@ -22,7 +22,7 @@ void AMetaliaHUD::InitializeOverlay(FWidgetControllerParams params)
 	OverlayWidget = Cast<UMetaliaUIWidget>(Widget);
 	UOverlayWidgetController* Controller = GetOverlayWidgetController(params);
 	OverlayWidget->SetWidgetController(Controller);
-	Controller->BroadcastInitialValues();
+	Controller->BroadcastInitialValues(); // moved this into the GetOverlayWidgetController space
 
 	Widget->AddToViewport();
 }

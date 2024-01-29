@@ -33,6 +33,7 @@ UAttributeMenuWidgetController* UMetaliaAbilitySystemLibrary::GetAttributeMenuWi
 			AMetaliaPlayerState* PS = PC->GetPlayerState<AMetaliaPlayerState>();
 			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
 			UAttributeSet* AS = PS->GetAttributeSet();
+			
 			const FWidgetControllerParams Params(PC, PS, ASC, AS);
 			return HUD->GetAttributeMenuWidgetController(Params);
 		}

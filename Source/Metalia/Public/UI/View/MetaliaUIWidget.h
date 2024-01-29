@@ -22,6 +22,9 @@ public:
 	void SetWidgetController(UObject* InputController);
 
 protected:
+	/// <summary>
+	/// Event that fires in response to SetWidgetController being fired.
+	/// </summary>
 	UFUNCTION(BlueprintImplementableEvent)
 	void WidgetControllerSet();
 };

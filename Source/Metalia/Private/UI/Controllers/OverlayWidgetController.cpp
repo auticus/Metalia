@@ -28,14 +28,17 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMetalManaChanged.Broadcast(MetaliaAttributeSet->GetMetalMana());
 	OnMaxMetalManaChanged.Broadcast(MetaliaAttributeSet->GetMaxMetalMana());
 
-	UE_LOG(LogTemp, Warning, TEXT("WidgetController is broadcasting initial values, if you dont see your changes reflected look at BroadcastInitialValues()"));
+	UMetaliaAttributeSet* AS = CastChecked<UMetaliaAttributeSet>(AttributeSet);
+
+	UE_LOG(LogTemp, Warning, TEXT("OverlayWidgetController::BroadcastInitialValues() runs"));
+	AS->LogStrength();
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UMetaliaAttributeSet* MetaliaAttributeSet = CastChecked<UMetaliaAttributeSet>(AttributeSet);
 	
-	/* LEAVINT THIS HERE AS AN EXAMPLE
+	/* LEAVING THIS HERE AS AN EXAMPLE
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		MetaliaAttributeSet->GetHealthAttribute()).AddUObject(
 			this, 

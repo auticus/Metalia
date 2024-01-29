@@ -4,10 +4,15 @@
 #include "Game/MetaliaAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 #include "GameplayEffectExtension.h"
+#include "MetaliaGameplayTags.h"
 #include <AbilitySystemBlueprintLibrary.h>
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
+	AttributeSetId = FGuid::NewGuid();
+	UE_LOG(LogTemp, Warning, TEXT("UMetaliaAtributeSet() constructor runs, sets Id to %s"), *AttributeSetId.ToString());
+	AddPrimaryAttributesToMap();
+	AddSecondaryAttributesToMap();
 }
 
 void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -47,6 +52,38 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxMetalMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Fatigue, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxFatigue, COND_None, REPNOTIFY_Always);
+}
+
+void UMetaliaAttributeSet::AddPrimaryAttributesToMap()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AddPrimaryAttributesToMap runs"));
+
+	const FMetaliaGameplayTags& GameplayTags = FMetaliaGameplayTags::Get();
+
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Agility, GetAgilityAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Stamina, GetStaminaAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Vigor, GetVigorAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Metal, GetMetalAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Primary_Will, GetWillpowerAttribute);
+}
+
+void UMetaliaAttributeSet::AddSecondaryAttributesToMap()
+{
+	const FMetaliaGameplayTags& GameplayTags = FMetaliaGameplayTags::Get();
+
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Block, GetBlockAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_CarryCapacity, GetCarryCapacityAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Critical, GetCriticalAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_CriticalDamage, GetCriticalDamageAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_DamageModifier, GetDamageModifierAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Defense, GetDefenseAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Fortitude, GetFortitudeAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_HealthRegen, GetHealthRegenAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_ManaRegen, GetMetalManaRegenAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Resolve, GetResolveAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Speed, GetSpeedAttribute);
 }
 
 void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -107,6 +144,8 @@ void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackD
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetActor);
 		Props.TargetComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetActor);
 	}
+	
+	// UE_LOG(LogTemp, Warning, TEXT("Strength is now: %f"), GetStrength());
 }
 
 void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -134,7 +173,11 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	{
 		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
 	}
-
+	if (Data.EvaluatedData.Attribute == GetStrengthAttribute())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AttributeSet::PostGameplayEffectExecute - ID = %s, Attribute = Strength, GetStrength() = %f"), *AttributeSetId.ToString(), GetStrength());
+		LogStrength();
+	}
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
@@ -255,4 +298,9 @@ void UMetaliaAttributeSet::OnRep_Resolve(const FGameplayAttributeData& OldResolv
 void UMetaliaAttributeSet::OnRep_Speed(const FGameplayAttributeData& OldSpeed) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Speed, OldSpeed);
+}
+
+void UMetaliaAttributeSet::LogStrength() const
+{
+	UE_LOG(LogTemp, Warning, TEXT("MetaliaAttributeSet::LogStrength() = %f, AttributeSetId = %s"), GetStrength(), *AttributeSetId.ToString());
 }

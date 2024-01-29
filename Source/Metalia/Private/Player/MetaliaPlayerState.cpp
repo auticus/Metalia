@@ -22,6 +22,12 @@ UAbilitySystemComponent* AMetaliaPlayerState::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+UAttributeSet* AMetaliaPlayerState::GetAttributeSet() const
+{
+	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
+	return AttributeSet;
+}
+
 void AMetaliaPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

@@ -45,3 +45,4 @@ Short Sword will do 3 damage out of the gate
 Dagger will do 2 damage out of the gate
 
 Level 0 mook guy take him down in 4 swings with sword means thats 20 damage but Defense 2 means he's ignoring 8 damage but takes 12 - give him 10 health
+
