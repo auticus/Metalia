@@ -4,6 +4,7 @@
 #include "Characters/MetaliaCharacterBase.h"
 #include <AbilitySystemComponent.h>
 #include <Game/MetaliaAttributeSet.h>
+#include <Game/MetaliaAbilitySystemComponent.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -52,4 +53,12 @@ void AMetaliaCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> Gamep
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, EffectLevel, ContextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+}
+
+void AMetaliaCharacterBase::AddCharacterAbilities()
+{
+	UMetaliaAbilitySystemComponent* ASC = CastChecked<UMetaliaAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+
+	ASC->AddCharacterAbilities(StartupAbilities);
 }

@@ -27,6 +27,7 @@ void AMetaliaCharacter::PossessedBy(AController* NewController)
 
 	// Init ability actor info on the server.
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void AMetaliaCharacter::OnRep_PlayerState()

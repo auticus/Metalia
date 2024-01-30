@@ -19,6 +19,19 @@ void UMetaliaAbilitySystemComponent::Initialize()
 	*/
 }
 
+void UMetaliaAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
+{
+	for (TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
+	{
+		int32 Level = 1;
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, Level);
+
+		// can either give ability or give and activate them
+		GiveAbility(AbilitySpec);
+		// GiveAbilityAndActivateOnce(AbilitySpec);
+	}
+}
+
 void UMetaliaAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, 
 													const FGameplayEffectSpec& EffectSpec, 
 													FActiveGameplayEffectHandle ActiveEffectHandle)
