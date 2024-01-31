@@ -3,7 +3,7 @@
 
 #include "Game/AttributeInfo.h"
 
-FMetaliaAttributeInfo UAttributeInfo::FindAttributeInfoFromTag(const FGameplayTag& Tag, bool bLogNotFound) const
+FMetaliaAttributeInfo UAttributeInfo::FindAttributeInfoFromTag(const FGameplayTag& Tag, bool bLogNotFound = false) const
 {
 	for (const FMetaliaAttributeInfo& Attribute : AttributeInformation)
 	{
