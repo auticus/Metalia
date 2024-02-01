@@ -20,7 +20,7 @@ struct FMetaliaInputAction
 };
 
 /**
- * 
+ * Input Configuration Class.  The name of this class is bad but changing it is a pain in the ass.
  */
 UCLASS()
 class METALIA_API UMetaliaDataAsset : public UDataAsset
