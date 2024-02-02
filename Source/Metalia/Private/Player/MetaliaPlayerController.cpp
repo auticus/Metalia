@@ -10,9 +10,11 @@
 #include "UI/MetaliaHUD.h"
 #include "UI/Controllers/MetaliaWidgetController.h"
 #include "Game/MetaliaAttributeSet.h"
+#include "Game/MetaliaAbilitySystemComponent.h"
 #include "Game/Input/MetaliaDataAsset.h"
 #include "Game/Input/MetaliaInputComponent.h"
 #include "GameplayTagContainer.h"
+#include <AbilitySystemBlueprintLibrary.h>
 
 AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
@@ -97,12 +99,25 @@ void AMetaliaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AMetaliaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-
+	if (GetMetaliaAbilitySystemComponent() == nullptr) return;
+	GetMetaliaAbilitySystemComponent()->AblityInputTagReleased(InputTag);
 }
 
 void AMetaliaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (GetMetaliaAbilitySystemComponent() == nullptr) return;
+	GetMetaliaAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+}
 
+UMetaliaAbilitySystemComponent* AMetaliaPlayerController::GetMetaliaAbilitySystemComponent()
+{
+	// lazy load the ability system component.  If its not set yet just return null
+	if (MetaliaAbilitySystemComponent == nullptr)
+	{
+		MetaliaAbilitySystemComponent = Cast<UMetaliaAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+
+	return MetaliaAbilitySystemComponent;
 }
 
 void AMetaliaPlayerController::Move(const FInputActionValue& InputActionValue)

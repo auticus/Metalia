@@ -10,6 +10,7 @@ class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
 class UMetaliaDataAsset;
+class UMetaliaAbilitySystemComponent;
 struct FGameplayTag;
 
 /**
@@ -33,9 +34,15 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> MetaliaPlayerContext;
 
+	UPROPERTY()
+	TObjectPtr<UMetaliaAbilitySystemComponent> MetaliaAbilitySystemComponent;
+	
+	/* NOTE - we have move action here but any actions dealing with ability system component are dealt with in that class */
+
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
+	
 	/* The tolerance level of the game pad dead zone.  The higher the value, the more drift will be ignored.*/
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float GamepadDeadZone;
@@ -60,4 +67,6 @@ private:
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	UMetaliaAbilitySystemComponent* GetMetaliaAbilitySystemComponent();
 };
