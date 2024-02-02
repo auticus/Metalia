@@ -10,6 +10,9 @@
 #include "UI/MetaliaHUD.h"
 #include "UI/Controllers/MetaliaWidgetController.h"
 #include "Game/MetaliaAttributeSet.h"
+#include "Game/Input/MetaliaDataAsset.h"
+#include "Game/Input/MetaliaInputComponent.h"
+#include "GameplayTagContainer.h"
 
 AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
@@ -48,10 +51,11 @@ void AMetaliaPlayerController::SetupInputComponent()
 	// if you see the red squiggly here... ignore it.
 	Super::SetupInputComponent();
 	
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UMetaliaInputComponent* MetaliaInputComponent = CastChecked<UMetaliaInputComponent>(InputComponent);
 
 	// Bind your actions
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMetaliaPlayerController::Move);
+	MetaliaInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMetaliaPlayerController::Move);
+	MetaliaInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void AMetaliaPlayerController::CreateHud()
@@ -84,6 +88,21 @@ void AMetaliaPlayerController::CreateHud()
 
 	FWidgetControllerParams params(this, PlayerState, AbilitySystemComponent, AttributeSet);
 	HUD->InitializeOverlay(params);
+}
+
+void AMetaliaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+
+}
+
+void AMetaliaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+
+}
+
+void AMetaliaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+
 }
 
 void AMetaliaPlayerController::Move(const FInputActionValue& InputActionValue)

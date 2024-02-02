@@ -9,6 +9,8 @@
 class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
+class UMetaliaDataAsset;
+struct FGameplayTag;
 
 /**
  * Main player controller.
@@ -43,6 +45,9 @@ private:
 	TScriptInterface<IEnemyInterface> LastEnemy;
 	TScriptInterface<IEnemyInterface> CurrentEnemy;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UMetaliaDataAsset> InputConfig;
+
 	/* Moves the possessed actor */
 	void Move(const struct FInputActionValue& InputActionValue);
 
@@ -51,4 +56,8 @@ private:
 
 	/* Creates the HUD for the player interface */
 	void CreateHud();
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 };
