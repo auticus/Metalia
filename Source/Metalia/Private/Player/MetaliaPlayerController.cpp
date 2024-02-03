@@ -29,13 +29,21 @@ void AMetaliaPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 }
 
+void AMetaliaPlayerController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn);
+}
+
 void AMetaliaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	check(MetaliaPlayerContext);
 	CreateHud();
 
-	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	ULocalPlayer* myLocalPlayer = GetLocalPlayer();
+	check(myLocalPlayer);
+
+	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(myLocalPlayer);
 	check(localPlayerSubsystem);
 	localPlayerSubsystem->AddMappingContext(MetaliaPlayerContext, 0);
 
