@@ -29,24 +29,19 @@ void AMetaliaPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 }
 
-void AMetaliaPlayerController::OnPossess(APawn* aPawn)
-{
-	Super::OnPossess(aPawn);
-}
-
 void AMetaliaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	check(MetaliaPlayerContext);
 	CreateHud();
 
-	ULocalPlayer* myLocalPlayer = GetLocalPlayer();
-	check(myLocalPlayer);
+	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 
-	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(myLocalPlayer);
-	check(localPlayerSubsystem);
-	localPlayerSubsystem->AddMappingContext(MetaliaPlayerContext, 0);
-
+	if (localPlayerSubsystem)
+	{
+		localPlayerSubsystem->AddMappingContext(MetaliaPlayerContext, 0);
+	}
+	
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
