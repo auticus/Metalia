@@ -11,7 +11,7 @@
 void UMetaliaAbilitySystemComponent::Initialize()
 {
 	// bind delegates
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UMetaliaAbilitySystemComponent::EffectApplied);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UMetaliaAbilitySystemComponent::ClientEffectApplied);
 
 	/* DEBUG CODE */
 	/*
@@ -66,7 +66,7 @@ void UMetaliaAbilitySystemComponent::AblityInputTagReleased(const FGameplayTag& 
 	}
 }
 
-void UMetaliaAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, 
+void UMetaliaAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, 
 													const FGameplayEffectSpec& EffectSpec, 
 													FActiveGameplayEffectHandle ActiveEffectHandle)
 {
