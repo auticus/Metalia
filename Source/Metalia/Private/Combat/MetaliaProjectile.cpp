@@ -12,8 +12,8 @@ AMetaliaProjectile::AMetaliaProjectile()
 	bReplicates = true;
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovement");
-	ProjectileMovement->InitialSpeed = InitialSpeed == 0.f ? 550.f : InitialSpeed;
-	ProjectileMovement->MaxSpeed = MaxSpeed == 0.f ? 550.f : MaxSpeed;
+	ProjectileMovement->InitialSpeed = 550.f;
+	ProjectileMovement->MaxSpeed = 550.f;
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
@@ -21,7 +21,6 @@ AMetaliaProjectile::AMetaliaProjectile()
 void AMetaliaProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)

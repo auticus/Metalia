@@ -13,14 +13,6 @@ class METALIA_API AMetaliaProjectile : public AActor
 {
 	GENERATED_BODY()
 	
-protected:
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float InitialSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float MaxSpeed;
-
 private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
