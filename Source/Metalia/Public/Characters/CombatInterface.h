@@ -7,7 +7,7 @@
 #include "CombatInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -22,5 +22,9 @@ class METALIA_API ICombatInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual int32 GetCharacterLevel() const;
+	UFUNCTION(BlueprintNativeEvent)
+	int32 GetCharacterLevel() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetProjectileSocketLocation();
 };

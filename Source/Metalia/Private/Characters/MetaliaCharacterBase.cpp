@@ -27,7 +27,7 @@ UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() cons
 	return AbilitySystemComponent;
 }
 
-int32 AMetaliaCharacterBase::GetCharacterLevel() const
+int32 AMetaliaCharacterBase::GetCharacterLevel_Implementation() const
 {
 	return Level;
 }
@@ -61,4 +61,10 @@ void AMetaliaCharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	ASC->AddCharacterAbilities(StartupAbilities);
+}
+
+FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
+{
+	check(Weapon); // there should always be some kind of weapon
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }

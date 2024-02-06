@@ -33,7 +33,7 @@ float UMMC_MaxMetal::CalculateBaseMagnitude_Implementation(const FGameplayEffect
 	{
 		return 80.f + (2.5f * Metal) + (10.f);
 	}
-	const int32 Level = CombatInterface->GetCharacterLevel();
+	const int32 Level = CombatInterface->GetCharacterLevel_Implementation();
 
 	return 50.f + (2.5f * Metal) + (10.f * Level);
 }

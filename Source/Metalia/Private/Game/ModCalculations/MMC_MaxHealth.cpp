@@ -38,6 +38,6 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 		return 80.f + (2.5f * Vigor) + (10.f);
 	}
 
-	const int32 Level = CombatInterface->GetCharacterLevel();
+	const int32 Level = CombatInterface->GetCharacterLevel_Implementation();
 	return 80.f + (2.5f * Vigor) + (10.f * Level);
 }

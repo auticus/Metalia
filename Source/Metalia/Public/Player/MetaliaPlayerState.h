@@ -39,5 +39,5 @@ public:
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
 
-	FORCEINLINE int32 GetCharacterLevel() const override { return Level; }
+	FORCEINLINE int32 GetCharacterLevel_Implementation() const override { return Level; }
 };

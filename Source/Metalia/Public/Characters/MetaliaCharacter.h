@@ -21,7 +21,7 @@ public:
 	virtual void OnRep_PlayerState() override;
 
 protected:
-	virtual int32 GetCharacterLevel() const override;
+	virtual int32 GetCharacterLevel_Implementation() const override;
 
 private:
 	void InitAbilityActorInfo() override;

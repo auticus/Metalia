@@ -54,9 +54,9 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 	float health = metalia->GetHealth();
 }
 
-int32 AMetaliaCharacter::GetCharacterLevel() const
+int32 AMetaliaCharacter::GetCharacterLevel_Implementation() const
 {
 	const AMetaliaPlayerState* MetaliaPlayerState = GetPlayerState<AMetaliaPlayerState>();
 	check(MetaliaPlayerState);
-	return MetaliaPlayerState->GetCharacterLevel();
+	return MetaliaPlayerState->GetCharacterLevel_Implementation();
 }
