@@ -7,7 +7,7 @@
 #include "MetaliaGameplayAbility.generated.h"
 
 /**
- * 
+ * Our game specific GameplayAbility.
  */
 UCLASS()
 class METALIA_API UMetaliaGameplayAbility : public UGameplayAbility
@@ -21,5 +21,8 @@ public:
 	/// </summary>
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartupInputTag;
+
+protected:
+	virtual void OnGameplayTaskActivated(UGameplayTask& Task) override;
 	
 };

@@ -13,6 +13,8 @@ void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle H
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
+	UE_LOG(LogTemp, Warning, TEXT("Projectile Spell ActivateAbility runs"));
+
 	const bool bIsServer = HasAuthority(&ActivationInfo);
 	if (!bIsServer)
 	{
@@ -56,7 +58,6 @@ FVector UMetaliaProjectileSpell::GetSocketLocationFromExecutingActor() const
 		AMetaliaPlayerController* Controller = Cast<AMetaliaPlayerController>(MyCurrentActor);
 		check(Controller);
 
-		//AMetaliaCharacterBase* BaseCharacter = Cast<AMetaliaCharacterBase>(Controller->GetCharacter());
 		MyCurrentActor = Cast<AMetaliaCharacterBase>(Controller->GetCharacter());
 		check(MyCurrentActor);
 	}

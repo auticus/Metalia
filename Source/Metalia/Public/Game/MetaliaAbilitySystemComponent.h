@@ -14,6 +14,8 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContaine
 UCLASS()
 class METALIA_API UMetaliaAbilitySystemComponent : public UAbilitySystemComponent
 {
+	// It is stated the best place to put this component is on Player State so that everyone has access to read everyone's abilities
+
 	GENERATED_BODY()
 	
 public:
