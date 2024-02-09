@@ -5,6 +5,7 @@
 #include <AbilitySystemComponent.h>
 #include <Game/MetaliaAttributeSet.h>
 #include <Game/MetaliaAbilitySystemComponent.h>
+#include <Player/MetaliaPlayerState.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()

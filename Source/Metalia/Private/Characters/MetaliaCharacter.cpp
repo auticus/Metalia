@@ -8,6 +8,9 @@
 #include "AbilitySystemComponent.h"
 #include <Game/MetaliaAbilitySystemComponent.h>
 #include <Game/MetaliaAttributeSet.h>
+#include <Player/MetaliaPlayerController.h>
+#include <UI/MetaliaHUD.h>
+#include "UI/Controllers/MetaliaWidgetController.h"
 
 AMetaliaCharacter::AMetaliaCharacter()
 {
@@ -52,6 +55,18 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 
 	UMetaliaAttributeSet* metalia = Cast<UMetaliaAttributeSet>(AttributeSet);
 	float health = metalia->GetHealth();
+
+	// at this point we have to initialize the HUD.  This requires a player controller but if we are here at the character stage
+	// then we already have had a controller created.  note that not everyone has a controller... only if this is the player playing.
+	// replicated players will not have this and thats fine we dont want to set a HUD for them.
+	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(GetController()))
+	{
+		if (AMetaliaHUD* HUD = Cast<AMetaliaHUD>(PC->GetHUD()))
+		{
+			FWidgetControllerParams params = { PC, MetaliaPlayerState, AbilitySystemComponent, AttributeSet };
+			HUD->InitializeOverlay(params);
+		}
+	}
 }
 
 int32 AMetaliaCharacter::GetCharacterLevel_Implementation() const

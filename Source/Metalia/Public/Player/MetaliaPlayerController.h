@@ -61,9 +61,6 @@ private:
 	/* Responsible for tracing from the mouse cursor down to see what actors it hits */
 	void CursorTrace();
 
-	/* Creates the HUD for the player interface */
-	void CreateHud();
-
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);

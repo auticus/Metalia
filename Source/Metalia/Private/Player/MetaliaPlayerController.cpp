@@ -33,7 +33,6 @@ void AMetaliaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	check(MetaliaPlayerContext);
-	CreateHud();
 
 	UEnhancedInputLocalPlayerSubsystem* localPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 
@@ -61,38 +60,6 @@ void AMetaliaPlayerController::SetupInputComponent()
 	// Bind your actions
 	MetaliaInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMetaliaPlayerController::Move);
 	MetaliaInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
-}
-
-void AMetaliaPlayerController::CreateHud()
-{
-	if (GetWorld() == nullptr || GetWorld()->GetNetMode() == NM_DedicatedServer)
-	{
-		// this is a server instance of the controller and we don't need to create a HUD
-		return;
-	}
-
-	AMetaliaPlayerState* MetaliaPlayerState = GetPlayerState<AMetaliaPlayerState>();
-	check(MetaliaPlayerState);
-
-	MetaliaPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(MetaliaPlayerState, this);
-	UAbilitySystemComponent* AbilitySystemComponent = MetaliaPlayerState->GetAbilitySystemComponent();
-	UAttributeSet* AttributeSet = MetaliaPlayerState->GetAttributeSet();
-
-	AMetaliaHUD* HUD = Cast<AMetaliaHUD>(GetHUD());
-
-	if (!HUD)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController::CreateHud trying to draw HUD fails - HUD NOT SET!"));
-		return;
-	}
-
-	if (Cast<UMetaliaAttributeSet>(AttributeSet) == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Playercontroller::PlayerState->GetAttributeSet() returns something not a UMetaliaAttributeSet"));
-	}
-
-	FWidgetControllerParams params(this, PlayerState, AbilitySystemComponent, AttributeSet);
-	HUD->InitializeOverlay(params);
 }
 
 void AMetaliaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)

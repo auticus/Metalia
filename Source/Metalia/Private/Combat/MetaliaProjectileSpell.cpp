@@ -55,6 +55,7 @@ FVector UMetaliaProjectileSpell::GetSocketLocationFromExecutingActor() const
 		// if it did not pass back a controller and something else is haywire, thats bad.
 
 		// this could be a problem with AI controlled items but we shall see
+		UE_LOG(LogTemp, Warning, TEXT("Getting the socket from executing actor required doing the magical controller cast thing"));
 		AMetaliaPlayerController* Controller = Cast<AMetaliaPlayerController>(MyCurrentActor);
 		check(Controller);
 
