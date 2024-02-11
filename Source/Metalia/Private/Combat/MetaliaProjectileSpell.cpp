@@ -11,35 +11,7 @@
 
 void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
-	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-	UE_LOG(LogTemp, Warning, TEXT("Projectile Spell ActivateAbility runs"));
-
-	const bool bIsServer = HasAuthority(&ActivationInfo);
-	if (!bIsServer)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not server"));
-		return;
-	}
-
-	const FVector SocketLocation = GetSocketLocationFromExecutingActor();
-	
-	FTransform SpellTransform;
-	SpellTransform.SetLocation(SocketLocation);
-	UE_LOG(LogTemp, Warning, TEXT("Socket Location returned back is %f,%f,%f"), SocketLocation.X, SocketLocation.Y, SocketLocation.Z);
-
-	//TODO: orient rotation towards target
-
-	AMetaliaProjectile* Projectile = GetWorld()->SpawnActorDeferred<AMetaliaProjectile>(
-		ProjectileClass,
-		SpellTransform,
-		GetOwningActorFromActorInfo(),
-		Cast<APawn>(GetOwningActorFromActorInfo()), // the instigator
-		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-
-	// TODO: Assign Gameplay Spec to projectile to cause an effect
-	Projectile->FinishSpawning(SpellTransform);
-	
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);	
 }
 
 FVector UMetaliaProjectileSpell::GetSocketLocationFromExecutingActor() const
@@ -64,4 +36,28 @@ FVector UMetaliaProjectileSpell::GetSocketLocationFromExecutingActor() const
 	}
 		
 	return ICombatInterface::Execute_GetProjectileSocketLocation(MyCurrentActor);
+}
+
+/* Called from the blueprint when anim notify is reached to launch the projectile */
+void UMetaliaProjectileSpell::SpawnProjectile()
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer) return;
+
+	const FVector SocketLocation = GetSocketLocationFromExecutingActor();
+
+	FTransform SpellTransform;
+	SpellTransform.SetLocation(SocketLocation);
+
+	//TODO: orient rotation towards target
+
+	AMetaliaProjectile* Projectile = GetWorld()->SpawnActorDeferred<AMetaliaProjectile>(
+		ProjectileClass,
+		SpellTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetOwningActorFromActorInfo()), // the instigator
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+	// TODO: Assign Gameplay Spec to projectile to cause an effect
+	Projectile->FinishSpawning(SpellTransform);
 }
