@@ -25,7 +25,6 @@ protected:
 protected:
 	
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
-	FVector GetSocketLocationFromExecutingActor() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SpawnProjectile();

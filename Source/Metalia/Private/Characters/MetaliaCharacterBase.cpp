@@ -2,6 +2,7 @@
 
 
 #include "Characters/MetaliaCharacterBase.h"
+#include "Components/CapsuleComponent.h"
 #include <AbilitySystemComponent.h>
 #include <Game/MetaliaAttributeSet.h>
 #include <Game/MetaliaAbilitySystemComponent.h>
@@ -15,6 +16,10 @@ AMetaliaCharacterBase::AMetaliaCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	// set the character up so it is not blocking the camera and causing strange weirdness with camera zooming in
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 }
 
 void AMetaliaCharacterBase::BeginPlay()
@@ -68,4 +73,10 @@ FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
 {
 	check(Weapon); // there should always be some kind of weapon
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
+{
+	check(Weapon);
+	return Weapon->GetForwardVector().Rotation();
 }

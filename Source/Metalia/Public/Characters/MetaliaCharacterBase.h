@@ -69,4 +69,5 @@ protected:
 	virtual void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel);
 	void AddCharacterAbilities();
 	virtual FVector GetProjectileSocketLocation_Implementation() override;
+	virtual FRotator GetProjectileSocketForwardRotation_Implementation() override;
 };

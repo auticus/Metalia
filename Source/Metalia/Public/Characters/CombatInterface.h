@@ -27,4 +27,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetProjectileSocketLocation();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FRotator GetProjectileSocketForwardRotation();
 };
