@@ -15,7 +15,7 @@ void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle H
 }
 
 /* Called from the blueprint when anim notify is reached to launch the projectile */
-void UMetaliaProjectileSpell::SpawnProjectile()
+void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOverride)
 {
 	AActor* MyCurrentActor = GetAvatarActorFromActorInfo();
 	ICombatInterface* Combat = Cast<ICombatInterface>(MyCurrentActor);
@@ -24,7 +24,11 @@ void UMetaliaProjectileSpell::SpawnProjectile()
 	if (!bIsServer) return;
 
 	const FVector SocketLocation = ICombatInterface::Execute_GetProjectileSocketLocation(MyCurrentActor);
-	const FRotator SocketRotation = ICombatInterface::Execute_GetProjectileSocketForwardRotation(MyCurrentActor);
+	FRotator SocketRotation = ICombatInterface::Execute_GetProjectileSocketForwardRotation(MyCurrentActor);
+	if (bOverridePitch)
+	{
+		SocketRotation.Pitch = PitchOverride;
+	}
 
 	FTransform SpellTransform;
 	SpellTransform.SetLocation(SocketLocation);
