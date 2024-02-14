@@ -6,6 +6,11 @@
 #include <Kismet/GameplayStatics.h>
 #include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
+#include "GameFramework/Actor.h"
+#include <Components/SphereComponent.h>
+#include <Components/BoxComponent.h>
+#include <Components/CapsuleComponent.h>
+#include <Metalia/Metalia.h>
 
 // Sets default values
 AMetaliaProjectile::AMetaliaProjectile()
@@ -31,10 +36,48 @@ void AMetaliaProjectile::Tick(float DeltaTime)
 void AMetaliaProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	SetCollisionChannelToProjectile();
 	SetLifeSpan(ProjectileLifeSpan);
 
 	// spawn the sound that will play while the object is flying through the air
 	InFlightSoundComponent = UGameplayStatics::SpawnSoundAttached(InFlightSound, GetRootComponent());
+}
+
+void AMetaliaProjectile::SetCollisionChannelToProjectile()
+{
+	// because the collision objects are set in the blueprint we do not hardcode them here.
+	// as such we need to be able to find it and make sure its set to the projectile channel
+
+	TArray<USceneComponent*> Components;
+	GetComponents<USceneComponent>(Components);
+	
+	for (auto* Component : Components)
+	{
+		if (USphereComponent* Sphere = Cast<USphereComponent>(Component))
+		{
+			if (Sphere->GetCollisionObjectType() != ECC_Projectile)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its sphere component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
+				Sphere->SetCollisionObjectType(ECC_Projectile);
+			}
+		}
+		if (UBoxComponent* Box = Cast<UBoxComponent>(Component))
+		{
+			if (Box->GetCollisionObjectType() != ECC_Projectile)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its box component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
+				Box->SetCollisionObjectType(ECC_Projectile);
+			}
+		}
+		if (UCapsuleComponent* Capsule = Cast<UCapsuleComponent>(Component))
+		{
+			if (Capsule->GetCollisionObjectType() != ECC_Projectile)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its capsule component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
+				Capsule->SetCollisionObjectType(ECC_Projectile);
+			}
+		}
+	}
 }
 
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)

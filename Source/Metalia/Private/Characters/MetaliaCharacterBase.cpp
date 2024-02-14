@@ -7,6 +7,7 @@
 #include <Game/MetaliaAttributeSet.h>
 #include <Game/MetaliaAbilitySystemComponent.h>
 #include <Player/MetaliaPlayerState.h>
+#include <Metalia/Metalia.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -20,6 +21,8 @@ AMetaliaCharacterBase::AMetaliaCharacterBase()
 	// set the character up so it is not blocking the camera and causing strange weirdness with camera zooming in
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 }
 
 void AMetaliaCharacterBase::BeginPlay()

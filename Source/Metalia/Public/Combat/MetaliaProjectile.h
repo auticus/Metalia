@@ -61,4 +61,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleProjectileDestroyed();
+
+private:
+	void SetCollisionChannelToProjectile();
 };
