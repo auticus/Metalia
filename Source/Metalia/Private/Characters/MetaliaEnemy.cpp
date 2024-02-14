@@ -6,16 +6,17 @@
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
 #include <Game/MetaliaAbilitySystemComponent.h>
+#include <Game/MetaliaAttributeSet.h>
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
 
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UMetaliaAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
-	AttributeSet = CreateDefaultSubobject<UAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UMetaliaAttributeSet>("AttributeSet");
 }
 
 void AMetaliaEnemy::HighlightActor()
@@ -43,7 +44,10 @@ void AMetaliaEnemy::BeginPlay()
 void AMetaliaEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->Initialize();
 
-	// there is currently nothing set here and this will cause it to crash if you use it on the enemy.
-	// Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->Initialize();
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
 }

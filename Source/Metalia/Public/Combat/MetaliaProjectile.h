@@ -4,16 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h" // struct so... includes it in the h instead of cpp
 #include "MetaliaProjectile.generated.h"
 
 class UProjectileMovementComponent;
 class UNiagaraSystem;
+class UGameplayEffect;
 
 UCLASS()
 class METALIA_API AMetaliaProjectile : public AActor
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
+
 protected:
 
 	UPROPERTY(EditAnywhere)

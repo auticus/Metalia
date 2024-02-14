@@ -20,6 +20,11 @@ AMetaliaCharacterBase::AMetaliaCharacterBase()
 
 	// set the character up so it is not blocking the camera and causing strange weirdness with camera zooming in
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+
+	// make sure only the character mesh generates overlap, not its capsule.  This does not stop blocking from occurring but rather
+	// any code that uses overlap events to generate hits will ignore the capsule.
+	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
+
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);

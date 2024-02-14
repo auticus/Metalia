@@ -4,6 +4,8 @@
 #include "Combat/MetaliaProjectileSpell.h"
 #include <Characters/CombatInterface.h>
 #include "Combat/MetaliaProjectile.h"
+#include <AbilitySystemBlueprintLibrary.h>
+#include "AbilitySystemComponent.h"
 
 //todo kill this
 #include <Characters/MetaliaCharacter.h>
@@ -41,6 +43,10 @@ void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOv
 		Cast<APawn>(GetOwningActorFromActorInfo()), // the instigator
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-	// TODO: Assign Gameplay Spec to projectile to cause an effect
+	// Assign the gameplay effect to the projectile so that it has a purpose in life
+	const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+	Projectile->DamageEffectSpecHandle = SpecHandle;
+	
 	Projectile->FinishSpawning(SpellTransform);
 }

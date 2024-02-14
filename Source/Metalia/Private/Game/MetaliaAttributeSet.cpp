@@ -109,6 +109,34 @@ void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribut
 	}
 }
 
+void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	// this override is good for applying processing logic to attribute changes
+	Super::PostGameplayEffectExecute(Data);
+	
+	FEffectProperties Props;
+	SetEffectProperties(Data, Props);
+
+	// because the data used by GAS may break our clamp, we have to clamp it after its been changed
+	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
+	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
+	float MaxFatigueScore = GetMaxFatigue() > 0 ? GetMaxFatigue() : DefaultVitalityScore;
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, MaxHealthScore));
+		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *Props.TargetActor->GetName(), GetHealth());
+	}
+	if (Data.EvaluatedData.Attribute == GetMetalManaAttribute())
+	{
+		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, MaxMetalManaScore));
+	}
+	if (Data.EvaluatedData.Attribute == GetFatigueAttribute())
+	{
+		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
+	}
+}
+
 void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)
 {
 	// source is the cause of the effect.  Target is likely us here.
@@ -141,35 +169,8 @@ void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackD
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetActor);
 		Props.TargetComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetActor);
 	}
-	
+
 	// UE_LOG(LogTemp, Warning, TEXT("Strength is now: %f"), GetStrength());
-}
-
-void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
-{
-	// this override is good for applying processing logic to attribute changes
-	Super::PostGameplayEffectExecute(Data);
-	
-	FEffectProperties Props;
-	SetEffectProperties(Data, Props);
-
-	// because the data used by GAS may break our clamp, we have to clamp it after its been changed
-	float MaxHealthScore = GetMaxHealth() > 0 ? GetMaxHealth() : DefaultVitalityScore;
-	float MaxMetalManaScore = GetMaxMetalMana() > 0 ? GetMaxMetalMana() : DefaultVitalityScore;
-	float MaxFatigueScore = GetMaxFatigue() > 0 ? GetMaxFatigue() : DefaultVitalityScore;
-
-	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
-	{
-		SetHealth(FMath::Clamp(GetHealth(), 0.f, MaxHealthScore));
-	}
-	if (Data.EvaluatedData.Attribute == GetMetalManaAttribute())
-	{
-		SetMetalMana(FMath::Clamp(GetMetalMana(), 0.f, MaxMetalManaScore));
-	}
-	if (Data.EvaluatedData.Attribute == GetFatigueAttribute())
-	{
-		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
-	}
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

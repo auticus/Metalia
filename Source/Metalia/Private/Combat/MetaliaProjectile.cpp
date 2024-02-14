@@ -11,6 +11,8 @@
 #include <Components/BoxComponent.h>
 #include <Components/CapsuleComponent.h>
 #include <Metalia/Metalia.h>
+#include <AbilitySystemBlueprintLibrary.h>
+#include "AbilitySystemComponent.h"
 
 // Sets default values
 AMetaliaProjectile::AMetaliaProjectile()
@@ -87,6 +89,13 @@ void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 	// if on the server, we have hit something, so destroy
 	if (HasAuthority())
 	{
+		// apply the effect of the projectile onto the target, but only on the server
+		// damage will be replicated and make its way to the client on its own
+		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+		{
+			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+		}
+
 		Destroy();
 	}
 	else
@@ -106,13 +115,6 @@ void AMetaliaProjectile::Destroyed()
 	// this also means we haven't fired off our destroy effects so do that now
 	if (!bHit && !HasAuthority())
 	{
-		/*
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, TEXT("Destroyed calling HandleProjectileDestroyed()"));
-		}
-		*/
-
 		HandleProjectileDestroyed();
 	}
 	Super::Destroyed();
