@@ -58,6 +58,11 @@ void AMetaliaCharacterBase::InitializeDefaultAttributes()
 	ApplyEffectToSelf(DefaultAttributeInitialization, 1.f);
 }
 
+void AMetaliaCharacterBase::InitializeDelegateBroadcastersAndBroadcastDefaults()
+{
+	// the base will currently do nothing and needs overridden
+}
+
 void AMetaliaCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel)
 {
 	UAbilitySystemComponent* abilitySystemComponent = GetAbilitySystemComponent();

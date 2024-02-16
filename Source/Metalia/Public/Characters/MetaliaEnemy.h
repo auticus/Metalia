@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "Characters/MetaliaCharacterBase.h"
 #include "Characters/EnemyInterface.h"
+#include "UI/Controllers/OverlayWidgetController.h" // for FOnAttributeChangedSignature - not a fan of it being in this file
 #include "MetaliaEnemy.generated.h"
+
+class UWidgetComponent;
 
 /**
  * Class applied to enemy characters.
@@ -15,6 +18,17 @@ class METALIA_API AMetaliaEnemy : public AMetaliaCharacterBase, public IEnemyInt
 {
 	GENERATED_BODY()
 	AMetaliaEnemy();
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxHealthChanged;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> Healthbar;
 
 public:
 	/** Enemy Interface functions */
@@ -27,6 +41,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitializeDelegateBroadcastersAndBroadcastDefaults() override;
 
 private:
 	void InitAbilityActorInfo() override;

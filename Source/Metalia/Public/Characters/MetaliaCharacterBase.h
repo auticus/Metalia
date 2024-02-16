@@ -68,6 +68,7 @@ protected:
 
 	/* Will apply the Default Game Effects set on the character or blueprint to itself to set the starting scores.  Override to default to something else.*/
 	virtual void InitializeDefaultAttributes();
+	virtual void InitializeDelegateBroadcastersAndBroadcastDefaults();
 	virtual void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel);
 	void AddCharacterAbilities();
 	virtual FVector GetProjectileSocketLocation_Implementation() override;

@@ -7,6 +7,8 @@
 #include "AttributeSet.h"
 #include <Game/MetaliaAbilitySystemComponent.h>
 #include <Game/MetaliaAttributeSet.h>
+#include "Components/WidgetComponent.h"
+#include "UI/View/MetaliaUIWidget.h"
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -17,6 +19,9 @@ AMetaliaEnemy::AMetaliaEnemy()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<UMetaliaAttributeSet>("AttributeSet");
+
+	Healthbar = CreateDefaultSubobject<UWidgetComponent>("Healthbar");
+	Healthbar->SetupAttachment(GetRootComponent());
 }
 
 void AMetaliaEnemy::HighlightActor()
@@ -39,6 +44,13 @@ void AMetaliaEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+
+	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))
+	{
+		HealthBarWidget->SetWidgetController(this);
+	}
+
+	InitializeDelegateBroadcastersAndBroadcastDefaults();
 }
 
 void AMetaliaEnemy::InitAbilityActorInfo()
@@ -50,4 +62,33 @@ void AMetaliaEnemy::InitAbilityActorInfo()
 	{
 		InitializeDefaultAttributes();
 	}
+}
+
+void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()
+{
+	// currently no reason to call SUPER on this override as it does nothing
+	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
+	if (!AS)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MetaliaEnemy::InitializeDelegateBroadcasters - Attribute Set was not able to be cast to the appropriate value!  Delegates not bound"));
+		return;
+	}
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnHealthChanged.Broadcast(Data.NewValue);
+		}
+	);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetMaxHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnMaxHealthChanged.Broadcast(Data.NewValue);
+		}
+	);
+
+	// Broadcast the initial default values
+	OnHealthChanged.Broadcast(AS->GetHealth());
+	OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
 }
