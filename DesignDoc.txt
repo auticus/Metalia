@@ -46,3 +46,24 @@ Dagger will do 2 damage out of the gate
 
 Level 0 mook guy take him down in 4 swings with sword means thats 20 damage but Defense 2 means he's ignoring 8 damage but takes 12 - give him 10 health
 
+
+CHARACTER CLASSES
+These are the base classes that can be given different names to enemies however you need to as well as to the characters however you need to.  The character translation will be given.
+
+Warrior = Drummer - melee attacks and tanking.  High defense.  
+  
+Ranger - Rhythm Guitar - ranged combat physical based (guns, bows)
+
+Metalimancy - Lead Guitar - caster
+
+Metalilyte - Bass - healer and buffs with good defenses and ok melee
+
+Controller - Vocalist - powerful buffs and debuffs of the enemy, low defenses, ok melee, low damage spread to many opponents
+
+Skirmisher - synth - crits, sneaking, hiding, scouting, positioning.  low to medium defenses and strong melee attacks or sneaking ranged attacks
+
+SECONDARY CLASS
+Minions - 1 hit wonders
+Standard
+Elite - mini boss
+Boss
