@@ -16,7 +16,7 @@ Agi (speed and Defense and Critical)
 Sta (fortitude and fatigue bar)
 Vigor (health)
 Metal (number metal arcana spells, spell modifiers)
-Wil (resolve, metal divinity spells)
+Will (resolve, metal divinity spells)
 
 
 SECONDARY
@@ -50,17 +50,31 @@ Level 0 mook guy take him down in 4 swings with sword means thats 20 damage but 
 CHARACTER CLASSES
 These are the base classes that can be given different names to enemies however you need to as well as to the characters however you need to.  The character translation will be given.
 
+Every level - you can gain max +2 points to attributes
+
 Warrior = Drummer - melee attacks and tanking.  High defense.  
+(1) S16 A10 V14 St12 M8 Wil10
+(5) S20 A12 V16 St14 M8 Wil10
   
 Ranger - Rhythm Guitar - ranged combat physical based (guns, bows)
+(1) S10 A16 V10 St8 M14 Wil12
+(5) S12 A20 V10 St8 M16 Wil14
 
-Metalimancy - Lead Guitar - caster
+Metalimancy - Lead Guitar - wizard (powers are mostly metal with some will)
+(1) S8 A10 V10 St12 M16 Wil14
+(5) S8 A10 V12 St14 M20 Wil16
 
-Metalilyte - Bass - healer and buffs with good defenses and ok melee
+Metalilyte - Bass - healer and buffs with good defenses and ok melee - cleric (mix of powers with metal and will)
+(1) S10 A8 V14 St10 M12 Wil16
+(5) S12 A8 V16 St10 M14 Wil20
 
-Controller - Vocalist - powerful buffs and debuffs of the enemy, low defenses, ok melee, low damage spread to many opponents
+Controller (bard / spread caster) - Vocalist - powerful buffs and debuffs of the enemy, low defenses, ok melee, low damage spread to many opponents (powers are mostly metal with some will) but can use physical attacks too (hence the agility)
+(1) S8 A14 V12 St10 M16 Wil10
+(5) S8 A16 V14 St10 M20 Wil12
 
-Skirmisher - synth - crits, sneaking, hiding, scouting, positioning.  low to medium defenses and strong melee attacks or sneaking ranged attacks
+Skirmisher - synth - crits, sneaking, hiding, scouting, positioning.  low to medium defenses and strong melee attacks or sneaking ranged attacks - thief / assassin
+(1) S12 A16 V10 St14 M8 Wil10
+(5) S14 A20 V12 St16 M8 Wil10
 
 SECONDARY CLASS
 Minions - 1 hit wonders
