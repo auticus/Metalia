@@ -6,6 +6,7 @@
 #include "Characters/MetaliaCharacterBase.h"
 #include "Characters/EnemyInterface.h"
 #include "UI/Controllers/OverlayWidgetController.h" // for FOnAttributeChangedSignature - not a fan of it being in this file
+#include "Game/CharacterClassInfo.h"
 #include "MetaliaEnemy.generated.h"
 
 class UWidgetComponent;
@@ -30,6 +31,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> Healthbar;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterBaseClass CharacterClass = ECharacterBaseClass::Warrior;
+
 public:
 	/** Enemy Interface functions */
 	/* Highlight the actor that implements this interface */
@@ -42,6 +46,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitializeDelegateBroadcastersAndBroadcastDefaults() override;
+	virtual void InitializeDefaultAttributes() override;
 
 private:
 	void InitAbilityActorInfo() override;

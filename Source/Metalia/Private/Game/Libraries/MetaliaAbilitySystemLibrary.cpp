@@ -6,6 +6,9 @@
 #include <UI/MetaliaHUD.h>
 #include "UI/Controllers/MetaliaWidgetController.h"
 #include <Player/MetaliaPlayerState.h>
+#include <Game/MetaliaGameMode.h>
+#include <GameplayEffectTypes.h>
+#include "AbilitySystemComponent.h"
 
 UOverlayWidgetController* UMetaliaAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -41,3 +44,31 @@ UAttributeMenuWidgetController* UMetaliaAbilitySystemLibrary::GetAttributeMenuWi
 
 	return nullptr;
 }
+
+void UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	AMetaliaGameMode* GM = Cast<AMetaliaGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (GM == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("InitializeDefaultAttributes:: GameMode not found or not a Metalia Game Mode!"));
+		return;
+	}
+
+	UCharacterClassInfo* CharacterClassInfo = GM->CharacterClassInfo;
+	FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	
+	ApplyAttributeGameplayEffect(ClassDefaultInfo.PrimaryAttributes, Level, ASC);
+	ApplyAttributeGameplayEffect(ClassDefaultInfo.SecondaryAttributes, Level, ASC);
+	ApplyAttributeGameplayEffect(ClassDefaultInfo.VitalAttributes, Level, ASC);
+}
+
+void UMetaliaAbilitySystemLibrary::ApplyAttributeGameplayEffect(TSubclassOf<UGameplayEffect> AttributeClass, float Level, UAbilitySystemComponent* ASC)
+{
+	AActor* AvatarActor = ASC->GetAvatarActor();
+	
+	FGameplayEffectContextHandle AttributeContextHandle = ASC->MakeEffectContext();
+	AttributeContextHandle.AddSourceObject(AvatarActor);
+	const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(AttributeClass, Level, AttributeContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+

@@ -8,6 +8,7 @@
 
 class UGameplayEffect;
 
+/* Represents the base class and one which will be applied to enemies */
 UENUM(BlueprintType)
 enum class ECharacterBaseClass : uint8
 {
@@ -15,10 +16,11 @@ enum class ECharacterBaseClass : uint8
 	Metalimancer,
 	Metalilyte,
 	Ranger,
-	Skirmisher,
+	Skirmisher, // barbarians, thieves
 	Warrior
 };
 
+/* Represents the character class applied to players which correspond to a base class (for readability purposes) */
 UENUM(BlueprintType)
 enum class ECharacterClass : uint8
 {

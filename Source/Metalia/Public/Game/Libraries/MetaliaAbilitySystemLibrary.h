@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include <Game/CharacterClassInfo.h>
 #include "MetaliaAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
@@ -24,4 +25,10 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "MetaliaAbilitySystemLibrary|WidgetController")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category="MetaliaAbilitySystemLibrary|CharacterClassDefaults")
+	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
+
+private:
+	static void ApplyAttributeGameplayEffect(TSubclassOf<UGameplayEffect> AttributeClass, float Level, UAbilitySystemComponent* ASC);
 };

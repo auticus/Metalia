@@ -9,6 +9,7 @@
 #include <Game/MetaliaAttributeSet.h>
 #include "Components/WidgetComponent.h"
 #include "UI/View/MetaliaUIWidget.h"
+#include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -53,17 +54,6 @@ void AMetaliaEnemy::BeginPlay()
 	InitializeDelegateBroadcastersAndBroadcastDefaults();
 }
 
-void AMetaliaEnemy::InitAbilityActorInfo()
-{
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->Initialize();
-
-	if (HasAuthority())
-	{
-		InitializeDefaultAttributes();
-	}
-}
-
 void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()
 {
 	// currently no reason to call SUPER on this override as it does nothing
@@ -91,4 +81,20 @@ void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()
 	// Broadcast the initial default values
 	OnHealthChanged.Broadcast(AS->GetHealth());
 	OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+}
+
+void AMetaliaEnemy::InitAbilityActorInfo()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UMetaliaAbilitySystemComponent>(AbilitySystemComponent)->Initialize();
+
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
+}
+
+void AMetaliaEnemy::InitializeDefaultAttributes()
+{
+	UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
