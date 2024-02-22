@@ -45,6 +45,8 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 
+	FGameplayTag Damage;
+
 private:
 	static FMetaliaGameplayTags GameplayTags;
 
@@ -57,4 +59,5 @@ private:
 	static void InitializeVitalAttributes();
 	static void InitializeSecondaryAttributes();
 	static void InitializeInputTags();
+	static void InitializeMiscTags();
 };

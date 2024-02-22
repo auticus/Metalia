@@ -10,6 +10,7 @@
 //todo kill this
 #include <Characters/MetaliaCharacter.h>
 #include "Player/MetaliaPlayerController.h"
+#include <MetaliaGameplayTags.h>
 
 void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
@@ -46,7 +47,12 @@ void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOv
 	// Assign the gameplay effect to the projectile so that it has a purpose in life
 	const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
-	Projectile->DamageEffectSpecHandle = SpecHandle;
+
+	// assign the damage tag and damage that this projectile spell will do
+	FMetaliaGameplayTags Tags = FMetaliaGameplayTags::Get();
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Tags.Damage, 25.f);
 	
+	// apply the spec handle to the projectile
+	Projectile->DamageEffectSpecHandle = SpecHandle;
 	Projectile->FinishSpawning(SpellTransform);
 }
