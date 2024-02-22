@@ -7,7 +7,9 @@
 #include <Game/MetaliaAttributeSet.h>
 #include <Game/MetaliaAbilitySystemComponent.h>
 #include <Player/MetaliaPlayerState.h>
+#include "MetaliaGameplayTags.h"
 #include <Metalia/Metalia.h>
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -33,7 +35,14 @@ AMetaliaCharacterBase::AMetaliaCharacterBase()
 void AMetaliaCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//bind any functions
+	AbilitySystemComponent->RegisterGameplayTagEvent(FMetaliaGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this,
+		&AMetaliaCharacterBase::HitReactTagChanged
+	);
+
+	BaseWalkSpeed = 250.f; // fairly slow speed
 }
 
 UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
@@ -93,4 +102,17 @@ FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementatio
 {
 	check(Weapon);
 	return Weapon->GetForwardVector().Rotation();
+}
+
+void AMetaliaCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	// react to when a HitReact tag is added or removed from the enemy
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0 : BaseWalkSpeed;
+}
+
+UAnimMontage* AMetaliaCharacterBase::GetHitReactMontage_Implementation()
+{
+	// in the future we will need parameters to know what direction we got hit at so we know what montage to send back but for now just send the front
+	return FrontHitReactMontage;
 }

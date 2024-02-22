@@ -47,6 +47,8 @@ public:
 
 	FGameplayTag Damage;
 
+	FGameplayTag Effects_HitReact;
+
 private:
 	static FMetaliaGameplayTags GameplayTags;
 
@@ -59,5 +61,6 @@ private:
 	static void InitializeVitalAttributes();
 	static void InitializeSecondaryAttributes();
 	static void InitializeInputTags();
+	static void InitializeEffectTags();
 	static void InitializeMiscTags();
 };

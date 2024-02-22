@@ -75,3 +75,8 @@ DerivedDataCache/*
 
 # Photoshop files
 *.psd
+
+# Animation Raw files - place raw pack directories here 
+Content/Animations/EssentialSwordShieldAnimationPack/*
+Content/Animations/MagicStaffAnimation_Raw/*
+Content/Animations/Mixamo/*

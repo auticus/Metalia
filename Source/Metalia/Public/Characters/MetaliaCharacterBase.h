@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Characters/CombatInterface.h"
+#include "GameplayTagContainer.h"
 #include "MetaliaCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
@@ -23,6 +24,12 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bHitReacting = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	float BaseWalkSpeed;
 
 protected:
 	// Called when the game starts or when spawned
@@ -60,11 +67,27 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
+	/* Hit Montages */
+
+	/* Montage that will play when struck from the front */
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> FrontHitReactMontage;
+
+	/* Montage that will play when struck from the left */
+
+	/* Montage that will play when struck from the right */
+
+	/* Montage that will play when struck from the rear */
+
 public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet;  }
 
 	virtual int32 GetCharacterLevel_Implementation() const override;
+
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 protected:
 	virtual void InitAbilityActorInfo();
