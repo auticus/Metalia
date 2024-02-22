@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartupInputTag;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	FScalableFloat Damage;
+
 protected:
 	virtual void OnGameplayTaskActivated(UGameplayTask& Task) override;
 	

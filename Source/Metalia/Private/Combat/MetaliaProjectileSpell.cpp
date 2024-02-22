@@ -50,7 +50,8 @@ void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOv
 
 	// assign the damage tag and damage that this projectile spell will do
 	FMetaliaGameplayTags Tags = FMetaliaGameplayTags::Get();
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Tags.Damage, 25.f);
+	const float ProjectileDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Tags.Damage, ProjectileDamage);
 	
 	// apply the spec handle to the projectile
 	Projectile->DamageEffectSpecHandle = SpecHandle;

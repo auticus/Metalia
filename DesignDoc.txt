@@ -81,3 +81,7 @@ Minions - 1 hit wonders
 Standard
 Elite - mini boss
 Boss
+
+Ability Damage
+lets say that level 1 does d8 which average = 5
+1 = 5; 5 = 10; 15 = 30; 20 = 45; 40 = 125
