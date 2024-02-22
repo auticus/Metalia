@@ -97,4 +97,11 @@ void AMetaliaEnemy::InitAbilityActorInfo()
 void AMetaliaEnemy::InitializeDefaultAttributes()
 {
 	UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+
+	// the vitals will initialize the max health, fatigue, and metal mana so now we need to just set the health to match those
+	// enemies being initialized will always start at full health
+	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
+	AS->SetHealth(AS->GetMaxHealth());
+	AS->SetMetalMana(AS->GetMaxMetalMana());
+	AS->SetFatigue(AS->GetMaxFatigue());
 }

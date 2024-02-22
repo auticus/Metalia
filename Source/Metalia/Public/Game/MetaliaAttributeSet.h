@@ -166,6 +166,11 @@ public:
 	FGameplayAttributeData MaxFatigue;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxFatigue);
 
+	//* META ATTRIBUTES *//
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, IncomingDamage);
+
 private:
 	const float DefaultVitalityScore = 20.f; // TODO: this will be shuttled out for the appropriate attributes when STEPHEN gets to it
 
@@ -252,4 +257,5 @@ private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	void AddPrimaryAttributesToMap();
 	void AddSecondaryAttributesToMap();
+	void HandleDamageAttribute();
 };

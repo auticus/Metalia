@@ -135,6 +135,10 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	{
 		SetFatigue(FMath::Clamp(GetFatigue(), 0.f, MaxFatigueScore));
 	}
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		HandleDamageAttribute();
+	}
 }
 
 void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props)
@@ -171,6 +175,20 @@ void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackD
 	}
 
 	// UE_LOG(LogTemp, Warning, TEXT("Strength is now: %f"), GetStrength());
+}
+
+void UMetaliaAttributeSet::HandleDamageAttribute()
+{
+	const float Incoming = GetIncomingDamage();
+	SetIncomingDamage(0.f); // zero it out now that you have it
+	if (Incoming <= 0.f) return;
+
+	//UE_LOG(LogTemp, Warning, TEXT("My sweet health %f out of %f"), GetHealth(), GetMaxHealth());
+
+	const float NewHealth = GetHealth() - Incoming;
+	SetHealth(FMath::ClampAngle(NewHealth, 0.f, GetMaxHealth()));
+
+	const bool bFatal = NewHealth <= 0.f;
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
