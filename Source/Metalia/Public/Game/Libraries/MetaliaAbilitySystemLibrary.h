@@ -29,6 +29,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="MetaliaAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
 
+	UFUNCTION(BlueprintCallable, Category = "MetaliaAbilitySystemLibrary|CharacterClassDefaults")
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+
 private:
 	static void ApplyAttributeGameplayEffect(TSubclassOf<UGameplayEffect> AttributeClass, float Level, UAbilitySystemComponent* ASC);
 };

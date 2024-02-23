@@ -137,7 +137,7 @@ void UMetaliaAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
-		HandleDamageAttribute();
+		HandleDamageAttribute(Props);
 	}
 }
 
@@ -177,8 +177,10 @@ void UMetaliaAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackD
 	// UE_LOG(LogTemp, Warning, TEXT("Strength is now: %f"), GetStrength());
 }
 
-void UMetaliaAttributeSet::HandleDamageAttribute()
+void UMetaliaAttributeSet::HandleDamageAttribute(FEffectProperties& Props)
 {
+	// Dependency: Props needs to have run through SetEffectProperties
+
 	const float Incoming = GetIncomingDamage();
 	SetIncomingDamage(0.f); // zero it out now that you have it
 	if (Incoming <= 0.f) return;
@@ -189,6 +191,13 @@ void UMetaliaAttributeSet::HandleDamageAttribute()
 	SetHealth(FMath::ClampAngle(NewHealth, 0.f, GetMaxHealth()));
 
 	const bool bFatal = NewHealth <= 0.f;
+	if (!bFatal)
+	{
+		// took damage, send the hit react tag over so it can deal with that
+		FGameplayTagContainer Tags;
+		Tags.AddTag(FMetaliaGameplayTags::Get().Effects_HitReact);
+		Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
+	}
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

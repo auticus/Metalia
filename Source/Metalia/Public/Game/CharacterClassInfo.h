@@ -7,6 +7,7 @@
 #include "CharacterClassInfo.generated.h"
 
 class UGameplayEffect;
+class UGameplayAbility;
 
 /* Represents the base class and one which will be applied to enemies */
 UENUM(BlueprintType)
@@ -78,6 +79,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
+
+	/* A collection of abilities that all characters have */
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
 
 public:
 	const FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterBaseClass CharacterClass);

@@ -41,6 +41,7 @@ struct FEffectProperties
 	UPROPERTY()
 	ACharacter* SourceCharacter = nullptr;
 
+	/* The Target ASC */
 	UPROPERTY()
 	UAbilitySystemComponent* TargetComponent = nullptr;
 
@@ -257,5 +258,5 @@ private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	void AddPrimaryAttributesToMap();
 	void AddSecondaryAttributesToMap();
-	void HandleDamageAttribute();
+	void HandleDamageAttribute(FEffectProperties& Props);
 };

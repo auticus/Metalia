@@ -62,6 +62,23 @@ void UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* Wo
 	ApplyAttributeGameplayEffect(ClassDefaultInfo.VitalAttributes, Level, ASC);
 }
 
+void UMetaliaAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AMetaliaGameMode* GM = Cast<AMetaliaGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (GM == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GiveStartupAbilities:: GameMode not found or not a Metalia Game Mode!"));
+		return;
+	}
+
+	UCharacterClassInfo* CharacterClassInfo = GM->CharacterClassInfo;
+	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+}
+
 void UMetaliaAbilitySystemLibrary::ApplyAttributeGameplayEffect(TSubclassOf<UGameplayEffect> AttributeClass, float Level, UAbilitySystemComponent* ASC)
 {
 	AActor* AvatarActor = ASC->GetAvatarActor();

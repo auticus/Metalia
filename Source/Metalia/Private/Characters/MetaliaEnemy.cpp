@@ -45,6 +45,7 @@ void AMetaliaEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+	UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))
 	{
