@@ -27,6 +27,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float LifeTimeAfterDeath;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> Healthbar;
@@ -42,6 +45,8 @@ public:
 	/* Unhighlight the actor that implements this interface */
 	void UnhighlightActor() override;
 	/** END Enemy Interface functions */
+
+	virtual void Die_Implementation(bool UseRagDollOnDeath) override;
 
 protected:
 	virtual void BeginPlay() override;

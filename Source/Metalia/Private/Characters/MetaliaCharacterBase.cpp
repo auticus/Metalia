@@ -43,6 +43,7 @@ void AMetaliaCharacterBase::BeginPlay()
 	);
 
 	BaseWalkSpeed = 250.f; // fairly slow speed
+	bIsAlive = true;
 }
 
 UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
@@ -114,5 +115,42 @@ void AMetaliaCharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, i
 UAnimMontage* AMetaliaCharacterBase::GetHitReactMontage_Implementation()
 {
 	// in the future we will need parameters to know what direction we got hit at so we know what montage to send back but for now just send the front
-	return FrontHitReactMontage;
+	return HitReactMontage;
+}
+
+UAnimMontage* AMetaliaCharacterBase::GetDeathReactMontage_Implementation()
+{
+	return DeathReactMontage;
+}
+
+void AMetaliaCharacterBase::Die_Implementation(bool UseRagDollDeath)
+{
+	bIsAlive = false;
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	MulticastHandleDeath_Implementation(UseRagDollDeath);
+}
+
+void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollDeath)
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	if (UseRagDollDeath)
+	{
+		GetMesh()->SetSimulatePhysics(true);
+		GetMesh()->SetEnableGravity(true);
+	}
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	SetActorTickEnabled(false);
+	// SetActorEnableCollision(false); this makes him fall through the floor.
+}
+
+bool AMetaliaCharacterBase::GetIsAlive() const
+{
+	return bIsAlive;
 }

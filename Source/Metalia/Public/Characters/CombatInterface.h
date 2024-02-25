@@ -33,4 +33,11 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage(); //TODO: where did you hit me?
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetDeathReactMontage();
+
+	/* Kills the character, dropping their weapon(s) and if RagDollDeath is TRUE will RagDoll Death the character */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Die(bool UseRagDollDeath);
 };

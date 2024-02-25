@@ -6,6 +6,7 @@
 #include "GameplayEffectExtension.h"
 #include "MetaliaGameplayTags.h"
 #include <AbilitySystemBlueprintLibrary.h>
+#include "Characters/MetaliaCharacterBase.h"
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
@@ -185,19 +186,42 @@ void UMetaliaAttributeSet::HandleDamageAttribute(FEffectProperties& Props)
 	SetIncomingDamage(0.f); // zero it out now that you have it
 	if (Incoming <= 0.f) return;
 
-	//UE_LOG(LogTemp, Warning, TEXT("My sweet health %f out of %f"), GetHealth(), GetMaxHealth());
-
 	const float NewHealth = GetHealth() - Incoming;
 	SetHealth(FMath::ClampAngle(NewHealth, 0.f, GetMaxHealth()));
 
 	const bool bFatal = NewHealth <= 0.f;
-	if (!bFatal)
+
+	if (bFatal)
+	{
+		HandleDeathState(Props);
+	}
+	else
 	{
 		// took damage, send the hit react tag over so it can deal with that
 		FGameplayTagContainer Tags;
 		Tags.AddTag(FMetaliaGameplayTags::Get().Effects_HitReact);
 		Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
 	}
+}
+
+void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
+{
+	AMetaliaCharacterBase* Character = Cast<AMetaliaCharacterBase>(Props.TargetActor);
+	if (Character == nullptr) return;
+	
+	float d100 = (FMath::RandRange(1.f, 100.f) / 100.f);
+	UE_LOG(LogTemp, Warning, TEXT("Die percent rolled = %f and chance to use ragdoll is %f"), d100, Character->PercentToUseRagDollDeath);
+	if (d100 <= Character->PercentToUseRagDollDeath)
+	{
+		const bool bUseRagDollDeath = true;
+		Character->Die_Implementation(bUseRagDollDeath);
+		return;
+	}
+
+	// in this case we will instead use a death animation so send up the death tag - that will need to call Die
+	FGameplayTagContainer Tags;
+	Tags.AddTag(FMetaliaGameplayTags::Get().Effects_DeathReact);
+	Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

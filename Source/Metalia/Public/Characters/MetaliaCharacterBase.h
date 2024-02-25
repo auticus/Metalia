@@ -22,6 +22,9 @@ class METALIA_API AMetaliaCharacterBase : public ACharacter, public IAbilitySyst
 public:
 	AMetaliaCharacterBase();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	int32 Level = 1;
+
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
 
@@ -30,6 +33,10 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	float BaseWalkSpeed;
+
+	/* a decimal value that represents what percentage of the time the character will ragdoll on death vs an animation */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float PercentToUseRagDollDeath;
 
 protected:
 	// Called when the game starts or when spawned
@@ -60,24 +67,19 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultAttributeInitialization;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	int32 Level = 1;
+	/* a bool value determining if the character is alive */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	bool bIsAlive;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
-	/* Hit Montages */
-
-	/* Montage that will play when struck from the front */
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	TObjectPtr<UAnimMontage> FrontHitReactMontage;
+	TObjectPtr<UAnimMontage> HitReactMontage;
 
-	/* Montage that will play when struck from the left */
-
-	/* Montage that will play when struck from the right */
-
-	/* Montage that will play when struck from the rear */
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> DeathReactMontage;
 
 public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -88,6 +90,15 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
+	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;
+
+	virtual bool GetIsAlive() const;
+	
+	virtual void Die_Implementation(bool UseRagDollDeath) override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath(bool UseRagDollDeath);
 
 protected:
 	virtual void InitAbilityActorInfo();

@@ -65,6 +65,7 @@ void FMetaliaGameplayTags::InitializeInputTags()
 void FMetaliaGameplayTags::InitializeEffectTags()
 {
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("When hit, the tag that denotes to react"));
+	GameplayTags.Effects_DeathReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.DeathReact"), FString("When dying, the tag that denotes to react and die"));
 }
 
 void FMetaliaGameplayTags::InitializeMiscTags()

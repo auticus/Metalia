@@ -48,6 +48,7 @@ public:
 	FGameplayTag Damage;
 
 	FGameplayTag Effects_HitReact;
+	FGameplayTag Effects_DeathReact;
 
 private:
 	static FMetaliaGameplayTags GameplayTags;

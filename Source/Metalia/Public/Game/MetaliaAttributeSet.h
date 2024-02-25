@@ -259,4 +259,5 @@ private:
 	void AddPrimaryAttributesToMap();
 	void AddSecondaryAttributesToMap();
 	void HandleDamageAttribute(FEffectProperties& Props);
+	void HandleDeathState(FEffectProperties& Props);
 };

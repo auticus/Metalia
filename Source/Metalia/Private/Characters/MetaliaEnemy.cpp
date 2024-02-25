@@ -25,6 +25,20 @@ AMetaliaEnemy::AMetaliaEnemy()
 	Healthbar->SetupAttachment(GetRootComponent());
 }
 
+void AMetaliaEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	InitAbilityActorInfo();
+	UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+
+	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))
+	{
+		HealthBarWidget->SetWidgetController(this);
+	}
+
+	InitializeDelegateBroadcastersAndBroadcastDefaults();
+}
+
 void AMetaliaEnemy::HighlightActor()
 {
 	bHighlighted = true;
@@ -39,20 +53,6 @@ void AMetaliaEnemy::UnhighlightActor()
 	bHighlighted = false;
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
-}
-
-void AMetaliaEnemy::BeginPlay()
-{
-	Super::BeginPlay();
-	InitAbilityActorInfo();
-	UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
-
-	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))
-	{
-		HealthBarWidget->SetWidgetController(this);
-	}
-
-	InitializeDelegateBroadcastersAndBroadcastDefaults();
 }
 
 void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()
@@ -105,4 +105,10 @@ void AMetaliaEnemy::InitializeDefaultAttributes()
 	AS->SetHealth(AS->GetMaxHealth());
 	AS->SetMetalMana(AS->GetMaxMetalMana());
 	AS->SetFatigue(AS->GetMaxFatigue());
+}
+
+void AMetaliaEnemy::Die_Implementation(bool UseRagDollOnDeath)
+{
+	SetLifeSpan(LifeTimeAfterDeath);
+	Super::Die_Implementation(UseRagDollOnDeath);
 }
