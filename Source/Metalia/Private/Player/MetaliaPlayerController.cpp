@@ -15,6 +15,7 @@
 #include "Game/Input/MetaliaInputComponent.h"
 #include "GameplayTagContainer.h"
 #include <AbilitySystemBlueprintLibrary.h>
+#include "UI/View/DamageTextComponent.h"
 
 AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
@@ -141,5 +142,19 @@ void AMetaliaPlayerController::CursorTrace()
 	{
 		LastEnemy->UnhighlightActor();
 		CurrentEnemy->HighlightActor();
+	}
+}
+
+void AMetaliaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	// This is RPC call
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		// create the bubble up damage component, attach it to character, then immediately detach so it floats on its own off the character
+		UDamageTextComponent* DamageText = NewObject <UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
 	}
 }

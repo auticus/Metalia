@@ -7,6 +7,8 @@
 #include "MetaliaGameplayTags.h"
 #include <AbilitySystemBlueprintLibrary.h>
 #include "Characters/MetaliaCharacterBase.h"
+#include <Player/MetaliaPlayerController.h>
+#include "Kismet/GameplayStatics.h"
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
@@ -202,6 +204,8 @@ void UMetaliaAttributeSet::HandleDamageAttribute(FEffectProperties& Props)
 		Tags.AddTag(FMetaliaGameplayTags::Get().Effects_HitReact);
 		Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
 	}
+
+	ShowFloatingText(Props, Incoming);
 }
 
 void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
@@ -222,6 +226,15 @@ void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
 	FGameplayTagContainer Tags;
 	Tags.AddTag(FMetaliaGameplayTags::Get().Effects_DeathReact);
 	Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
+}
+
+void UMetaliaAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage)
+{
+	if (Props.SourceCharacter == Props.TargetCharacter) return; // if i hurt myself don't pop up text over me
+	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+	{
+		PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+	}
 }
 
 void UMetaliaAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

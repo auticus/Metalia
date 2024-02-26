@@ -260,4 +260,5 @@ private:
 	void AddSecondaryAttributesToMap();
 	void HandleDamageAttribute(FEffectProperties& Props);
 	void HandleDeathState(FEffectProperties& Props);
+	void ShowFloatingText(const FEffectProperties& Props, float Damage);
 };

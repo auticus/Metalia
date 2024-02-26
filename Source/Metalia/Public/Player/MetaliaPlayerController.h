@@ -11,6 +11,7 @@ class UInputAction;
 class IEnemyInterface;
 class UMetaliaDataAsset;
 class UMetaliaAbilitySystemComponent;
+class UDamageTextComponent;
 struct FGameplayTag;
 
 /**
@@ -21,28 +22,21 @@ class METALIA_API AMetaliaPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-public:
-	AMetaliaPlayerController();
-	virtual void PlayerTick(float DeltaTime) override;
-
 protected:
-	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
 
 private:
-
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> MetaliaPlayerContext;
 
 	UPROPERTY()
 	TObjectPtr<UMetaliaAbilitySystemComponent> MetaliaAbilitySystemComponent;
-	
+
 	/* NOTE - we have move action here but any actions dealing with ability system component are dealt with in that class */
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
-	
+
 	/* The tolerance level of the game pad dead zone.  The higher the value, the more drift will be ignored.*/
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float GamepadDeadZone;
@@ -52,9 +46,24 @@ private:
 	TScriptInterface<IEnemyInterface> LastEnemy;
 	TScriptInterface<IEnemyInterface> CurrentEnemy;
 
-	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UMetaliaDataAsset> InputConfig;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+public:
+	AMetaliaPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
+
+	UFUNCTION(Client, Reliable)  // client indicates its called on server but executed on client
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+
+private:
 	/* Moves the possessed actor */
 	void Move(const struct FInputActionValue& InputActionValue);
 
