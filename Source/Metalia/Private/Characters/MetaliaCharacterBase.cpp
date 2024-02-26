@@ -157,6 +157,11 @@ bool AMetaliaCharacterBase::GetIsAlive() const
 	return bIsAlive;
 }
 
+bool AMetaliaCharacterBase::GetIsBlocking() const
+{
+	return bHitBlocking;
+}
+
 void AMetaliaCharacterBase::Dissolve()
 {
 	if (IsValid(DissolveMaterialInstance))

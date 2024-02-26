@@ -21,7 +21,7 @@ Will (resolve, metal divinity spells)
 
 SECONDARY
 Armor Penetration - % of armor ignored - based on items or abilities - defaults to 0
-Block - % of physical damage you can ignore extra, based on items or abilities - default 0
+Block - % of physical damage you can ignore extra, based on items or abilities - default 0.  STEPHEN uses this as the raw % to block and you block 50% if yes.  Value = 0-100
 CarryCapacity - based on strength - weight of shit you can carry - Str x 10
 Critical - percentage a hit will do crit damage - based on Agi (try Agi - 10 = %)
 CriticalDamage - bonus damage a crit does (Agi - 10 for now)
@@ -85,3 +85,8 @@ Boss
 Ability Damage
 lets say that level 1 does d8 which average = 5
 1 = 5; 5 = 10; 15 = 30; 20 = 45; 40 = 125
+
+
+
+THINGS TO DO
+* Blocking is implemented and tested and works.  There is a bool on CharacterBase that says if its blocking.  However nothing currently sets that on.  The enemy will need to be able to block.  Humans will be able to block by hitting a block button.

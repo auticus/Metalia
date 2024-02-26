@@ -97,6 +97,7 @@ public:
 	FGameplayAttributeData ArmorPenetration;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ArmorPenetration);
 
+	/* When Blocking, the % of damage that is ignored */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Block, Category = "Secondary Attributes")
 	FGameplayAttributeData Block;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Block);

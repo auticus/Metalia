@@ -80,6 +80,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	bool bIsAlive;
 
+	/* Whether or not the character is in a blocking state */
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	bool bHitBlocking = false;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
@@ -102,7 +106,11 @@ public:
 
 	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;
 
+	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsAlive() const;
+
+	UFUNCTION(BlueprintCallable)
+	virtual bool GetIsBlocking() const;
 	
 	virtual void Die_Implementation(bool UseRagDollDeath) override;
 
