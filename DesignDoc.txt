@@ -26,7 +26,7 @@ CarryCapacity - based on strength - weight of shit you can carry - Str x 10
 Critical - percentage a hit will do crit damage - based on Agi (try Agi - 10 = %)
 CriticalDamage - bonus damage a crit does (Agi - 10 for now)
 DamageModifier - added melee damage in addition to weapon (based on str - 10)
-Defense (reduces physical damage, based on Agility - 10 and Armor worn (which may negate agi)
+Defense (reduces physical damage, based on Agility - 10 and Armor worn (which may negate agi) - so this is a culmination of Armor worn + natural defenses.  (armor will boost this)
 Fortitude - armor against poisons, diseases, etc - based on sta - 10
 HealthRegen - default to 0 - health gain per second - based on items or abilities
 MetalManaRegn - default to 0 - mana gain per second - based on items or abilities

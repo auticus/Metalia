@@ -117,6 +117,7 @@ public:
 	FGameplayAttributeData DamageModifier;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, DamageModifier);
 
+	/* A culmination of armor worn plus natural defense plus agility modifier */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Defense, Category = "Secondary Attributes")
 	FGameplayAttributeData Defense;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Defense);
