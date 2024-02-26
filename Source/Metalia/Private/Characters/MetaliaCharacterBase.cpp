@@ -148,9 +148,27 @@ void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollD
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	SetActorTickEnabled(false);
 	// SetActorEnableCollision(false); this makes him fall through the floor.
+
+	Dissolve();
 }
 
 bool AMetaliaCharacterBase::GetIsAlive() const
 {
 	return bIsAlive;
+}
+
+void AMetaliaCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMaterial);
+		StartDissolveTimeline(DynamicMaterial);
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		Weapon->SetMaterial(0, DynamicMaterial);
+		StartWeaponDissolveTimeline(DynamicMaterial);
+	}
 }

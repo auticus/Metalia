@@ -67,6 +67,15 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultAttributeInitialization;
 
+	/* Dissolve Effects */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	/* END DISSOLVE */
+
 	/* a bool value determining if the character is alive */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	bool bIsAlive;
@@ -110,4 +119,13 @@ protected:
 	void AddCharacterAbilities();
 	virtual FVector GetProjectileSocketLocation_Implementation() override;
 	virtual FRotator GetProjectileSocketForwardRotation_Implementation() override;
+
+	/* Disolve the character and any weapons it is holding */
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 };
