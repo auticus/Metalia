@@ -22,10 +22,18 @@ public:
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 
 private:
-	float ProcessDamageAfterBlock(AMetaliaCharacterBase* TargetCharacterBase,const FGameplayEffectCustomExecutionParameters& ExecutionParams,FAggregatorEvaluateParameters EvaluationParameters,float Damage) const;
+	float ProcessDamageAfterBlock(
+		AMetaliaCharacterBase* TargetCharacterBase,
+		const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+		FAggregatorEvaluateParameters EvaluationParameters,
+		float Damage) const;
+	
 	float ProcessDamageAfterDefense(
 		const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 		FAggregatorEvaluateParameters EvaluationParameters,
 		float Damage) const;
 	
+	float ProcessPotentialCriticalHit(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+		FAggregatorEvaluateParameters EvaluationParameters,
+		float Damage) const;
 };

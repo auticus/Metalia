@@ -12,12 +12,16 @@ struct AuraDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Block);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Critical);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalDamage);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Defense);
 
 	AuraDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Block, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Critical, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, CriticalDamage, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Defense, Target, false);
 	}
 };
@@ -33,6 +37,8 @@ UExecCalc_Damage::UExecCalc_Damage()
 	// in the constructor, add the definitions that we want to change
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BlockDef);
+	RelevantAttributesToCapture.Add(DamageStatics().CriticalDef);
+	RelevantAttributesToCapture.Add(DamageStatics().CriticalDamageDef);
 	RelevantAttributesToCapture.Add(DamageStatics().DefenseDef);
 }
 
@@ -61,6 +67,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float Damage = Spec.GetSetByCallerMagnitude(FMetaliaGameplayTags::Get().Damage);
 	Damage = ProcessDamageAfterBlock(TargetCharacterBase, ExecutionParams, EvaluationParameters, Damage);
 	Damage = ProcessDamageAfterDefense(ExecutionParams, EvaluationParameters, Damage);
+	Damage = ProcessPotentialCriticalHit(ExecutionParams, EvaluationParameters, Damage);
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UMetaliaAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
@@ -108,4 +115,26 @@ float UExecCalc_Damage::ProcessDamageAfterDefense(
 
 	if (DefenseAbsorbedPercentage == 0.f) return Damage;
 	return Damage - (Damage * (DefenseAbsorbedPercentage / 100.f));
+}
+
+float UExecCalc_Damage::ProcessPotentialCriticalHit(
+	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	FAggregatorEvaluateParameters EvaluationParameters,
+	float Damage) const
+{
+	// TODO: this will likely need to pull from a curve table in the future
+	// right now crit damage is hardcoded at 2.f (double damage) in the GameEffect.
+
+	float CritHitPercent = 0.f;
+	float CritHitMultiplier = 0.f;
+
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalDef, EvaluationParameters, CritHitPercent);
+	CritHitPercent = FMath::Max<float>(CritHitPercent, 0.f);
+
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalDamageDef, EvaluationParameters, CritHitMultiplier);
+	CritHitMultiplier = FMath::Max<float>(CritHitMultiplier, 0.f);
+
+	const bool bCritHit = FMath::RandRange(1, 100) < CritHitPercent;
+
+	return bCritHit ? Damage *= CritHitMultiplier : Damage;
 }

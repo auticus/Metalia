@@ -23,8 +23,12 @@ SECONDARY
 Armor Penetration - % of armor ignored - based on items or abilities - defaults to 0
 Block - % of physical damage you can ignore extra, based on items or abilities - default 0.  STEPHEN uses this as the raw % to block and you block 50% if yes.  Value = 0-100
 CarryCapacity - based on strength - weight of shit you can carry - Str x 10
-Critical - percentage a hit will do crit damage - based on Agi (try Agi - 10 = %)
-CriticalDamage - bonus damage a crit does (Agi - 10 for now)
+
+Critical - percentage a hit will do crit damage - based on Agi
+This means Ag 10 = 10% of doing a crit.
+
+CriticalDamage - bonus damage a crit does.  Default to 2x (2.f).  Weapons should have bonuses to this that are percentages.  A crit dagger may add a further 20% for example.  This may need a curve table so that the 2x can go up after a while.  Certain classes may go up faster.
+
 DamageModifier - added melee damage in addition to weapon (based on str - 10)
 
 Defense (reduces physical damage, based on Agility and Armor worn (which may negate agi) - so this is a culmination of Armor worn + natural defenses.  (armor will boost this)
@@ -101,3 +105,5 @@ THINGS TO DO
 * Weapons themselves need to bolster armor pen.  Strength helps but if i'm whipping around a wand of fireballs, I shouldn't be adding my strength armor penetration to it.  Therefore that would make my penetration 0 unless IT had that tag.
 
 * Defense is currently based off of pure Agility score.  So your agility score is your defense which m eans you will physically negate Agility%.  Heavier armor should cap that you shouldn't get full agility with heavy armor (and it should make you slower but absorb more).
+
+* Ragdoll should get a force so he just doesn't accordian on himself.
