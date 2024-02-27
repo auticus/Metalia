@@ -10,11 +10,13 @@
 
 struct AuraDamageStatics
 {
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Block);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Defense);
 
 	AuraDamageStatics()
 	{
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Block, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Defense, Target, false);
 	}
@@ -29,6 +31,7 @@ static const AuraDamageStatics& DamageStatics()
 UExecCalc_Damage::UExecCalc_Damage()
 {
 	// in the constructor, add the definitions that we want to change
+	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BlockDef);
 	RelevantAttributesToCapture.Add(DamageStatics().DefenseDef);
 }
@@ -40,10 +43,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
 	const AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
 
 	// not every actor will be a metalia character so keep that in mind
-	const AMetaliaCharacterBase* TargetCharacterBase = TargetAvatar ? Cast<AMetaliaCharacterBase>(TargetAvatar) : nullptr;
+	AMetaliaCharacterBase* TargetCharacterBase = TargetAvatar ? Cast<AMetaliaCharacterBase>(TargetAvatar) : nullptr;
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 
@@ -56,7 +59,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	// Get Damage Set by the Caller Magnitude - how much damage is this guy doing?
 	float Damage = Spec.GetSetByCallerMagnitude(FMetaliaGameplayTags::Get().Damage);
+	Damage = ProcessDamageAfterBlock(TargetCharacterBase, ExecutionParams, EvaluationParameters, Damage);
+	Damage = ProcessDamageAfterDefense(ExecutionParams, EvaluationParameters, Damage);
 
+	const FGameplayModifierEvaluatedData EvaluatedData(UMetaliaAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
+	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+}
+
+float UExecCalc_Damage::ProcessDamageAfterBlock(
+	AMetaliaCharacterBase* TargetCharacterBase,
+	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	FAggregatorEvaluateParameters EvaluationParameters,
+	float Damage) const
+{
 	float BlockedPercentage = 0.f;
 
 	// If the target is listed in a blocking state we will negate some of the damage coming in by the Block value
@@ -65,9 +80,32 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockDef, EvaluationParameters, BlockedPercentage);
 		BlockedPercentage = FMath::Max<float>(BlockedPercentage, 0.f);
 	}
+	else
+	{
+		return Damage;
+	}
 
-	Damage = Damage - (Damage * (BlockedPercentage / 100.f));
+	return Damage - (Damage * (BlockedPercentage / 100.f));
+}
 
-	const FGameplayModifierEvaluatedData EvaluatedData(UMetaliaAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
-	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+float UExecCalc_Damage::ProcessDamageAfterDefense(
+	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	FAggregatorEvaluateParameters EvaluationParameters,
+	float Damage) const
+{
+	// Defense
+	float DefenseAbsorbedPercentage = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DefenseDef, EvaluationParameters, DefenseAbsorbedPercentage);
+	DefenseAbsorbedPercentage = FMath::Max<float>(DefenseAbsorbedPercentage, 0.f);
+
+	// Armor penetration will remove some of this (to a min of 0)
+	float ArmorPenetrationPercentage = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluationParameters, ArmorPenetrationPercentage);
+	ArmorPenetrationPercentage = FMath::Max<float>(ArmorPenetrationPercentage, 0.f);
+
+	// now adjust defense absorbed percentage by the armor penetration, to a min of 0
+	DefenseAbsorbedPercentage = FMath::Max<float>(DefenseAbsorbedPercentage - ArmorPenetrationPercentage, 0.f);
+
+	if (DefenseAbsorbedPercentage == 0.f) return Damage;
+	return Damage - (Damage * (DefenseAbsorbedPercentage / 100.f));
 }

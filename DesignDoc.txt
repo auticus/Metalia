@@ -26,7 +26,10 @@ CarryCapacity - based on strength - weight of shit you can carry - Str x 10
 Critical - percentage a hit will do crit damage - based on Agi (try Agi - 10 = %)
 CriticalDamage - bonus damage a crit does (Agi - 10 for now)
 DamageModifier - added melee damage in addition to weapon (based on str - 10)
-Defense (reduces physical damage, based on Agility - 10 and Armor worn (which may negate agi) - so this is a culmination of Armor worn + natural defenses.  (armor will boost this)
+
+Defense (reduces physical damage, based on Agility and Armor worn (which may negate agi) - so this is a culmination of Armor worn + natural defenses.  (armor will boost this)
+So if my Ag is 10, I have a Damage reduction of 10%.  If I'm wearing leather armor that adds 5 defense, I'd have a 15% Defense.
+
 Fortitude - armor against poisons, diseases, etc - based on sta - 10
 HealthRegen - default to 0 - health gain per second - based on items or abilities
 MetalManaRegn - default to 0 - mana gain per second - based on items or abilities
@@ -90,3 +93,11 @@ lets say that level 1 does d8 which average = 5
 
 THINGS TO DO
 * Blocking is implemented and tested and works.  There is a bool on CharacterBase that says if its blocking.  However nothing currently sets that on.  The enemy will need to be able to block.  Humans will be able to block by hitting a block button.
+
+* Blocking should incur a fatigue loss.  This should be a value in line with stamina.  Maybe add a secondary attribute called Blocking Fatigue.  This may be a percentage of the overall fatigue hit you ignore.  So higher the stamina or whatever the more you ignore.  Perhaps the fatigue == the raw damage you take.  So this would be like a form of Defense only strictly for the stamina side of things.
+
+* Resistances need implemented.  Things like Fortitude are vs Poison so that should come out and belong to Resistances.
+
+* Weapons themselves need to bolster armor pen.  Strength helps but if i'm whipping around a wand of fireballs, I shouldn't be adding my strength armor penetration to it.  Therefore that would make my penetration 0 unless IT had that tag.
+
+* Defense is currently based off of pure Agility score.  So your agility score is your defense which m eans you will physically negate Agility%.  Heavier armor should cap that you shouldn't get full agility with heavy armor (and it should make you slower but absorb more).

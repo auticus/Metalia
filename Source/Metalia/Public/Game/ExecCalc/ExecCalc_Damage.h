@@ -6,6 +6,8 @@
 #include "GameplayEffectExecutionCalculation.h"
 #include "ExecCalc_Damage.generated.h"
 
+class AMetaliaCharacterBase;
+
 /**
  * 
  */
@@ -19,5 +21,11 @@ public:
 
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 
+private:
+	float ProcessDamageAfterBlock(AMetaliaCharacterBase* TargetCharacterBase,const FGameplayEffectCustomExecutionParameters& ExecutionParams,FAggregatorEvaluateParameters EvaluationParameters,float Damage) const;
+	float ProcessDamageAfterDefense(
+		const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+		FAggregatorEvaluateParameters EvaluationParameters,
+		float Damage) const;
 	
 };

@@ -92,6 +92,7 @@ public:
 	FGameplayAttributeData Metal;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Metal);
 
+	//* ----------------------------------------------------------------------------------------------------------*/
 	//* SECONDARY ATTRIBUTES *//
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category = "Secondary Attributes")
 	FGameplayAttributeData ArmorPenetration;
@@ -118,7 +119,7 @@ public:
 	FGameplayAttributeData DamageModifier;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, DamageModifier);
 
-	/* A culmination of armor worn plus natural defense plus agility modifier */
+	/* A culmination of armor worn plus natural defense plus agility modifier represented as a percentage that ignores X% of PHYSICAL damage*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Defense, Category = "Secondary Attributes")
 	FGameplayAttributeData Defense;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Defense);
@@ -143,6 +144,7 @@ public:
 	FGameplayAttributeData Speed;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Speed);
 
+	//* ----------------------------------------------------------------------------------------------------------*/
 	//* VITAL ATTRIBUTES *//
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
