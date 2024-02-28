@@ -107,3 +107,14 @@ THINGS TO DO
 * Defense is currently based off of pure Agility score.  So your agility score is your defense which m eans you will physically negate Agility%.  Heavier armor should cap that you shouldn't get full agility with heavy armor (and it should make you slower but absorb more).
 
 * Ragdoll should get a force so he just doesn't accordian on himself.
+
+
+ASSETS NEEDED
+Synty's Shop $200 package has guitars and microphones.  These obviously match the style and don't look out of place.
+
+UE asset store search for Guitar Props but these are not low poly
+
+https://www.unrealengine.com/marketplace/en-US/product/musical-instruments-vol-1-nanite-and-low-poly
+
+https://www.unrealengine.com/marketplace/en-US/product/music-performer-animation-pack-for-concert-festival
+https://www.youtube.com/watch?v=g_83663Pcu8&ab_channel=Lisowi
