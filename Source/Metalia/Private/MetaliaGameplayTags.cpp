@@ -71,4 +71,6 @@ void FMetaliaGameplayTags::InitializeEffectTags()
 void FMetaliaGameplayTags::InitializeMiscTags()
 {
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage"));
+	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Damage.Fire"));
+	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
 }

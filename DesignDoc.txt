@@ -108,6 +108,8 @@ THINGS TO DO
 
 * Ragdoll should get a force so he just doesn't accordian on himself.
 
+* Shield / Blocking implement resistances need added to the Block method in ExecCalc_Damage.  A shield's resistance to fire shouldn't always apply unless using it.
+
 
 ASSETS NEEDED
 Synty's Shop $200 package has guitars and microphones.  These obviously match the style and don't look out of place.

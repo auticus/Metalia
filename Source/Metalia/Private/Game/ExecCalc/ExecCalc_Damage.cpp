@@ -65,7 +65,18 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 
 	// Get Damage Set by the Caller Magnitude - how much damage is this guy doing?
-	float Damage = Spec.GetSetByCallerMagnitude(FMetaliaGameplayTags::Get().Damage);
+	float Damage = 0.f;
+	
+	for (FGameplayTag DamageTypeTag : FMetaliaGameplayTags::Get().DamageTypes)
+	{
+		// for every possible type of damage that we acknowledge, determine if there is any damage here
+		// TODO: this is where resistances will need to be coded to lower the values
+
+		const float DamageValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		Damage += DamageValue;
+	}
+
+	// TODO: its possible that blocking implements may have their own resistances that only pertain to when you block with them
 	Damage = ProcessDamageAfterBlock(TargetCharacterBase, ExecutionParams, EvaluationParameters, Damage);
 	Damage = ProcessDamageAfterDefense(ExecutionParams, EvaluationParameters, Damage);
 	Damage = ProcessPotentialCriticalHit(ExecutionParams, EvaluationParameters, Damage);
