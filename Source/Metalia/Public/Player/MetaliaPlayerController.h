@@ -57,7 +57,7 @@ public:
 	virtual void PlayerTick(float DeltaTime) override;
 
 	UFUNCTION(Client, Reliable)  // client indicates its called on server but executed on client
-	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCriticalHit);
 
 protected:
 	virtual void BeginPlay() override;

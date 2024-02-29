@@ -145,7 +145,7 @@ void AMetaliaPlayerController::CursorTrace()
 	}
 }
 
-void AMetaliaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+void AMetaliaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCriticalHit)
 {
 	// This is RPC call
 	if (IsValid(TargetCharacter) && DamageTextComponentClass)
@@ -155,6 +155,6 @@ void AMetaliaPlayerController::ShowDamageNumber_Implementation(float DamageAmoun
 		DamageText->RegisterComponent();
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		DamageText->SetDamageText(DamageAmount, bIsBlocked, bIsCriticalHit);
 	}
 }
