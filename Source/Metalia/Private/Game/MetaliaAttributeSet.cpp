@@ -9,6 +9,7 @@
 #include "Characters/MetaliaCharacterBase.h"
 #include <Player/MetaliaPlayerController.h>
 #include "Kismet/GameplayStatics.h"
+#include "Game/Libraries/MetaliaAbilitySystemLibrary.h"
 
 UMetaliaAttributeSet::UMetaliaAttributeSet()
 {
@@ -205,7 +206,9 @@ void UMetaliaAttributeSet::HandleDamageAttribute(FEffectProperties& Props)
 		Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
 	}
 
-	ShowFloatingText(Props, Incoming);
+	const bool bBlock = UMetaliaAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+	const bool bCritHit = UMetaliaAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+	ShowFloatingText(Props, Incoming, bBlock, bCritHit);
 }
 
 void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
@@ -228,7 +231,7 @@ void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
 	Props.TargetComponent->TryActivateAbilitiesByTag(Tags);
 }
 
-void UMetaliaAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage)
+void UMetaliaAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bIsBlocked, bool bIsCriticalHit)
 {
 	if (Props.SourceCharacter == Props.TargetCharacter) return; // if i hurt myself don't pop up text over me
 	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))

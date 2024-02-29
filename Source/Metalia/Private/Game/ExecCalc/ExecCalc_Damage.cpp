@@ -6,6 +6,7 @@
 #include "Game/MetaliaAttributeSet.h"
 #include "GameplayEffectAggregator.h"
 #include "MetaliaGameplayTags.h"
+#include "Game/Libraries/MetaliaAbilitySystemLibrary.h"
 #include <Characters/MetaliaCharacterBase.h>
 
 struct AuraDamageStatics
@@ -55,7 +56,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	AMetaliaCharacterBase* TargetCharacterBase = TargetAvatar ? Cast<AMetaliaCharacterBase>(TargetAvatar) : nullptr;
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
-
+	
 	// obtain the source and execute and perform our custom logic
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
@@ -80,15 +81,19 @@ float UExecCalc_Damage::ProcessDamageAfterBlock(
 	float Damage) const
 {
 	float BlockedPercentage = 0.f;
+	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
 
 	// If the target is listed in a blocking state we will negate some of the damage coming in by the Block value
 	if (TargetCharacterBase && TargetCharacterBase->GetIsBlocking())
 	{
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockDef, EvaluationParameters, BlockedPercentage);
 		BlockedPercentage = FMath::Max<float>(BlockedPercentage, 0.f);
+		UMetaliaAbilitySystemLibrary::SetIsBlockedHit(ContextHandle, true);
 	}
 	else
 	{
+		UMetaliaAbilitySystemLibrary::SetIsBlockedHit(ContextHandle, false);
 		return Damage;
 	}
 
@@ -127,6 +132,8 @@ float UExecCalc_Damage::ProcessPotentialCriticalHit(
 
 	float CritHitPercent = 0.f;
 	float CritHitMultiplier = 0.f;
+	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
 
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalDef, EvaluationParameters, CritHitPercent);
 	CritHitPercent = FMath::Max<float>(CritHitPercent, 0.f);
@@ -135,6 +142,7 @@ float UExecCalc_Damage::ProcessPotentialCriticalHit(
 	CritHitMultiplier = FMath::Max<float>(CritHitMultiplier, 0.f);
 
 	const bool bCritHit = FMath::RandRange(1, 100) < CritHitPercent;
+	UMetaliaAbilitySystemLibrary::SetIsCriticalHit(ContextHandle, bCritHit);
 
 	return bCritHit ? Damage *= CritHitMultiplier : Damage;
 }

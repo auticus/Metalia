@@ -9,6 +9,7 @@
 #include <Game/MetaliaGameMode.h>
 #include <GameplayEffectTypes.h>
 #include "AbilitySystemComponent.h"
+#include <Game/FAuraGameplayEffectContext.h>
 
 UOverlayWidgetController* UMetaliaAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -76,6 +77,40 @@ void UMetaliaAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldCont
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
+	}
+}
+
+bool UMetaliaAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* EffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return EffectContext->IsBlockedHit();
+	}
+	return false;
+}
+
+bool UMetaliaAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* EffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return EffectContext->IsCriticalHit();
+	}
+	return false;
+}
+
+void UMetaliaAbilitySystemLibrary::SetIsBlockedHit(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, bool IsBlockedHit)
+{
+	if (FAuraGameplayEffectContext* EffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		EffectContext->SetIsBlockedHit(IsBlockedHit);
+	}
+}
+
+void UMetaliaAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, bool IsCriticalHit)
+{
+	if (FAuraGameplayEffectContext* EffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		EffectContext->SetIsCriticalHit(IsCriticalHit);
 	}
 }
 
