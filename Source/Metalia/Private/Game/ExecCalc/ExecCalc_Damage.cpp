@@ -117,15 +117,10 @@ float UExecCalc_Damage::ProcessDamageWithResistance(
 	if (Damage == 0.0f) return 0.0f;
 
 	float ResistanceValue = 0.f;
-	const FGameplayEffectAttributeCaptureDefinition* ResistanceDefinition = GameplayTagToAttributeDefinitionMap.Find(ResistanceTag);
-	
-	if (ResistanceDefinition == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("ExecCalc_Damage::ProcessDamageWithResistance given Resistance Tag of %s which was not found"), *ResistanceTag.GetTagName().ToString());
-		return Damage;
-	}
-
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(*ResistanceDefinition, EvaluationParameters, ResistanceValue);
+	checkf(GameplayTagToAttributeDefinitionMap.Contains(ResistanceTag), TEXT("ExecCalcDamage::ProcessDamageWithResistance Map Array does not contain tag [%s]"), *ResistanceTag.ToString());
+	FGameplayEffectAttributeCaptureDefinition  ResistanceDefinition = GameplayTagToAttributeDefinitionMap[ResistanceTag];
+		
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(ResistanceDefinition, EvaluationParameters, ResistanceValue);
 	ResistanceValue = FMath::Max<float>(ResistanceValue, 0.f);
 	return Damage - (Damage * (ResistanceValue / 100.f));
 }
