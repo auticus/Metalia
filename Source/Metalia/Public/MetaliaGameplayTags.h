@@ -25,7 +25,6 @@ public:
 	FGameplayTag Attributes_Secondary_CriticalDamage;
 	FGameplayTag Attributes_Secondary_DamageModifier;
 	FGameplayTag Attributes_Secondary_Defense;
-	FGameplayTag Attributes_Secondary_Fortitude;
 	FGameplayTag Attributes_Secondary_HealthRegen;
 	FGameplayTag Attributes_Secondary_ManaRegen;
 	FGameplayTag Attributes_Secondary_Resolve;
@@ -38,6 +37,12 @@ public:
 	FGameplayTag Attributes_Vital_Fatigue;
 	FGameplayTag Attributes_Vital_MaxFatigue;
 
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Lightning;
+	FGameplayTag Attributes_Resistance_Arcane;
+	FGameplayTag Attributes_Resistance_Fortitude;
+	// resistance to Physical is the Defense secondary ability.
+
 	FGameplayTag InputTag_Primary;
 	FGameplayTag InputTag_Secondary;
 	FGameplayTag InputTag_1;
@@ -47,11 +52,15 @@ public:
 
 	FGameplayTag Damage;
 	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Arcane;
+	FGameplayTag Damage_Physical;
+	FGameplayTag Damage_Fortitude;  // poisons & disease
 
 	FGameplayTag Effects_HitReact;
 	FGameplayTag Effects_DeathReact;
 
-	TArray<FGameplayTag> DamageTypes;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistanceMap;
 
 private:
 	static FMetaliaGameplayTags GameplayTags;
@@ -66,5 +75,6 @@ private:
 	static void InitializeSecondaryAttributes();
 	static void InitializeInputTags();
 	static void InitializeEffectTags();
+	static void InitializeResistanceTags();
 	static void InitializeMiscTags();
 };

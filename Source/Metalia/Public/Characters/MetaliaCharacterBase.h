@@ -65,6 +65,9 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultResistanceAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultAttributeInitialization;
 
 	/* Dissolve Effects */

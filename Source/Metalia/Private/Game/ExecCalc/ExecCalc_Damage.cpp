@@ -67,12 +67,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Get Damage Set by the Caller Magnitude - how much damage is this guy doing?
 	float Damage = 0.f;
 	
-	for (FGameplayTag DamageTypeTag : FMetaliaGameplayTags::Get().DamageTypes)
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FMetaliaGameplayTags::Get().DamageTypesToResistanceMap)
 	{
 		// for every possible type of damage that we acknowledge, determine if there is any damage here
+		// Key is the Damage Type, Value is the Resistance
 		// TODO: this is where resistances will need to be coded to lower the values
 
-		const float DamageValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		const float DamageValue = Spec.GetSetByCallerMagnitude(Pair.Key);
 		Damage += DamageValue;
 	}
 

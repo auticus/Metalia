@@ -13,6 +13,7 @@ void FMetaliaGameplayTags::InitializeNativeGameplayTags()
 	InitializeSecondaryAttributes();
 	InitializeInputTags();
 	InitializeEffectTags();
+	InitializeResistanceTags();
 	InitializeMiscTags();
 }
 
@@ -45,7 +46,6 @@ void FMetaliaGameplayTags::InitializeSecondaryAttributes()
 	GameplayTags.Attributes_Secondary_CriticalDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalDamage"), FString("Bonus damage a critical hit does"));
 	GameplayTags.Attributes_Secondary_DamageModifier = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.DamageModifier"), FString("Damage modifier to physical attacks added to the weapon"));
 	GameplayTags.Attributes_Secondary_Defense = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Defense"), FString("The amount of damage reduced when struck based on armor and agility"));
-	GameplayTags.Attributes_Secondary_Fortitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Fortitude"), FString("Defense against poisons, diseases, etc based on Stamina"));
 	GameplayTags.Attributes_Secondary_HealthRegen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.HealthRegen"), FString("The amount of health regenerated per second"));
 	GameplayTags.Attributes_Secondary_ManaRegen = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegen"), FString("The amount of metal mana regenderated per second"));
 	GameplayTags.Attributes_Secondary_Resolve = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Resolve"), FString("Defense against mental attacks based on Wil"));
@@ -72,5 +72,22 @@ void FMetaliaGameplayTags::InitializeMiscTags()
 {
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage"));
 	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Damage.Fire"));
-	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
+	GameplayTags.Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Lightning"), FString("Damage.Lightning"));
+	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Arcane"), FString("Damage.Arcane"));
+	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage.Physical"));
+	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fortitude"), FString("Damage.Fortitude"));
+	
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_Defense);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fortitude, GameplayTags.Attributes_Resistance_Fortitude);
+}
+
+void FMetaliaGameplayTags::InitializeResistanceTags()
+{
+	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Arcane"), FString("Resistance.Arcane"));
+	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fire"), FString("Resistance.Fire"));
+	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Lightning"), FString("Resistance.Lightning"));
+	GameplayTags.Attributes_Resistance_Fortitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fortitude"), FString("Resistance.Fortitude"));
 }

@@ -16,6 +16,7 @@ UMetaliaAttributeSet::UMetaliaAttributeSet()
 	AttributeSetId = FGuid::NewGuid();
 	AddPrimaryAttributesToMap();
 	AddSecondaryAttributesToMap();
+	AddResistanceAttributesToMap();
 }
 
 void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -42,7 +43,6 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, CriticalDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, DamageModifier, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Defense, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Fortitude, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, HealthRegen, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MetalManaRegen, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Resolve, COND_None, REPNOTIFY_Always);
@@ -55,6 +55,12 @@ void UMetaliaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxMetalMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, Fatigue, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, MaxFatigue, COND_None, REPNOTIFY_Always);
+
+	/* Resistance Attributes */
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, ResistanceFire, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, ResistanceLightning, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, ResistanceArcane, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UMetaliaAttributeSet, ResistanceFortitude, COND_None, REPNOTIFY_Always);
 }
 
 void UMetaliaAttributeSet::AddPrimaryAttributesToMap()
@@ -80,11 +86,20 @@ void UMetaliaAttributeSet::AddSecondaryAttributesToMap()
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_CriticalDamage, GetCriticalDamageAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_DamageModifier, GetDamageModifierAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Defense, GetDefenseAttribute);
-	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Fortitude, GetFortitudeAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_HealthRegen, GetHealthRegenAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_ManaRegen, GetMetalManaRegenAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Resolve, GetResolveAttribute);
 	TagsToAttributesMap.Add(GameplayTags.Attributes_Secondary_Speed, GetSpeedAttribute);
+}
+
+void UMetaliaAttributeSet::AddResistanceAttributesToMap()
+{
+	const FMetaliaGameplayTags& GameplayTags = FMetaliaGameplayTags::Get();
+
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Resistance_Fire, GetResistanceFireAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Resistance_Lightning, GetResistanceLightningAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Resistance_Arcane, GetResistanceArcaneAttribute);
+	TagsToAttributesMap.Add(GameplayTags.Attributes_Resistance_Fortitude, GetResistanceFortitudeAttribute);
 }
 
 void UMetaliaAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -335,11 +350,6 @@ void UMetaliaAttributeSet::OnRep_Defense(const FGameplayAttributeData& OldDefens
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Defense, OldDefense);
 }
 
-void UMetaliaAttributeSet::OnRep_Fortitude(const FGameplayAttributeData& OldFortitude) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Fortitude, OldFortitude);
-}
-
 void UMetaliaAttributeSet::OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, HealthRegen, OldHealthRegen);
@@ -358,4 +368,24 @@ void UMetaliaAttributeSet::OnRep_Resolve(const FGameplayAttributeData& OldResolv
 void UMetaliaAttributeSet::OnRep_Speed(const FGameplayAttributeData& OldSpeed) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, Speed, OldSpeed);
+}
+
+void UMetaliaAttributeSet::OnRep_Resistance_Fire(const FGameplayAttributeData& OldFireResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, ResistanceFire, OldFireResistance);
+}
+
+void UMetaliaAttributeSet::OnRep_Resistance_Lightning(const FGameplayAttributeData& OldLightningResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, ResistanceLightning, OldLightningResistance);
+}
+
+void UMetaliaAttributeSet::OnRep_Resistance_Arcane(const FGameplayAttributeData& OldArcaneResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, ResistanceArcane, OldArcaneResistance);
+}
+
+void UMetaliaAttributeSet::OnRep_Resistance_Fortitude(const FGameplayAttributeData& OldFortitudeResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UMetaliaAttributeSet, ResistanceFortitude, OldFortitudeResistance);
 }

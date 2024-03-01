@@ -124,10 +124,6 @@ public:
 	FGameplayAttributeData Defense;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Defense);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Fortitude, Category = "Secondary Attributes")
-	FGameplayAttributeData Fortitude;
-	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, Fortitude);
-
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegen, Category = "Secondary Attributes")
 	FGameplayAttributeData HealthRegen;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, HealthRegen);
@@ -171,6 +167,24 @@ public:
 	FGameplayAttributeData MaxFatigue;
 	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, MaxFatigue);
 
+	//* ----------------------------------------------------------------------------------------------------------*/
+	//* RESISTANCE ATTRIBUTES *//
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resistance_Fire, Category = "Resistance Attributes")
+	FGameplayAttributeData ResistanceFire;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ResistanceFire);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resistance_Lightning, Category = "Resistance Attributes")
+	FGameplayAttributeData ResistanceLightning;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ResistanceLightning);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resistance_Arcane, Category = "Resistance Attributes")
+	FGameplayAttributeData ResistanceArcane;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ResistanceArcane);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resistance_Fortitude, Category = "Resistance Attributes")
+	FGameplayAttributeData ResistanceFortitude;
+	ATTRIBUTE_ACCESSORS(UMetaliaAttributeSet, ResistanceFortitude);
+
 	//* META ATTRIBUTES *//
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
@@ -202,7 +216,6 @@ public:
 
 	UFUNCTION()
 	void OnRep_Fatigue(const FGameplayAttributeData& OldFatigue) const;
-
 
 	UFUNCTION()
 	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
@@ -244,9 +257,6 @@ public:
 	void OnRep_Defense(const FGameplayAttributeData& OldDefense) const;
 
 	UFUNCTION()
-	void OnRep_Fortitude(const FGameplayAttributeData& OldFortitude) const;
-
-	UFUNCTION()
 	void OnRep_HealthRegen(const FGameplayAttributeData& OldHealthRegen) const;
 
 	UFUNCTION()
@@ -258,10 +268,23 @@ public:
 	UFUNCTION()
 	void OnRep_Speed(const FGameplayAttributeData& OldSpeed) const;
 
+	UFUNCTION()
+	void OnRep_Resistance_Fire(const FGameplayAttributeData& OldFireResistance) const;
+
+	UFUNCTION()
+	void OnRep_Resistance_Lightning(const FGameplayAttributeData& OldLightningResistance) const;
+
+	UFUNCTION()
+	void OnRep_Resistance_Arcane(const FGameplayAttributeData& OldArcaneResistance) const;
+
+	UFUNCTION()
+	void OnRep_Resistance_Fortitude(const FGameplayAttributeData& OldFortitudeResistance) const;
+
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	void AddPrimaryAttributesToMap();
 	void AddSecondaryAttributesToMap();
+	void AddResistanceAttributesToMap();
 	void HandleDamageAttribute(FEffectProperties& Props);
 	void HandleDeathState(FEffectProperties& Props);
 	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit);

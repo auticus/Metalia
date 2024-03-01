@@ -34,7 +34,9 @@ DamageModifier - added melee damage in addition to weapon (based on str - 10)
 Defense (reduces physical damage, based on Agility and Armor worn (which may negate agi) - so this is a culmination of Armor worn + natural defenses.  (armor will boost this)
 So if my Ag is 10, I have a Damage reduction of 10%.  If I'm wearing leather armor that adds 5 defense, I'd have a 15% Defense.
 
-Fortitude - armor against poisons, diseases, etc - based on sta - 10
+Fortitude - armor against poisons, diseases, etc - based on sta - 10 -> this should be renamed to Resistance_PoisonDisease
+
+
 HealthRegen - default to 0 - health gain per second - based on items or abilities
 MetalManaRegn - default to 0 - mana gain per second - based on items or abilities
 Resolve - armor against mental attacks based on Wil - 10
@@ -45,6 +47,14 @@ This will be based off of custom calculation
 Health and Max Health (80 + (2.5*Vigor) + (10 * Level)) = 115 to start
 MetalMana and Max Metal Mana (50 + (2.5*Metal) + (10 * Level))
 Fatigue and Max Fatigue (based on stamina * 2.5 + 10)
+
+RESISTANCES
+Fire (based off of Dex?)
+Lightning (based off of Dex?)
+Arcane - modified by Wil
+Physical - this is Defense.  But Defense always applies (this is where if you want to ignore armor you have to pump the armor pen up).  Some things like a poison gas we want to have an IgnoreArmor tag or something that means you can't block or use Defense at all.
+
+Fortitude - this is vs Poison and Disease and needs renamed to be a Resistance - based on Stamina.
 
 DAMAGE
 Sword will do 5 damage out of the gate

@@ -67,6 +67,7 @@ void AMetaliaCharacterBase::InitializeDefaultAttributes()
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 	ApplyEffectToSelf(DefaultAttributeInitialization, 1.f);
+	ApplyEffectToSelf(DefaultResistanceAttributes, 1.f);
 }
 
 void AMetaliaCharacterBase::InitializeDelegateBroadcastersAndBroadcastDefaults()
