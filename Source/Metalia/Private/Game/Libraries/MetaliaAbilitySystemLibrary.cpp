@@ -48,6 +48,7 @@ UAttributeMenuWidgetController* UMetaliaAbilitySystemLibrary::GetAttributeMenuWi
 
 void UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
+	/* Currently only used by enemies, the enemy class will call this to get its initial attributes */
 	AMetaliaGameMode* GM = Cast<AMetaliaGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (GM == nullptr)
 	{
@@ -61,6 +62,7 @@ void UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* Wo
 	ApplyAttributeGameplayEffect(ClassDefaultInfo.PrimaryAttributes, Level, ASC);
 	ApplyAttributeGameplayEffect(ClassDefaultInfo.SecondaryAttributes, Level, ASC);
 	ApplyAttributeGameplayEffect(ClassDefaultInfo.VitalAttributes, Level, ASC);
+	ApplyAttributeGameplayEffect(ClassDefaultInfo.ResistanceAttributes, Level, ASC);
 }
 
 void UMetaliaAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)

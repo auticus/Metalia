@@ -9,27 +9,36 @@
 #include "Game/Libraries/MetaliaAbilitySystemLibrary.h"
 #include <Characters/MetaliaCharacterBase.h>
 
-struct AuraDamageStatics
+struct MetaliaDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Block);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Critical);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalDamage);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Defense);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ResistanceFire);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ResistanceLightning);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ResistanceFortitude);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ResistanceArcane);
 
-	AuraDamageStatics()
+	MetaliaDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Block, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Critical, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, CriticalDamage, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, Defense, Target, false);
+
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ResistanceFire, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ResistanceLightning, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ResistanceFortitude, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UMetaliaAttributeSet, ResistanceArcane, Target, false);
 	}
 };
 
-static const AuraDamageStatics& DamageStatics()
+static const MetaliaDamageStatics& DamageStatics()
 {
-	static AuraDamageStatics DStatics;  // as a static, everytime you call this, this same data will be here waiting
+	static MetaliaDamageStatics DStatics;  // as a static, everytime you call this, this same data will be here waiting
 	return DStatics;
 }
 
@@ -41,6 +50,15 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalDamageDef);
 	RelevantAttributesToCapture.Add(DamageStatics().DefenseDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ResistanceFireDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ResistanceLightningDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ResistanceFortitudeDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ResistanceArcaneDef);
+
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fire, DamageStatics().ResistanceFireDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Arcane, DamageStatics().ResistanceArcaneDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().ResistanceLightningDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fortitude, DamageStatics().ResistanceFortitudeDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, 
@@ -71,10 +89,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	{
 		// for every possible type of damage that we acknowledge, determine if there is any damage here
 		// Key is the Damage Type, Value is the Resistance
-		// TODO: this is where resistances will need to be coded to lower the values
+		// Be AWARE: this loops through EVERY type of damage, which means items not even found
+		// it also means this may be a performance pitfall and we may want to make it so its only looping through guaranteed items not ALL items
 
-		const float DamageValue = Spec.GetSetByCallerMagnitude(Pair.Key);
-		Damage += DamageValue;
+		Damage += ProcessDamageWithResistance(ExecutionParams, EvaluationParameters, Pair.Key, Pair.Value);
 	}
 
 	// TODO: its possible that blocking implements may have their own resistances that only pertain to when you block with them
@@ -84,6 +102,32 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UMetaliaAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+}
+
+float UExecCalc_Damage::ProcessDamageWithResistance(
+	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	const FAggregatorEvaluateParameters EvaluationParameters,
+	const FGameplayTag DamageTag,
+	const FGameplayTag ResistanceTag) const
+{
+	// potential performance hit having to pull spec each time
+	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	float Damage = Spec.GetSetByCallerMagnitude(DamageTag, false); // if not found it will log an error unless you tell it not to
+	
+	if (Damage == 0.0f) return 0.0f;
+
+	float ResistanceValue = 0.f;
+	const FGameplayEffectAttributeCaptureDefinition* ResistanceDefinition = GameplayTagToAttributeDefinitionMap.Find(ResistanceTag);
+	
+	if (ResistanceDefinition == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("ExecCalc_Damage::ProcessDamageWithResistance given Resistance Tag of %s which was not found"), *ResistanceTag.GetTagName().ToString());
+		return Damage;
+	}
+
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(*ResistanceDefinition, EvaluationParameters, ResistanceValue);
+	ResistanceValue = FMath::Max<float>(ResistanceValue, 0.f);
+	return Damage - (Damage * (ResistanceValue / 100.f));
 }
 
 float UExecCalc_Damage::ProcessDamageAfterBlock(

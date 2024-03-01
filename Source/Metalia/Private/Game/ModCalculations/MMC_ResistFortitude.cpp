@@ -31,8 +31,6 @@ float UMMC_ResistFortitude::CalculateBaseMagnitude_Implementation(const FGamepla
 	// note that STEPHEN uses GetSourceObject() here which returns null, but GetEffectCauser seems to work fine.  Here that is ok because
 	// the effect causer should be the character itself anyway (the target i guess?)  There is also a GetInstigator	
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetEffectCauser());
-
-	UE_LOG(LogTemp, Warning, TEXT("I'm returning a stamina back: %f"), Stamina);
 	return Stamina;
 
 	// TODO: if using level based resistances, here is how we'd do it

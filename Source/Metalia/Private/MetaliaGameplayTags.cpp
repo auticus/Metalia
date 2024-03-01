@@ -86,8 +86,8 @@ void FMetaliaGameplayTags::InitializeMiscTags()
 
 void FMetaliaGameplayTags::InitializeResistanceTags()
 {
-	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Arcane"), FString("Resistance.Arcane"));
-	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fire"), FString("Resistance.Fire"));
-	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Lightning"), FString("Resistance.Lightning"));
-	GameplayTags.Attributes_Resistance_Fortitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fortitude"), FString("Resistance.Fortitude"));
+	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Arcane"), FString("How well the character resists arcane"));
+	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fire"), FString("How well the character resists fire"));
+	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Lightning"), FString("How well the character resists lightning"));
+	GameplayTags.Attributes_Resistance_Fortitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Resistance.Fortitude"), FString("How well the character resists poison or diseases"));
 }
