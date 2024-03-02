@@ -103,8 +103,6 @@ public:
 
 	virtual int32 GetCharacterLevel_Implementation() const override;
 
-	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
-
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;

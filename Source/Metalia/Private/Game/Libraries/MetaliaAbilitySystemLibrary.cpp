@@ -49,10 +49,11 @@ UAttributeMenuWidgetController* UMetaliaAbilitySystemLibrary::GetAttributeMenuWi
 void UMetaliaAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	/* Currently only used by enemies, the enemy class will call this to get its initial attributes */
+	// This should only EVER be called by the server as clients do not have access to game mode
 	AMetaliaGameMode* GM = Cast<AMetaliaGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (GM == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("InitializeDefaultAttributes:: GameMode not found or not a Metalia Game Mode!"));
+		// if this was coming from the client, GM is null
 		return;
 	}
 

@@ -10,6 +10,8 @@
 #include "Components/WidgetComponent.h"
 #include "UI/View/MetaliaUIWidget.h"
 #include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
+#include "MetaliaGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -28,13 +30,26 @@ AMetaliaEnemy::AMetaliaEnemy()
 void AMetaliaEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
-	UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+
+	if (HasAuthority())
+	{
+		// only server should be giving startup abilities
+		UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	}
 
 	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))
 	{
 		HealthBarWidget->SetWidgetController(this);
 	}
+
+	//bind any functions
+	// note hit react tag only applies to enemies and that is why we put it here.
+	AbilitySystemComponent->RegisterGameplayTagEvent(FMetaliaGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this,
+		&AMetaliaEnemy::HitReactTagChanged
+	);
 
 	InitializeDelegateBroadcastersAndBroadcastDefaults();
 }
@@ -111,4 +126,11 @@ void AMetaliaEnemy::Die_Implementation(bool UseRagDollOnDeath)
 {
 	SetLifeSpan(LifeTimeAfterDeath);
 	Super::Die_Implementation(UseRagDollOnDeath);
+}
+
+void AMetaliaEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	// react to when a HitReact tag is added or removed from the enemy
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0 : BaseWalkSpeed;
 }
