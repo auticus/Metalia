@@ -166,3 +166,15 @@ void AMetaliaCharacterBase::Dissolve()
 		StartWeaponDissolveTimeline(DynamicMaterial);
 	}
 }
+
+float AMetaliaCharacterBase::GetHealth_Implementation() const
+{
+	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
+	return AS->GetHealth();
+}
+
+float AMetaliaCharacterBase::GetMaxHealth_Implementation() const
+{
+	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
+	return AS->GetMaxHealth();
+}

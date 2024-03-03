@@ -95,8 +95,10 @@ void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()
 	);
 
 	// Broadcast the initial default values
-	OnHealthChanged.Broadcast(AS->GetHealth());
 	OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+	OnHealthChanged.Broadcast(AS->GetHealth());
+
+	UE_LOG(LogTemp, Warning, TEXT("Enemy Initializes delegates and broadcasts its max health: %f"), AS->GetMaxHealth());
 }
 
 void AMetaliaEnemy::InitAbilityActorInfo()

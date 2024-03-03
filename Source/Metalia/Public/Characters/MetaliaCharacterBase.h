@@ -115,6 +115,10 @@ public:
 	
 	virtual void Die_Implementation(bool UseRagDollDeath) override;
 
+	virtual float GetHealth_Implementation() const override;
+
+	virtual float GetMaxHealth_Implementation() const override;
+
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(bool UseRagDollDeath);
 

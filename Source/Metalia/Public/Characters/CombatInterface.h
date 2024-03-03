@@ -26,6 +26,12 @@ public:
 	int32 GetCharacterLevel() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetProjectileSocketLocation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
