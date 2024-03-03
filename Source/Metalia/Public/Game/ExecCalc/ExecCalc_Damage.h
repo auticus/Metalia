@@ -16,13 +16,10 @@ class METALIA_API UExecCalc_Damage : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 
-private:
-	UPROPERTY()
-	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> GameplayTagToAttributeDefinitionMap;
-
 public:
 	UExecCalc_Damage();
 
+public:
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 
 private:

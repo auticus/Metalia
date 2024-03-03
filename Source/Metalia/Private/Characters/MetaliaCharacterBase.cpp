@@ -8,6 +8,7 @@
 #include <Game/MetaliaAbilitySystemComponent.h>
 #include <Player/MetaliaPlayerState.h>
 #include <Metalia/Metalia.h>
+#include <Kismet/KismetStringLibrary.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -111,7 +112,6 @@ UAnimMontage* AMetaliaCharacterBase::GetDeathReactMontage_Implementation()
 
 void AMetaliaCharacterBase::Die_Implementation(bool UseRagDollDeath)
 {
-	bIsAlive = false;
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 	MulticastHandleDeath_Implementation(UseRagDollDeath);
 }
@@ -127,15 +127,18 @@ void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollD
 		GetMesh()->SetSimulatePhysics(true);
 		GetMesh()->SetEnableGravity(true);
 	}
+
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+
 	SetActorTickEnabled(false);
 	// SetActorEnableCollision(false); this makes him fall through the floor.
 
 	Dissolve();
+	bIsAlive = false;
 }
 
 bool AMetaliaCharacterBase::GetIsAlive() const

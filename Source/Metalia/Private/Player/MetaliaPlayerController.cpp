@@ -147,7 +147,7 @@ void AMetaliaPlayerController::CursorTrace()
 
 void AMetaliaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlocked, bool bIsCriticalHit)
 {
-	// This is RPC call
+	// This is RPC call and as such must have implementation after its name
 	if (IsValid(TargetCharacter) && DamageTextComponentClass)
 	{
 		// create the bubble up damage component, attach it to character, then immediately detach so it floats on its own off the character

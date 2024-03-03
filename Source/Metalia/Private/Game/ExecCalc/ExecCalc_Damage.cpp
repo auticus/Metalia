@@ -54,11 +54,6 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().ResistanceLightningDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ResistanceFortitudeDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ResistanceArcaneDef);
-
-	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fire, DamageStatics().ResistanceFireDef);
-	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Arcane, DamageStatics().ResistanceArcaneDef);
-	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().ResistanceLightningDef);
-	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fortitude, DamageStatics().ResistanceFortitudeDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, 
@@ -110,6 +105,13 @@ float UExecCalc_Damage::ProcessDamageWithResistance(
 	const FGameplayTag DamageTag,
 	const FGameplayTag ResistanceTag) const
 {
+	/* Because everything is const, we have to create the map here and only use it here since Adding defies const */
+	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> GameplayTagToAttributeDefinitionMap;
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fire, DamageStatics().ResistanceFireDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Arcane, DamageStatics().ResistanceArcaneDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().ResistanceLightningDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fortitude, DamageStatics().ResistanceFortitudeDef);
+
 	// potential performance hit having to pull spec each time
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 	float Damage = Spec.GetSetByCallerMagnitude(DamageTag, false); // if not found it will log an error unless you tell it not to
@@ -117,9 +119,9 @@ float UExecCalc_Damage::ProcessDamageWithResistance(
 	if (Damage == 0.0f) return 0.0f;
 
 	float ResistanceValue = 0.f;
+
 	checkf(GameplayTagToAttributeDefinitionMap.Contains(ResistanceTag), TEXT("ExecCalcDamage::ProcessDamageWithResistance Map Array does not contain tag [%s]"), *ResistanceTag.ToString());
 	FGameplayEffectAttributeCaptureDefinition  ResistanceDefinition = GameplayTagToAttributeDefinitionMap[ResistanceTag];
-		
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(ResistanceDefinition, EvaluationParameters, ResistanceValue);
 	ResistanceValue = FMath::Max<float>(ResistanceValue, 0.f);
 	return Damage - (Damage * (ResistanceValue / 100.f));

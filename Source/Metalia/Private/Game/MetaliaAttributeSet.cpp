@@ -251,7 +251,7 @@ void UMetaliaAttributeSet::ShowFloatingText(const FEffectProperties& Props, floa
 	if (Props.SourceCharacter == Props.TargetCharacter) return; // if i hurt myself don't pop up text over me
 	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(Props.SourceCharacter->Controller)) // show text to the source of the damage's player controller
 	{
-		PC->ShowDamageNumber(Damage, Props.TargetCharacter, bIsBlocked, bIsCriticalHit);
+		PC->ShowDamageNumber(Damage, Props.TargetCharacter, bIsBlocked, bIsCriticalHit); // this calls via RPC so is using ShowDamageNumber_Implementation
 	}
 }
 
