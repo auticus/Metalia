@@ -151,6 +151,7 @@ bool AMetaliaCharacterBase::GetIsBlocking() const
 	return bHitBlocking;
 }
 
+/* RPC Client call */
 void AMetaliaCharacterBase::Dissolve_Implementation()
 {
 	if (IsValid(DissolveMaterialInstance))
