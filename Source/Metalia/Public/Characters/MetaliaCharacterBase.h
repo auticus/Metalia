@@ -134,6 +134,7 @@ protected:
 	virtual FRotator GetProjectileSocketForwardRotation_Implementation() override;
 
 	/* Disolve the character and any weapons it is holding */
+	UFUNCTION(Client, Reliable)
 	void Dissolve();
 
 	UFUNCTION(BlueprintImplementableEvent)

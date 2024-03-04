@@ -137,7 +137,7 @@ void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollD
 	SetActorTickEnabled(false);
 	// SetActorEnableCollision(false); this makes him fall through the floor.
 
-	Dissolve();
+	Dissolve_Implementation();
 	bIsAlive = false;
 }
 
@@ -151,7 +151,7 @@ bool AMetaliaCharacterBase::GetIsBlocking() const
 	return bHitBlocking;
 }
 
-void AMetaliaCharacterBase::Dissolve()
+void AMetaliaCharacterBase::Dissolve_Implementation()
 {
 	if (IsValid(DissolveMaterialInstance))
 	{
@@ -159,6 +159,7 @@ void AMetaliaCharacterBase::Dissolve()
 		GetMesh()->SetMaterial(0, DynamicMaterial);
 		StartDissolveTimeline(DynamicMaterial);
 	}
+
 	if (IsValid(WeaponDissolveMaterialInstance))
 	{
 		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
