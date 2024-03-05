@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float LifeTimeAfterDeath;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Combat")
+	bool bWieldsRangedWeapon;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> Healthbar;

@@ -70,6 +70,8 @@ void AMetaliaEnemy::PossessedBy(AController* NewController)
 
 	// start up the AI
 	MetaliaAIController->RunBehaviorTree(BehaviorTree);
+	MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), bWieldsRangedWeapon);
 }
 
 void AMetaliaEnemy::HighlightActor()
@@ -151,4 +153,5 @@ void AMetaliaEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 New
 	// react to when a HitReact tag is added or removed from the enemy
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0 : BaseWalkSpeed;
+	MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
