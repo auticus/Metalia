@@ -23,6 +23,8 @@ void AMetaliaEffectActor::BeginPlay()
 
 void AMetaliaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
+	if (!bApplyEffectsToEnemies && TargetActor->ActorHasTag(FName("Enemy"))) return;
+
 	UAbilitySystemComponent* TargetSystem = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetSystem == nullptr) return;
 
@@ -38,10 +40,17 @@ void AMetaliaEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<U
 	{
 		ActiveEffectHandles.Add(EffectHandle, TargetSystem);
 	}
+
+	if (bDestroyOnEffectApplication && EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy != EGameplayEffectDurationType::Infinite)
+	{
+		Destroy();
+	}
 }
 
 void AMetaliaEffectActor::OnOverlap(AActor* TargetActor)
 {
+	if (!bApplyEffectsToEnemies && TargetActor->ActorHasTag(FName("Enemy"))) return;
+
 	if (InstantGameplayEffectClass && InstantGameplayApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
@@ -58,6 +67,8 @@ void AMetaliaEffectActor::OnOverlap(AActor* TargetActor)
 
 void AMetaliaEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+	if (!bApplyEffectsToEnemies && TargetActor->ActorHasTag(FName("Enemy"))) return;
+
 	if (InstantGameplayEffectClass && InstantGameplayApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);

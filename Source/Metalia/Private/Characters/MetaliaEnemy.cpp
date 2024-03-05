@@ -22,6 +22,11 @@ AMetaliaEnemy::AMetaliaEnemy()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
 	AttributeSet = CreateDefaultSubobject<UMetaliaAttributeSet>("AttributeSet");
 
 	Healthbar = CreateDefaultSubobject<UWidgetComponent>("Healthbar");
