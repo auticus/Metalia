@@ -120,6 +120,8 @@ THINGS TO DO
 
 * Shield / Blocking implement resistances need added to the Block method in ExecCalc_Damage.  A shield's resistance to fire shouldn't always apply unless using it.
 
+* Find Player BTree should consider "heat" or how dangerous the player is.
+
 
 ASSETS NEEDED
 Synty's Shop $200 package has guitars and microphones.  These obviously match the style and don't look out of place.

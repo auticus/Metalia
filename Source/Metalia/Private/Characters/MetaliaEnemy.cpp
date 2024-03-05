@@ -12,6 +12,7 @@
 #include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 #include "MetaliaGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -52,6 +53,18 @@ void AMetaliaEnemy::BeginPlay()
 	);
 
 	InitializeDelegateBroadcastersAndBroadcastDefaults();
+}
+
+void AMetaliaEnemy::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority()) return; // client side doesn't care about this
+	MetaliaAIController = Cast<AMetaliaAIController>(NewController);
+	MetaliaAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+
+	// start up the AI
+	MetaliaAIController->RunBehaviorTree(BehaviorTree);
 }
 
 void AMetaliaEnemy::HighlightActor()
