@@ -35,7 +35,7 @@ void AMetaliaCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseWalkSpeed = 250.f; // fairly slow speed
+	BaseWalkSpeed = 350.f; // fairly slow speed
 	bIsAlive = true;
 }
 
