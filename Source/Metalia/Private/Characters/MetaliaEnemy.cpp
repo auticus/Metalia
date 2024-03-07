@@ -155,3 +155,13 @@ void AMetaliaEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 New
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0 : BaseWalkSpeed;
 	MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
+
+void AMetaliaEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AMetaliaEnemy::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}

@@ -48,6 +48,9 @@ protected:
 	UPROPERTY()
 	TObjectPtr<AMetaliaAIController> MetaliaAIController;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	TObjectPtr<AActor> CombatTarget;
+
 public:
 	/** Enemy Interface functions */
 	/* Highlight the actor that implements this interface */
@@ -60,6 +63,9 @@ public:
 	virtual void Die_Implementation(bool UseRagDollOnDeath) override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 
 protected:
 	virtual void BeginPlay() override;
