@@ -60,6 +60,8 @@ public:
 	FGameplayTag Effects_HitReact;
 	FGameplayTag Effects_DeathReact;
 
+	FGameplayTag Abilities_Attack; //basic melee attack
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistanceMap;
 
 private:

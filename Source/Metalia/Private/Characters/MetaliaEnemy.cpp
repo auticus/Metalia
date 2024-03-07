@@ -42,7 +42,7 @@ void AMetaliaEnemy::BeginPlay()
 	if (HasAuthority())
 	{
 		// only server should be giving startup abilities
-		UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UMetaliaAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 	}
 
 	if (UMetaliaUIWidget* HealthBarWidget = Cast<UMetaliaUIWidget>(Healthbar->GetUserWidgetObject()))

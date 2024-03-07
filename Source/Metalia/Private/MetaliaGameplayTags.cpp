@@ -76,6 +76,8 @@ void FMetaliaGameplayTags::InitializeMiscTags()
 	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Arcane"), FString("Damage.Arcane"));
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage.Physical"));
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fortitude"), FString("Damage.Fortitude"));
+
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Basic melee attack"));
 	
 	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_Defense);
 	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
