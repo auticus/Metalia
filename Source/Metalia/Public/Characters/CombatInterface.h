@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetDeathReactMontage();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void UpdateFacingTarget(const FVector& Target);
+
 	/* Kills the character, dropping their weapon(s) and if RagDollDeath is TRUE will RagDoll Death the character */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Die(bool UseRagDollDeath);
