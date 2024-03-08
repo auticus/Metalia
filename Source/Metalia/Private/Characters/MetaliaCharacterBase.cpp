@@ -87,13 +87,14 @@ void AMetaliaCharacterBase::AddCharacterAbilities()
 	ASC->AddCharacterAbilities(StartupAbilities);
 }
 
-FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
+FVector AMetaliaCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon); // there should always be some kind of weapon
+	UE_LOG(LogTemp, Warning, TEXT("Getting socket %s"), WeaponTipSocketName);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 
-FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
+FRotator AMetaliaCharacterBase::GetCombatSocketForwardRotation_Implementation()
 {
 	check(Weapon);
 	return Weapon->GetForwardVector().Rotation();

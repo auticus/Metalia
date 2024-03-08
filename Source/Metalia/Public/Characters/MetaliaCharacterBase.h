@@ -130,8 +130,8 @@ protected:
 	virtual void InitializeDelegateBroadcastersAndBroadcastDefaults();
 	virtual void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel);
 	void AddCharacterAbilities();
-	virtual FVector GetProjectileSocketLocation_Implementation() override;
-	virtual FRotator GetProjectileSocketForwardRotation_Implementation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual FRotator GetCombatSocketForwardRotation_Implementation() override;
 
 	/* Disolve the character and any weapons it is holding */
 	UFUNCTION(Client, Reliable)
