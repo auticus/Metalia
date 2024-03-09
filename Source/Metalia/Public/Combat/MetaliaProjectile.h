@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Items/Weapon.h"
 #include "GameplayEffectTypes.h" // struct so... includes it in the h instead of cpp
 #include "MetaliaProjectile.generated.h"
 
@@ -12,27 +13,26 @@ class UNiagaraSystem;
 class UGameplayEffect;
 
 UCLASS()
-class METALIA_API AMetaliaProjectile : public AActor
+class METALIA_API AMetaliaProjectile : public AWeapon
 {
 	GENERATED_BODY()
 	
-public:
-	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	FGameplayEffectSpecHandle DamageEffectSpecHandle;
-
 protected:
-
+	/* The effect system to play when the projectile hits its target */
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;
 
+	/* The sound to play while the projectile is flying */
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> InFlightSound;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAudioComponent> InFlightSoundComponent;
 
+	/* Special impact sound like explosion - do not use armor or create impact sounds here those should be defined on the character itself */
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> ImpactSound;
+	/* End FX */
 
 private:
 	/* Bool that indicates if the projectile has already hit its target (for Client/Server replication) */
@@ -59,11 +59,11 @@ protected:
 	/* Called when the object has been destroyed, useful for client/server checks */
 	virtual void Destroyed() override;
 
-	UFUNCTION(BlueprintCallable)
-	void OnOverlap(AActor* TargetActor);
+	// already a UFUNCTION
+	virtual void OnOverlap(AActor* TargetActor) override;
 
-	UFUNCTION(BlueprintCallable)
-	void OnEndOverlap(AActor* TargetActor);
+	// already a UFUNCTION
+	virtual void OnEndOverlap(AActor* TargetActor) override;
 
 	UFUNCTION(BlueprintCallable)
 	void HandleProjectileDestroyed();

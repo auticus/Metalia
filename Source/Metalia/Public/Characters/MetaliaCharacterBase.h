@@ -7,6 +7,7 @@
 #include "AbilitySystemInterface.h"
 #include "Characters/CombatInterface.h"
 #include "GameplayTagContainer.h"
+#include "Items/Inventory.h"
 #include "MetaliaCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
@@ -39,16 +40,6 @@ public:
 	float PercentToUseRagDollDeath;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	TObjectPtr<USkeletalMeshComponent> Weapon;
-
-	/* The name of all sockets that should exist on all weapon tips for projectile purposes */
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName;
-
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -74,9 +65,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
-
 	/* END DISSOLVE */
 
 	/* a bool value determining if the character is alive */
@@ -86,6 +74,13 @@ protected:
 	/* Whether or not the character is in a blocking state */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	bool bHitBlocking = false;
+
+	/* Class holding the inventory object that the character starts with */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	TSubclassOf<UInventory> InventoryClass;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
+	TObjectPtr<UInventory> Inventory;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
@@ -124,6 +119,10 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 
 protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	virtual void InitAbilityActorInfo();
 
 	/* Will apply the Default Game Effects set on the character or blueprint to itself to set the starting scores.  Override to default to something else.*/
@@ -131,8 +130,8 @@ protected:
 	virtual void InitializeDelegateBroadcastersAndBroadcastDefaults();
 	virtual void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel);
 	void AddCharacterAbilities();
-	virtual FVector GetCombatSocketLocation_Implementation() override;
-	virtual FRotator GetCombatSocketForwardRotation_Implementation() override;
+	virtual FVector GetProjectileSocketLocation_Implementation() override;
+	virtual FRotator GetProjectileSocketForwardRotation_Implementation() override;
 
 	/* Disolve the character and any weapons it is holding */
 	UFUNCTION(Client, Reliable)
@@ -140,7 +139,4 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 };

@@ -9,15 +9,13 @@
 #include <Player/MetaliaPlayerState.h>
 #include <Metalia/Metalia.h>
 #include <Kismet/KismetStringLibrary.h>
+#include "Items/Inventory.h"
+#include "Items/Weapon.h"
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
 {
  	PrimaryActorTick.bCanEverTick = false;
-
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
-	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	// set the character up so it is not blocking the camera and causing strange weirdness with camera zooming in
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
@@ -37,6 +35,22 @@ void AMetaliaCharacterBase::BeginPlay()
 
 	BaseWalkSpeed = 350.f; // fairly slow speed
 	bIsDead = false;
+
+	if (InventoryClass == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Character inventory for '%s' was not set, check your character blueprint for an Inventory object being set"), *GetName());
+		return;
+	}
+
+	Inventory = NewObject<UInventory>(this, InventoryClass);	
+	Inventory->InjectDependencies(this);
+	Inventory->SpawnAvailableWeapons();
+	Inventory->EquipDefaultWeapon();
+}
+
+void AMetaliaCharacterBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Inventory->ConditionalBeginDestroy();
 }
 
 UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
@@ -87,17 +101,14 @@ void AMetaliaCharacterBase::AddCharacterAbilities()
 	ASC->AddCharacterAbilities(StartupAbilities);
 }
 
-FVector AMetaliaCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
 {
-	check(Weapon); // there should always be some kind of weapon
-	UE_LOG(LogTemp, Warning, TEXT("Getting socket %s"), WeaponTipSocketName);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	return Inventory->GetEquippedWeapon()->GetProjectileSocketLocation();
 }
 
-FRotator AMetaliaCharacterBase::GetCombatSocketForwardRotation_Implementation()
+FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
 {
-	check(Weapon);
-	return Weapon->GetForwardVector().Rotation();
+	return Inventory->GetEquippedWeapon()->GetProjectileSocketForwardRotation();
 }
 
 UAnimMontage* AMetaliaCharacterBase::GetHitReactMontage_Implementation()
@@ -113,15 +124,13 @@ UAnimMontage* AMetaliaCharacterBase::GetDeathReactMontage_Implementation()
 
 void AMetaliaCharacterBase::Die_Implementation(bool UseRagDollDeath)
 {
-	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 	MulticastHandleDeath_Implementation(UseRagDollDeath);
 }
 
 void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollDeath)
 {
-	Weapon->SetSimulatePhysics(true);
-	Weapon->SetEnableGravity(true);
-	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	Inventory->HandleWeaponsOnDeath();
+	Inventory->DropEquippedWeaponsOnGround();
 
 	if (UseRagDollDeath)
 	{
@@ -157,12 +166,7 @@ void AMetaliaCharacterBase::Dissolve_Implementation()
 		StartDissolveTimeline(DynamicMaterial);
 	}
 
-	if (IsValid(WeaponDissolveMaterialInstance))
-	{
-		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
-		Weapon->SetMaterial(0, DynamicMaterial);
-		StartWeaponDissolveTimeline(DynamicMaterial);
-	}
+	Inventory->GetEquippedWeapon()->Dissolve_Implementation();
 }
 
 float AMetaliaCharacterBase::GetHealth_Implementation() const

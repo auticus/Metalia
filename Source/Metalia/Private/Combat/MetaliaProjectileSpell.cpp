@@ -26,8 +26,8 @@ void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOv
 	const bool bIsServer = MyCurrentActor->HasAuthority();
 	if (!bIsServer) return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(MyCurrentActor);
-	FRotator SocketRotation = ICombatInterface::Execute_GetCombatSocketForwardRotation(MyCurrentActor);
+	const FVector SocketLocation = ICombatInterface::Execute_GetProjectileSocketLocation(MyCurrentActor);
+	FRotator SocketRotation = ICombatInterface::Execute_GetProjectileSocketForwardRotation(MyCurrentActor);
 	if (bOverridePitch)
 	{
 		SocketRotation.Pitch = PitchOverride;

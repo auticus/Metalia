@@ -24,14 +24,26 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	FString ItemName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	FString GetItemName() const;
 	USkeletalMeshComponent* GetItemMesh() const;
+
+	void SetItemRenderCustomDepth(bool bValue) { ItemMesh->SetRenderCustomDepth(bValue); }
+	void SetItemCustomDepthStencilValue(int Stencil) { ItemMesh->SetCustomDepthStencilValue(Stencil); }
+
+	UFUNCTION(Client, Reliable)
+	void Dissolve();
 
 };

@@ -13,6 +13,8 @@
 #include "MetaliaGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Items/Inventory.h"
+#include "Items/Weapon.h"
 
 AMetaliaEnemy::AMetaliaEnemy()
 {
@@ -79,15 +81,16 @@ void AMetaliaEnemy::HighlightActor()
 	bHighlighted = true;
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
-	Weapon->SetRenderCustomDepth(true);
-	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
+
+	Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(true);
+	Inventory->GetEquippedWeapon()->SetItemCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
 }
 
 void AMetaliaEnemy::UnhighlightActor()
 {
 	bHighlighted = false;
 	GetMesh()->SetRenderCustomDepth(false);
-	Weapon->SetRenderCustomDepth(false);
+	Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(false);
 }
 
 void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()

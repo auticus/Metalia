@@ -38,3 +38,14 @@ USkeletalMeshComponent* AItem::GetItemMesh() const
 	return ItemMesh;
 }
 
+/* Client RPC Call */
+void AItem::Dissolve_Implementation()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMaterial = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		ItemMesh->SetMaterial(0, DynamicMaterial);
+		StartDissolveTimeline(DynamicMaterial);
+	}
+}
+

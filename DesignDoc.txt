@@ -122,6 +122,8 @@ THINGS TO DO
 
 * Find Player BTree should consider "heat" or how dangerous the player is.
 
+* When swapping weapons will need to swap anim blendspaces for characters
+
 
 ASSETS NEEDED
 Synty's Shop $200 package has guitars and microphones.  These obviously match the style and don't look out of place.

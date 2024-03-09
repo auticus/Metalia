@@ -32,10 +32,10 @@ public:
 	float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetCombatSocketLocation();
+	FVector GetProjectileSocketLocation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FRotator GetCombatSocketForwardRotation();
+	FRotator GetProjectileSocketForwardRotation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage(); //TODO: where did you hit me?
