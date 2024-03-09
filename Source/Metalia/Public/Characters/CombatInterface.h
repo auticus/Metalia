@@ -49,4 +49,10 @@ public:
 	/* Kills the character, dropping their weapon(s) and if RagDollDeath is TRUE will RagDoll Death the character */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Die(bool UseRagDollDeath);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsDead() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvatar();
 };

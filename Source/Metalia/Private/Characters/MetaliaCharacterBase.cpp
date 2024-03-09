@@ -36,7 +36,7 @@ void AMetaliaCharacterBase::BeginPlay()
 	Super::BeginPlay();
 
 	BaseWalkSpeed = 350.f; // fairly slow speed
-	bIsAlive = true;
+	bIsDead = false;
 }
 
 UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
@@ -139,12 +139,7 @@ void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollD
 	// SetActorEnableCollision(false); this makes him fall through the floor.
 
 	Dissolve_Implementation();
-	bIsAlive = false;
-}
-
-bool AMetaliaCharacterBase::GetIsAlive() const
-{
-	return bIsAlive;
+	bIsDead = true;
 }
 
 bool AMetaliaCharacterBase::GetIsBlocking() const
@@ -180,4 +175,14 @@ float AMetaliaCharacterBase::GetMaxHealth_Implementation() const
 {
 	UMetaliaAttributeSet* AS = Cast<UMetaliaAttributeSet>(AttributeSet);
 	return AS->GetMaxHealth();
+}
+
+bool AMetaliaCharacterBase::IsDead_Implementation() const
+{
+	return bIsDead;
+}
+
+AActor* AMetaliaCharacterBase::GetAvatar_Implementation()
+{
+	return this;
 }

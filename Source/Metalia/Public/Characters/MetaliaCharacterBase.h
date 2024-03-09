@@ -81,7 +81,7 @@ protected:
 
 	/* a bool value determining if the character is alive */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
-	bool bIsAlive;
+	bool bIsDead;
 
 	/* Whether or not the character is in a blocking state */
 	UPROPERTY(EditAnywhere, Category = "Combat")
@@ -108,9 +108,6 @@ public:
 	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;
 
 	UFUNCTION(BlueprintCallable)
-	virtual bool GetIsAlive() const;
-
-	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;
 	
 	virtual void Die_Implementation(bool UseRagDollDeath) override;
@@ -121,6 +118,10 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(bool UseRagDollDeath);
+
+	virtual bool IsDead_Implementation() const override;
+
+	virtual AActor* GetAvatar_Implementation() override;
 
 protected:
 	virtual void InitAbilityActorInfo();
