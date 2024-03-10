@@ -58,7 +58,7 @@ protected:
 
 	/* Reference to the owning character's controller */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Meta, meta = (AllowPrivateAccess = "true"))
-	AController* OwningController;
+	AActor* OwningActor;
 
 public:
 	// Called every frame
@@ -66,7 +66,7 @@ public:
 
 	int32 GetWeaponRangeInMeters() const;
 	FString GetExpectedCharacterSocketNameForWeaponToBindTo() const;
-	FORCEINLINE void SetOwningController(AController* Controller) { OwningController = Controller; }
+	FORCEINLINE void SetOwningActor(AActor* Actor) { OwningActor = Actor; }
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnOverlap(AActor* TargetActor);

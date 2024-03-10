@@ -21,7 +21,7 @@ void UInventory::SpawnAvailableWeapons()
 	for (TSubclassOf<AWeapon> WeaponTemplate : AssignedWeaponClasses)
 	{
 		AWeapon* Weapon = CharacterReference->GetWorld()->SpawnActor<AWeapon>(WeaponTemplate);
-		Weapon->SetOwningController(CharacterReference->GetController());
+		Weapon->SetOwningActor(CharacterReference);
 		AvailableWeapons.Add(Weapon);
 	}
 }

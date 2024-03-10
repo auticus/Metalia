@@ -84,6 +84,7 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 {
+	// Projectiles are always active unlike melee weapons which activate as they are swinging and deactivate after.
 	HandleProjectileDestroyed();
 
 	// if on the server, we have hit something, so destroy

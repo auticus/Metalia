@@ -78,6 +78,14 @@ FRotator AWeapon::GetProjectileSocketForwardRotation()
 
 void AWeapon::OnOverlap(AActor* TargetActor)
 {
+	// this should be activated and deactivated via the anim blueprints and anim montages that will call Activate or Deactivate
+	// this should also be primarily if not solely dealing with melee weapons.
+
+	// DEBUG Info
+	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, FString::Printf(TEXT("Weapon has hit %s"), *TargetActor->GetName()));
+
+	if (TargetActor == OwningActor) return;  //if I am hitting myself don't register this
+
 	if (DamageEffectSpecHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Weapon %s has no DamageEffectSpecHandle set"), *ItemName);
