@@ -15,6 +15,12 @@ void FMetaliaGameplayTags::InitializeNativeGameplayTags()
 	InitializeEffectTags();
 	InitializeResistanceTags();
 	InitializeMiscTags();
+
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fortitude, GameplayTags.Attributes_Resistance_Fortitude);
+	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_Defense);
 }
 
 void FMetaliaGameplayTags::InitializePrimaryAttributes()
@@ -74,16 +80,10 @@ void FMetaliaGameplayTags::InitializeMiscTags()
 	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Damage.Fire"));
 	GameplayTags.Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Lightning"), FString("Damage.Lightning"));
 	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Arcane"), FString("Damage.Arcane"));
+	GameplayTags.Damage_Fortitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fortitude"), FString("Damage.Fortitude"));
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage.Physical"));
-	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fortitude"), FString("Damage.Fortitude"));
 
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Basic melee attack"));
-	
-	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Secondary_Defense);
-	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
-	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
-	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
-	GameplayTags.DamageTypesToResistanceMap.Add(GameplayTags.Damage_Fortitude, GameplayTags.Attributes_Resistance_Fortitude);
 }
 
 void FMetaliaGameplayTags::InitializeResistanceTags()

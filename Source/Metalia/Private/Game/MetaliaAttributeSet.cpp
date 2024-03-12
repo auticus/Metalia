@@ -249,7 +249,16 @@ void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
 void UMetaliaAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bIsBlocked, bool bIsCriticalHit)
 {
 	if (Props.SourceCharacter == Props.TargetCharacter) return; // if i hurt myself don't pop up text over me
+
+	// player character did the damage
 	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(Props.SourceCharacter->Controller)) // show text to the source of the damage's player controller
+	{
+		PC->ShowDamageNumber(Damage, Props.TargetCharacter, bIsBlocked, bIsCriticalHit); // this calls via RPC so is using ShowDamageNumber_Implementation
+		return;
+	}
+
+	// AI Controller did the damage
+	if (AMetaliaPlayerController* PC = Cast<AMetaliaPlayerController>(Props.TargetCharacter->Controller)) // show text to the source of the damage's player controller
 	{
 		PC->ShowDamageNumber(Damage, Props.TargetCharacter, bIsBlocked, bIsCriticalHit); // this calls via RPC so is using ShowDamageNumber_Implementation
 	}

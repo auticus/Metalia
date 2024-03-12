@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
-#include "Characters/CombatInterface.h"
 #include "GameplayTagContainer.h"
 #include "Items/Inventory.h"
+#include "Characters/CombatInterface.h"
 #include "MetaliaCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
@@ -117,6 +117,8 @@ public:
 	virtual bool IsDead_Implementation() const override;
 
 	virtual AActor* GetAvatar_Implementation() override;
+
+	virtual AWeapon* GetEquippedWeapon_Implementation() const override;
 
 protected:
 	// Called when the game starts or when spawned

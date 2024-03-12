@@ -44,10 +44,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	int32 RangeInMeters;
 
-	/* The base damage of the weapon */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
-	uint8 Damage;
-
 	/* Socket where the projectile will come from */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	FString ProjectileSocketName;

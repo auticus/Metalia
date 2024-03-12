@@ -124,6 +124,8 @@ THINGS TO DO
 
 * When swapping weapons will need to swap anim blendspaces for characters
 
+* BT_Default_Enemy_Behavior behavior tree, melee attack has a get close node that right now takes us to 55 or whatever.  But this should depend on the weapon, spears are longer.  The enemy doesn't need to get close to him as they do like a cleaver.
+
 
 ASSETS NEEDED
 Synty's Shop $200 package has guitars and microphones.  These obviously match the style and don't look out of place.

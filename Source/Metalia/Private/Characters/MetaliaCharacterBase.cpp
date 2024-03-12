@@ -190,3 +190,9 @@ AActor* AMetaliaCharacterBase::GetAvatar_Implementation()
 {
 	return this;
 }
+
+AWeapon* AMetaliaCharacterBase::GetEquippedWeapon_Implementation() const
+{
+	if (Inventory == nullptr) return nullptr;
+	return Inventory->GetEquippedWeapon();
+}

@@ -86,7 +86,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		// Key is the Damage Type, Value is the Resistance
 		// Be AWARE: this loops through EVERY type of damage, which means items not even found
 		// it also means this may be a performance pitfall and we may want to make it so its only looping through guaranteed items not ALL items
-
 		Damage += ProcessDamageWithResistance(ExecutionParams, EvaluationParameters, Pair.Key, Pair.Value);
 	}
 
@@ -111,6 +110,7 @@ float UExecCalc_Damage::ProcessDamageWithResistance(
 	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Arcane, DamageStatics().ResistanceArcaneDef);
 	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Lightning, DamageStatics().ResistanceLightningDef);
 	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Resistance_Fortitude, DamageStatics().ResistanceFortitudeDef);
+	GameplayTagToAttributeDefinitionMap.Add(FMetaliaGameplayTags::Get().Attributes_Secondary_Defense, DamageStatics().DefenseDef);
 
 	// potential performance hit having to pull spec each time
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
@@ -120,7 +120,7 @@ float UExecCalc_Damage::ProcessDamageWithResistance(
 
 	float ResistanceValue = 0.f;
 
-	checkf(GameplayTagToAttributeDefinitionMap.Contains(ResistanceTag), TEXT("ExecCalcDamage::ProcessDamageWithResistance Map Array does not contain tag [%s]"), *ResistanceTag.ToString());
+	checkf(GameplayTagToAttributeDefinitionMap.Contains(ResistanceTag), TEXT("ExecCalcDamage::ProcessDamageWithResistance Map Array does not contain key [%s] - check Map Creation"), *ResistanceTag.ToString());
 	FGameplayEffectAttributeCaptureDefinition  ResistanceDefinition = GameplayTagToAttributeDefinitionMap[ResistanceTag];
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(ResistanceDefinition, EvaluationParameters, ResistanceValue);
 	ResistanceValue = FMath::Max<float>(ResistanceValue, 0.f);
