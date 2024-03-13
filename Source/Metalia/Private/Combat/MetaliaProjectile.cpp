@@ -13,6 +13,7 @@
 #include <Metalia/Metalia.h>
 #include <AbilitySystemBlueprintLibrary.h>
 #include "AbilitySystemComponent.h"
+#include "Game/MetaliaDamageAbility.h"
 
 // Sets default values
 AMetaliaProjectile::AMetaliaProjectile()
@@ -92,11 +93,7 @@ void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 	{
 		// apply the effect of the projectile onto the target, but only on the server
 		// damage will be replicated and make its way to the client on its own
-		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
-		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
-		}
-
+		AssignedDamageAbility->CauseDamage(TargetActor);
 		Destroy();
 	}
 	else

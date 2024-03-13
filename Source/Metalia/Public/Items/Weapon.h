@@ -22,7 +22,7 @@ public:
 public:
 	/* The damage effect spec handle that will be used to cause the effect of the weapon */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	FGameplayEffectSpecHandle DamageEffectSpecHandle;
+	class UMetaliaDamageAbility* AssignedDamageAbility;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -55,6 +55,9 @@ protected:
 	/* Reference to the owning character's controller */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	AActor* OwningActor;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TArray<TObjectPtr<AActor>> ActorsHitByWeapon;
 
 public:
 	// Called every frame

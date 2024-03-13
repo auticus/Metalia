@@ -7,7 +7,6 @@
 
 void UMetaliaDamageAbility::CauseDamage(AActor* TargetActor)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, FString::Printf(TEXT("We're causing damage!")));
 	FGameplayEffectSpecHandle DamageSpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.f);
 	for (TTuple<FGameplayTag, FScalableFloat> Pair : DamageTypes)
 	{

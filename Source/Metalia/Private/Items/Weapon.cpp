@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include <AbilitySystemBlueprintLibrary.h>
 #include "AbilitySystemComponent.h"
+#include "Game/MetaliaDamageAbility.h"
 
 AWeapon::AWeapon() :
 	bRequiresTwoHands(false),
@@ -55,6 +56,7 @@ FString AWeapon::GetExpectedCharacterSocketNameForWeaponToBindTo() const
 void AWeapon::ActivateWeapon()
 {
 	WeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	ActorsHitByWeapon.Empty(); // prepare the array for a new set of actors we hit
 }
 
 void AWeapon::DeactivateWeapon()
@@ -85,20 +87,15 @@ void AWeapon::OnOverlap(AActor* TargetActor)
 	// DEBUG Info
 	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, FString::Printf(TEXT("Weapon has hit %s"), *TargetActor->GetName()));
 
-	if (DamageEffectSpecHandle == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, FString::Printf(TEXT("Weapon %s has no DamageEffectSpecHandle set"), *ItemName));
-		return;
-	}
-
 	/* In keeping consistency with the projectile it is up to the blueprint to define the overlap function and call this */
 	if (HasAuthority())
 	{
 		// apply the effect of the projectile onto the target, but only on the server
 		// damage will be replicated and make its way to the client on its own
-		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+		if (!ActorsHitByWeapon.Contains(TargetActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			AssignedDamageAbility->CauseDamage(TargetActor);
+			ActorsHitByWeapon.Add(TargetActor);
 		}
 	}
 }

@@ -156,7 +156,12 @@ void AMetaliaEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 New
 	// react to when a HitReact tag is added or removed from the enemy
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0 : BaseWalkSpeed;
-	MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+
+	// clients won't have access to the AI Controller - that is a server-only
+	if (MetaliaAIController && MetaliaAIController->GetBlackboardComponent())
+	{
+		MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+	}
 }
 
 void AMetaliaEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
