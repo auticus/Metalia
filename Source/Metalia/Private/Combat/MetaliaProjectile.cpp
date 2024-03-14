@@ -93,7 +93,7 @@ void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 	{
 		// apply the effect of the projectile onto the target, but only on the server
 		// damage will be replicated and make its way to the client on its own
-		AssignedDamageAbility->CauseDamage(TargetActor);
+		AssignedDamageAbility->CauseDamage_Implementation(TargetActor);
 		Destroy();
 	}
 	else

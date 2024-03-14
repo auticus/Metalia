@@ -23,7 +23,7 @@ protected:
 	TMap<FGameplayTag, FScalableFloat> DamageTypes;
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
 
 };
