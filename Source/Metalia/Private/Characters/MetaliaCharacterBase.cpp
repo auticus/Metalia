@@ -11,6 +11,7 @@
 #include <Kismet/KismetStringLibrary.h>
 #include "Items/Inventory.h"
 #include "Items/Weapon.h"
+#include "Game/MetaliaDamageAbility.h"
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -109,6 +110,26 @@ FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
 FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
 {
 	return Inventory->GetEquippedWeapon()->GetProjectileSocketForwardRotation();
+}
+
+void AMetaliaCharacterBase::CauseDamageToTarget_Implementation(AActor* Target)
+{
+	if (!HasAuthority())
+	{
+		return;
+	}
+
+	AssignedDamageAbility->CauseDamage_Implementation(Target);
+}
+
+void AMetaliaCharacterBase::SetDamageAbility_Implementation(UMetaliaDamageAbility* Ability)
+{
+	if (!HasAuthority())
+	{
+		return;
+	}
+
+	AssignedDamageAbility = Ability;
 }
 
 UAnimMontage* AMetaliaCharacterBase::GetHitReactMontage_Implementation()

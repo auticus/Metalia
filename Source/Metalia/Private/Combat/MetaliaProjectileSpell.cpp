@@ -21,7 +21,8 @@ void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle H
 void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOverride)
 {
 	AActor* MyCurrentActor = GetAvatarActorFromActorInfo();
-	ICombatInterface* Combat = Cast<ICombatInterface>(MyCurrentActor);
+	ICombatInterface* CI = Cast<ICombatInterface>(MyCurrentActor);
+	checkf(CI, TEXT("Projectile Spell is owned by something that does not implement the proper combat interface"));
 
 	const bool bIsServer = MyCurrentActor->HasAuthority();
 	if (!bIsServer) return;
@@ -44,7 +45,9 @@ void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOv
 		Cast<APawn>(GetOwningActorFromActorInfo()), // the instigator
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
+	Projectile->SetOwningActor(MyCurrentActor);
+
 	// apply the spec handle to the projectile
-	Projectile->AssignedDamageAbility = this;
+	CI->SetDamageAbility_Implementation(this);
 	Projectile->FinishSpawning(SpellTransform);
 }

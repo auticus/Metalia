@@ -83,7 +83,6 @@ void AWeapon::OnOverlap(AActor* TargetActor)
 	// this should be activated and deactivated via the anim blueprints and anim montages that will call Activate or Deactivate
 	// this should also be primarily if not solely dealing with melee weapons.
 	if (TargetActor == OwningActor) return;  //if I am hitting myself don't register this
-	if (AssignedDamageAbility == nullptr) return;  // client side will not possess these so just return out and let server handle it
 
 	// DEBUG Info
 	//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, FString::Printf(TEXT("Weapon has hit %s"), *TargetActor->GetName()));
@@ -91,12 +90,15 @@ void AWeapon::OnOverlap(AActor* TargetActor)
 	/* In keeping consistency with the projectile it is up to the blueprint to define the overlap function and call this */
 	if (HasAuthority())
 	{
+		ICombatInterface* CI = Cast<ICombatInterface>(OwningActor);
+		checkf(CI, TEXT("Weapon is owned by an actor that does not implement the proper combat interface"));
+
 		// HasAuthority() is a bit of a liar.  It doesn't mean on the server.  A client spawns a character, like a player on a client-side
 		// and that character is now owned and has authority by their machine.
 		if (!ActorsHitByWeapon.Contains(TargetActor))
 		{
-			AssignedDamageAbility->CauseDamage_Implementation(TargetActor);
 			ActorsHitByWeapon.Add(TargetActor);
+			CI->CauseDamageToTarget_Implementation(TargetActor);
 		}
 	}
 }

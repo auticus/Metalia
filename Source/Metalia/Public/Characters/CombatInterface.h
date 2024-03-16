@@ -58,4 +58,10 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AWeapon* GetEquippedWeapon() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void CauseDamageToTarget(AActor* Target);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetDamageAbility(UMetaliaDamageAbility* Ability);
 };

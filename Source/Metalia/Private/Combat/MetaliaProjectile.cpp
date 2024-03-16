@@ -91,9 +91,12 @@ void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 	// if on the server, we have hit something, so destroy
 	if (HasAuthority())
 	{
+		ICombatInterface* CI = Cast<ICombatInterface>(OwningActor);
+		checkf(CI, TEXT("Weapon is owned by an actor that does not implement the proper combat interface"));
+
 		// apply the effect of the projectile onto the target, but only on the server
 		// damage will be replicated and make its way to the client on its own
-		AssignedDamageAbility->CauseDamage_Implementation(TargetActor);
+		CI->CauseDamageToTarget_Implementation(TargetActor);
 		Destroy();
 	}
 	else

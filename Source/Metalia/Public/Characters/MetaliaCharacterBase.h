@@ -39,6 +39,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float PercentToUseRagDollDeath;
 
+	/* The damage effect spec handle that will be used to cause the effect of the weapon */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true))
+	TObjectPtr<class UMetaliaDamageAbility> AssignedDamageAbility;
+
 protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -119,6 +123,10 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 
 	virtual AWeapon* GetEquippedWeapon_Implementation() const override;
+
+	virtual void SetDamageAbility_Implementation(UMetaliaDamageAbility* Ability) override;
+
+	virtual void CauseDamageToTarget_Implementation(AActor* Target) override;
 
 protected:
 	// Called when the game starts or when spawned

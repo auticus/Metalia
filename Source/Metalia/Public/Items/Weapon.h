@@ -18,11 +18,6 @@ class METALIA_API AWeapon : public AItem
 
 public:
 	AWeapon();
-
-public:
-	/* The damage effect spec handle that will be used to cause the effect of the weapon */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	class UMetaliaDamageAbility* AssignedDamageAbility;
 	
 protected:
 	virtual void BeginPlay() override;
