@@ -16,6 +16,7 @@
 #include "GameplayTagContainer.h"
 #include <AbilitySystemBlueprintLibrary.h>
 #include "UI/View/DamageTextComponent.h"
+#include "MetaliaGameplayTags.h"
 
 AMetaliaPlayerController::AMetaliaPlayerController() :
 	GamepadDeadZone(0.25f)
@@ -65,7 +66,10 @@ void AMetaliaPlayerController::SetupInputComponent()
 
 void AMetaliaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-
+	if (InputTag.MatchesTagExact(FMetaliaGameplayTags::Get().InputTag_Primary))
+	{
+		bTargeting = CurrentActor ? true : false;
+	}
 }
 
 void AMetaliaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -119,29 +123,27 @@ void AMetaliaPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AMetaliaPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
-
 	// note this requires meshes to block the Visible channel to work
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
-	LastEnemy = CurrentEnemy;
+	LastActor = CurrentActor;
 	//CurrentEnemy = Cast<IEnemyInterface>(CursorHit.GetActor()); // if not valid interface actor, will be null
-	CurrentEnemy.SetObject(Cast<UObject>(CursorHit.GetActor()));
+	CurrentActor.SetObject(Cast<UObject>(CursorHit.GetActor()));
 
-	if (LastEnemy == nullptr && CurrentEnemy == nullptr) return;
-	else if (LastEnemy == nullptr && CurrentEnemy != nullptr)
+	if (LastActor == nullptr && CurrentActor == nullptr) return;
+	else if (LastActor == nullptr && CurrentActor != nullptr)
 	{
-		CurrentEnemy->HighlightActor();
+		CurrentActor->HighlightActor();
 	}
-	else if (LastEnemy != nullptr && CurrentEnemy == nullptr)
+	else if (LastActor != nullptr && CurrentActor == nullptr)
 	{
-		LastEnemy->UnhighlightActor();
+		LastActor->UnhighlightActor();
 	}
-	else if (LastEnemy != nullptr && CurrentEnemy != nullptr && LastEnemy != CurrentEnemy)
+	else if (LastActor != nullptr && CurrentActor != nullptr && LastActor != CurrentActor)
 	{
-		LastEnemy->UnhighlightActor();
-		CurrentEnemy->HighlightActor();
+		LastActor->UnhighlightActor();
+		CurrentActor->HighlightActor();
 	}
 }
 

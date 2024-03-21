@@ -3,6 +3,7 @@
 
 #include "MetaliaAssetManager.h"
 #include <MetaliaGameplayTags.h>
+#include <AbilitySystemGlobals.h>
 
 UMetaliaAssetManager& UMetaliaAssetManager::Get()
 {
@@ -15,4 +16,7 @@ void UMetaliaAssetManager::StartInitialLoading()
 {
     Super::StartInitialLoading();
     FMetaliaGameplayTags::InitializeNativeGameplayTags();
+
+    /* the below is REQUIRED if you wish to use Target Data! */
+    UAbilitySystemGlobals::Get().InitGlobalData(); // called once as part of project setup to load global data tables & tags
 }

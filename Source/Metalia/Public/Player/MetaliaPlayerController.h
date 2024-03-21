@@ -43,14 +43,19 @@ private:
 
 	//TObjectPtr<IEnemyInterface> LastEnemy;
 	//TObjectPtr<IEnemyInterface> CurrentEnemy;
-	TScriptInterface<IEnemyInterface> LastEnemy;
-	TScriptInterface<IEnemyInterface> CurrentEnemy;
+	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<IEnemyInterface> CurrentActor;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UMetaliaDataAsset> InputConfig;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	FHitResult CursorHit;
+	FVector CachedDestination = FVector::ZeroVector;
+	float ShortPressThreshold = 0.5f;
+	bool bTargeting = false;
 
 public:
 	AMetaliaPlayerController();
