@@ -64,4 +64,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetDamageAbility(UMetaliaDamageAbility* Ability);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetRandomLightAttackMontage() const;
 };

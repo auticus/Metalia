@@ -86,6 +86,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
 	TObjectPtr<UInventory> Inventory;
 
+	/* Animation Montages */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	TArray<UAnimMontage*> LightAttackMontages;
+	/* END Animation Montages */
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
@@ -127,6 +132,8 @@ public:
 	virtual void SetDamageAbility_Implementation(UMetaliaDamageAbility* Ability) override;
 
 	virtual void CauseDamageToTarget_Implementation(AActor* Target) override;
+
+	UAnimMontage* GetRandomLightAttackMontage_Implementation() const;
 
 protected:
 	// Called when the game starts or when spawned

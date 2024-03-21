@@ -35,9 +35,9 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	if (CombatInterface == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MMC_MaxHealth has no Combat Interface object and defaults to level = 1, Vigor = %f"), Vigor);
-		return 80.f + (2.5f * Vigor) + (10.f);
+		return 20.f + (Vigor);
 	}
 
 	const int32 Level = CombatInterface->GetCharacterLevel_Implementation();
-	return 80.f + (2.5f * Vigor) + (10.f * Level);
+	return BaseHealth + (VigorCoefficient * Vigor) + (LevelCoefficient * Level);
 }

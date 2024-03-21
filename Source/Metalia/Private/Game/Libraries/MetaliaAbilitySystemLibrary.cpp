@@ -170,3 +170,15 @@ void UMetaliaAbilitySystemLibrary::ApplyAttributeGameplayEffect(TSubclassOf<UGam
 	ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
 
+bool UMetaliaAbilitySystemLibrary::IsEnemy(AActor* FirstActor, AActor* SecondActor)
+{
+	const bool FirstIsPlayer = FirstActor->ActorHasTag(FName("Player"));
+	const bool SecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
+
+	return FirstIsPlayer != SecondIsPlayer;
+}
+
+bool UMetaliaAbilitySystemLibrary::IsTargetPlayerTagged(AActor* Target)
+{
+	return Target->ActorHasTag(FName("Player"));
+}

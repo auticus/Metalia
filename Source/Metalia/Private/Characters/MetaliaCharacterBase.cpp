@@ -12,6 +12,7 @@
 #include "Items/Inventory.h"
 #include "Items/Weapon.h"
 #include "Game/MetaliaDamageAbility.h"
+#include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -52,6 +53,14 @@ void AMetaliaCharacterBase::BeginPlay()
 void AMetaliaCharacterBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Inventory->ConditionalBeginDestroy();
+}
+
+UAnimMontage* AMetaliaCharacterBase::GetRandomLightAttackMontage_Implementation() const
+{
+	if (LightAttackMontages.Num() == 0) return nullptr;
+
+	int MontageIndex = FMath::RandRange(0, LightAttackMontages.Num() - 1);
+	return LightAttackMontages[MontageIndex];
 }
 
 UAbilitySystemComponent* AMetaliaCharacterBase::GetAbilitySystemComponent() const
@@ -117,6 +126,15 @@ void AMetaliaCharacterBase::CauseDamageToTarget_Implementation(AActor* Target)
 	if (!HasAuthority())
 	{
 		return;
+	}
+
+	if (!UMetaliaAbilitySystemLibrary::IsEnemy(this, Target))
+	{
+		// enemies can't hurt enemies (tagged enemies - the bad guys)
+		// TODO: setting where player damage ignored too
+
+		bool bIAmAPlayer = UMetaliaAbilitySystemLibrary::IsTargetPlayerTagged(this);
+		if (!bIAmAPlayer) return;
 	}
 
 	AssignedDamageAbility->CauseDamage_Implementation(Target);
