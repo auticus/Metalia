@@ -130,7 +130,21 @@ FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
 
 FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
 {
-	return Inventory->GetEquippedWeapon()->GetProjectileSocketForwardRotation();
+	if (Inventory->GetEquippedWeapon() != nullptr)
+	{
+		return Inventory->GetEquippedWeapon()->GetProjectileSocketForwardRotation();
+	}
+	
+	if (ProjectileSocketName == "")
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Character requested a projectile socket rotation, but no weapon exists and no ProjectileSocketName was set up on the base"));
+		return FRotator(0);
+	}
+
+	//thrown weapons come from hands, mouth, etc
+	FTransform SocketTransform = GetMesh()->GetSocketTransform(FName(ProjectileSocketName));
+	FRotator SocketRotation = SocketTransform.GetRotation().Rotator();
+	return SocketRotation;
 }
 
 void AMetaliaCharacterBase::CauseDamageToTarget_Implementation(AActor* Target)

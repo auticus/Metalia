@@ -82,15 +82,22 @@ void AMetaliaEnemy::HighlightActor()
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
 
-	Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(true);
-	Inventory->GetEquippedWeapon()->SetItemCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
+	if (Inventory->GetEquippedWeapon())
+	{
+		Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(true);
+		Inventory->GetEquippedWeapon()->SetItemCustomDepthStencilValue(CUSTOM_DEPTH_STENCIL_RED);
+	}
 }
 
 void AMetaliaEnemy::UnhighlightActor()
 {
 	bHighlighted = false;
 	GetMesh()->SetRenderCustomDepth(false);
-	Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(false);
+
+	if (Inventory->GetEquippedWeapon())
+	{
+		Inventory->GetEquippedWeapon()->SetItemRenderCustomDepth(false);
+	}
 }
 
 void AMetaliaEnemy::InitializeDelegateBroadcastersAndBroadcastDefaults()

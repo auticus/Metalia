@@ -14,6 +14,7 @@
 #include <AbilitySystemBlueprintLibrary.h>
 #include "AbilitySystemComponent.h"
 #include "Game/MetaliaDamageAbility.h"
+#include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 
 // Sets default values
 AMetaliaProjectile::AMetaliaProjectile()
@@ -86,6 +87,15 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 {
 	// Called from the blueprint on actor overlap.  
+	if (!UMetaliaAbilitySystemLibrary::IsEnemy(OwningActor, TargetActor))
+	{
+		// enemies can't hurt enemies (tagged enemies - the bad guys)
+		// TODO: setting where player damage ignored too
+
+		bool bIAmAPlayer = UMetaliaAbilitySystemLibrary::IsTargetPlayerTagged(this);
+		if (!bIAmAPlayer) return;
+	}
+	
 	// Projectiles are always active unlike melee weapons which activate as they are swinging and deactivate after.
 	HandleProjectileDestroyed();
 
