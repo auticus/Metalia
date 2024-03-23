@@ -26,6 +26,7 @@ protected:
 	
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 
+	/* Called from the blueprint when anim notify is reached to launch the projectile.  ProjectileTargetLocation if not set goes in forward vector. */
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
-	void SpawnProjectile(bool bOverridePitch, float PitchOverride);
+	void SpawnProjectile(const FVector& ProjectileTargetLocation, bool bOverridePitch, float PitchOverride);
 };

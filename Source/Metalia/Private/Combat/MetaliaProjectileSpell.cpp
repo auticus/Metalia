@@ -17,18 +17,22 @@ void UMetaliaProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle H
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);	
 }
 
-/* Called from the blueprint when anim notify is reached to launch the projectile */
-void UMetaliaProjectileSpell::SpawnProjectile(bool bOverridePitch, float PitchOverride)
+/* Called from the blueprint when anim notify is reached to launch the projectile.  ProjectileTargetLocation if not set goes in forward vector. */
+void UMetaliaProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, bool bOverridePitch, float PitchOverride)
 {
 	AActor* MyCurrentActor = GetAvatarActorFromActorInfo();
+	if (MyCurrentActor->HasAuthority() == false) return;
+
 	ICombatInterface* CI = Cast<ICombatInterface>(MyCurrentActor);
 	checkf(CI, TEXT("Projectile Spell is owned by something that does not implement the proper combat interface"));
 
-	const bool bIsServer = MyCurrentActor->HasAuthority();
-	if (!bIsServer) return;
-
 	const FVector SocketLocation = ICombatInterface::Execute_GetProjectileSocketLocation(MyCurrentActor);
 	FRotator SocketRotation = ICombatInterface::Execute_GetProjectileSocketForwardRotation(MyCurrentActor);
+	if (ProjectileTargetLocation != FVector(0))
+	{
+		SocketRotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+	}
+		
 	if (bOverridePitch)
 	{
 		SocketRotation.Pitch = PitchOverride;

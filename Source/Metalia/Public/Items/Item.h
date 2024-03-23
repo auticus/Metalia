@@ -16,7 +16,7 @@ public:
 	AItem();
 
 protected:
-	/* Skeletal Mesh for the Item */
+	/* Skeletal Mesh for the Item - NOTE some items may need a static mesh instead */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Appearance, meta = (AllowPrivateAccess = true))
 	USkeletalMeshComponent* ItemMesh;
 

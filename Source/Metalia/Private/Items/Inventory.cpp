@@ -28,7 +28,9 @@ void UInventory::SpawnAvailableWeapons()
 
 void UInventory::EquipDefaultWeapon()
 {
-	if (AvailableWeapons.Num() == 0 || (AvailableWeapons.Num() == 1 && AvailableWeapons[0] == nullptr))
+	if (AvailableWeapons.Num() == 0) return;
+
+	if (AvailableWeapons.Num() == 1 && AvailableWeapons[0] == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Check your available weapons in blueprint, one is said to exist but is null"));
 		return;

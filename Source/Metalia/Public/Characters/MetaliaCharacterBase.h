@@ -91,6 +91,10 @@ protected:
 	TArray<UAnimMontage*> LightAttackMontages;
 	/* END Animation Montages */
 
+	/* For thrown, breath, etc attacks that do not stem from a weapon that is carried */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ProjectileSocketName;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

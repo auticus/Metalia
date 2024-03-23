@@ -113,7 +113,19 @@ void AMetaliaCharacterBase::AddCharacterAbilities()
 
 FVector AMetaliaCharacterBase::GetProjectileSocketLocation_Implementation()
 {
-	return Inventory->GetEquippedWeapon()->GetProjectileSocketLocation();
+	if (Inventory->GetEquippedWeapon() != nullptr)
+	{
+		return Inventory->GetEquippedWeapon()->GetProjectileSocketLocation();
+	}
+	
+	// thrown weapons will come from their hands, breath comes from the mouth, etc
+	if (ProjectileSocketName == "")
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Character requested a projectile socket location, but no weapon exists and no ProjectileSocketName was set on the base "));
+		return FVector(0);
+	}
+
+	return GetMesh()->GetSocketLocation(FName(ProjectileSocketName));
 }
 
 FRotator AMetaliaCharacterBase::GetProjectileSocketForwardRotation_Implementation()
@@ -205,7 +217,10 @@ void AMetaliaCharacterBase::Dissolve_Implementation()
 		StartDissolveTimeline(DynamicMaterial);
 	}
 
-	Inventory->GetEquippedWeapon()->Dissolve_Implementation();
+	if (Inventory->GetEquippedWeapon())
+	{
+		Inventory->GetEquippedWeapon()->Dissolve_Implementation();
+	}
 }
 
 float AMetaliaCharacterBase::GetHealth_Implementation() const

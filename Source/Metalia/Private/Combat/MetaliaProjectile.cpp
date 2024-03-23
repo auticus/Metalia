@@ -85,6 +85,7 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 {
+	// Called from the blueprint on actor overlap.  
 	// Projectiles are always active unlike melee weapons which activate as they are swinging and deactivate after.
 	HandleProjectileDestroyed();
 
