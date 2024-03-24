@@ -232,15 +232,18 @@ void UMetaliaAttributeSet::HandleDeathState(FEffectProperties& Props)
 	if (Character == nullptr) return;
 	
 	float d100 = (FMath::RandRange(1.f, 100.f) / 100.f);
-	UE_LOG(LogTemp, Warning, TEXT("Die percent rolled = %f and chance to use ragdoll is %f"), d100, Character->PercentToUseRagDollDeath);
+
 	if (d100 <= Character->PercentToUseRagDollDeath)
 	{
+		// rag doll death implements the Die Implemenation
 		const bool bUseRagDollDeath = true;
 		Character->Die_Implementation(bUseRagDollDeath);
 		return;
 	}
 
-	// in this case we will instead use a death animation so send up the death tag - that will need to call Die
+	// in this case we will instead use a death animation so send up the death tag
+	// the GAME PLAY ABILITY that is called will then call Die_Implementation
+	// FOR THIS - we add the Effects.DeathReact tag to the attribute set which should then try to activate
 	FGameplayTagContainer Tags;
 	Tags.AddTag(FMetaliaGameplayTags::Get().Effects_DeathReact);
 	Props.TargetComponent->TryActivateAbilitiesByTag(Tags);

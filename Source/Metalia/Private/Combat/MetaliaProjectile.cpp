@@ -61,7 +61,6 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 		{
 			if (Sphere->GetCollisionObjectType() != ECC_Projectile)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its sphere component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
 				Sphere->SetCollisionObjectType(ECC_Projectile);
 			}
 		}
@@ -69,7 +68,6 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 		{
 			if (Box->GetCollisionObjectType() != ECC_Projectile)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its box component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
 				Box->SetCollisionObjectType(ECC_Projectile);
 			}
 		}
@@ -77,7 +75,6 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 		{
 			if (Capsule->GetCollisionObjectType() != ECC_Projectile)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Projectile %s had its capsule component set to Projectile as it was set to something else"), *GetActorNameOrLabel());
 				Capsule->SetCollisionObjectType(ECC_Projectile);
 			}
 		}

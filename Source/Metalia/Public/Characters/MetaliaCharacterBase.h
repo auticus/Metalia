@@ -111,8 +111,10 @@ public:
 
 	virtual int32 GetCharacterLevel_Implementation() const override;
 
+	/* Combat Interface implementation to get the hit react montage */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
+	/* Combat Interface implementation to get the death react montage */
 	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;
 
 	UFUNCTION(BlueprintCallable)

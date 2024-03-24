@@ -11,6 +11,7 @@
 #include <Player/MetaliaPlayerController.h>
 #include <UI/MetaliaHUD.h>
 #include "UI/Controllers/MetaliaWidgetController.h"
+#include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 
 AMetaliaCharacter::AMetaliaCharacter()
 {
@@ -52,6 +53,9 @@ void AMetaliaCharacter::InitAbilityActorInfo()
 
 	Cast<UMetaliaAbilitySystemComponent>(MetaliaPlayerState->GetAbilitySystemComponent())->Initialize();
 	InitializeDefaultAttributes();
+
+	// Grant character common abilities like hit react and death react
+	UMetaliaAbilitySystemLibrary::GiveOnlyCommonAbilities(this, AbilitySystemComponent);
 
 	UMetaliaAttributeSet* metalia = Cast<UMetaliaAttributeSet>(AttributeSet);
 	float health = metalia->GetHealth();

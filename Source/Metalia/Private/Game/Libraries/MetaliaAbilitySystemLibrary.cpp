@@ -78,13 +78,14 @@ void UMetaliaAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldCont
 	UCharacterClassInfo* CharacterClassInfo = GM->CharacterClassInfo;
 	if (CharacterClassInfo == nullptr) return;
 
+	// give the common abilities
 	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
 	}
 
-	// now grant common abilities for that character class
+	// now grant startup abilities for that character class
 	const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
 	{
@@ -95,6 +96,25 @@ void UMetaliaAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldCont
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CharacterLevel);
 			ASC->GiveAbility(AbilitySpec);
 		}
+	}
+}
+
+void UMetaliaAbilitySystemLibrary::GiveOnlyCommonAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	AMetaliaGameMode* GM = Cast<AMetaliaGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (GM == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GiveStartupAbilities:: GameMode not found or not a Metalia Game Mode!"));
+		return;
+	}
+
+	UCharacterClassInfo* CharacterClassInfo = GM->CharacterClassInfo;
+	if (CharacterClassInfo == nullptr) return;
+
+	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		ASC->GiveAbility(AbilitySpec);
 	}
 }
 

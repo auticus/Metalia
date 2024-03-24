@@ -28,9 +28,14 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="MetaliaAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterBaseClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
-
+	
+	/* This function gives ALL startup abilities to the world context object's ability system components and relies on a character class */
 	UFUNCTION(BlueprintCallable, Category = "MetaliaAbilitySystemLibrary|CharacterClassDefaults")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterBaseClass CharacterClass);
+
+	/* This function gives only the common abilities available to all characters regardless of class */
+	UFUNCTION(BlueprintCallable, Category = "MetaliaAbilitySystemLibrary|CharacterClassDefaults")
+	static void GiveOnlyCommonAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 
 	UFUNCTION(BlueprintPure, Category = "MetaliaAbilitySystemLibrary|GameplayEffects")
 	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
