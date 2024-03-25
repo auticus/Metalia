@@ -49,6 +49,7 @@ void UMetaliaProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLoc
 		Cast<APawn>(GetOwningActorFromActorInfo()), // the instigator
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
+	checkf(Projectile, TEXT("Projectile failed to instantiate and was null"));
 	Projectile->SetOwningActor(MyCurrentActor);
 
 	// apply the spec handle to the projectile

@@ -155,6 +155,7 @@ void AMetaliaEnemy::InitializeDefaultAttributes()
 void AMetaliaEnemy::Die_Implementation(bool UseRagDollOnDeath)
 {
 	SetLifeSpan(LifeTimeAfterDeath);
+	if (MetaliaAIController) MetaliaAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die_Implementation(UseRagDollOnDeath);
 }
 

@@ -32,7 +32,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Movement")
 	float BaseWalkSpeed;
 
 	/* a decimal value that represents what percentage of the time the character will ragdoll on death vs an animation */

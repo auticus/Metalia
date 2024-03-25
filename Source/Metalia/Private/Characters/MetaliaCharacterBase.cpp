@@ -35,7 +35,7 @@ void AMetaliaCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseWalkSpeed = 350.f; // fairly slow speed
+	if (BaseWalkSpeed == 0.f) BaseWalkSpeed = 350.f; // fairly slow speed, set this if user did not set it in blueprint or override it in specialty class.
 	bIsDead = false;
 
 	if (InventoryClass == nullptr)

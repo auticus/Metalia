@@ -32,6 +32,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float LifeTimeAfterDeath;
 
+	/* Bool that determines if the AI Enemy is a Ranged Attacker for behavior purposes */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Combat")
 	bool bWieldsRangedWeapon;
 
