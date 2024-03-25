@@ -83,8 +83,10 @@ void AMetaliaProjectile::SetCollisionChannelToProjectile()
 
 void AMetaliaProjectile::OnOverlap(AActor* TargetActor)
 {
-	// Called from the blueprint on actor overlap.  
-	if (!UMetaliaAbilitySystemLibrary::IsEnemy(OwningActor, TargetActor))
+	// Called from the blueprint on actor overlap. 
+	if (OwningActor == TargetActor) return;
+	if (TargetActor == nullptr) return;
+	if (HasAuthority() && !UMetaliaAbilitySystemLibrary::IsEnemy(OwningActor, TargetActor)) //clients crap out if calling this library (TargetActor blows up)
 	{
 		// enemies can't hurt enemies (tagged enemies - the bad guys)
 		// TODO: setting where player damage ignored too
