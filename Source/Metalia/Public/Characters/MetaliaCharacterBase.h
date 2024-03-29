@@ -95,6 +95,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString ProjectileSocketName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	class UNiagaraSystem* BloodEffect_Light;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
@@ -116,6 +119,12 @@ public:
 
 	/* Combat Interface implementation to get the death react montage */
 	virtual UAnimMontage* GetDeathReactMontage_Implementation() override;
+
+	/* Combat Interface implementation to get the impact socket location */
+	virtual FVector GetImpactSocketLocation_Implementation() override;
+
+	/* Combat Interface implementation to get back the light blood effect */
+	virtual UNiagaraSystem* GetLightBloodEffect_Implementation() override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;

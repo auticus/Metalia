@@ -13,6 +13,7 @@
 #include "Items/Weapon.h"
 #include "Game/MetaliaDamageAbility.h"
 #include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
+#include "NiagaraSystem.h"
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -216,6 +217,18 @@ void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollD
 	bIsDead = true;
 }
 
+FVector AMetaliaCharacterBase::GetImpactSocketLocation_Implementation()
+{
+	if (Inventory->GetEquippedWeapon())
+	{
+		return Inventory->GetEquippedWeapon()->GetImpactSocketLocation();
+	}
+
+	//TODO: they have no weapon equipped - Issue #8 in github for possible implementation strategy
+	UE_LOG(LogTemp, Error, TEXT("MetaliaCharacterBase - TODO: Issue #8 - add no weapon equipped impact socket"));
+	return FVector();
+}
+
 bool AMetaliaCharacterBase::GetIsBlocking() const
 {
 	return bHitBlocking;
@@ -263,4 +276,9 @@ AWeapon* AMetaliaCharacterBase::GetEquippedWeapon_Implementation() const
 {
 	if (Inventory == nullptr) return nullptr;
 	return Inventory->GetEquippedWeapon();
+}
+
+UNiagaraSystem* AMetaliaCharacterBase::GetLightBloodEffect_Implementation()
+{
+	return BloodEffect_Light;
 }

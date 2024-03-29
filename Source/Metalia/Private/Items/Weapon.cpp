@@ -71,6 +71,12 @@ FVector AWeapon::GetProjectileSocketLocation()
 	return GetItemMesh()->GetSocketLocation(FName(ProjectileSocketName));
 }
 
+FVector AWeapon::GetImpactSocketLocation()
+{
+	if (ImpactSocketName == "") return FVector();
+	return GetItemMesh()->GetSocketLocation(FName(ImpactSocketName));
+}
+
 FRotator AWeapon::GetProjectileSocketForwardRotation()
 {
 	if (ProjectileSocketName == "") return FRotator();

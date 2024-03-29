@@ -43,6 +43,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	FString ProjectileSocketName;
 
+	/* Socket where the impact fx will spawn from */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
+	FString ImpactSocketName;
+
 	/* The weapon's collision box */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* WeaponCollision;
@@ -73,6 +77,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DeactivateWeapon();
 
+	UFUNCTION(BlueprintCallable)
 	FVector GetProjectileSocketLocation();
+
+	UFUNCTION(BlueprintCallable)
+	FVector GetImpactSocketLocation();
+
 	FRotator GetProjectileSocketForwardRotation();
 };
