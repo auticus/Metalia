@@ -126,6 +126,9 @@ public:
 	/* Combat Interface implementation to get back the light blood effect */
 	virtual UNiagaraSystem* GetLightBloodEffect_Implementation() override;
 
+	/* Combat Interface implementation to get back the equipped weapon's impact sound effect */
+	virtual USoundBase* GetEquippedWeaponImpactSound_Implementation() override;
+
 	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;
 	

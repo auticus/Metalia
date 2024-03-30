@@ -75,4 +75,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetImpactSocketLocation();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USoundBase* GetEquippedWeaponImpactSound();
 };

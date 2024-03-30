@@ -43,6 +43,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	FString ProjectileSocketName;
 
+	/* Special impact sound like explosion - do not use armor or create impact sounds here those should be defined on the character itself */
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<USoundBase> ImpactSound;
+
 	/* Socket where the impact fx will spawn from */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Meta, meta = (AllowPrivateAccess = "true"))
 	FString ImpactSocketName;
@@ -84,4 +88,7 @@ public:
 	FVector GetImpactSocketLocation();
 
 	FRotator GetProjectileSocketForwardRotation();
+
+	UFUNCTION(BlueprintCallable)
+	USoundBase* GetImpactSound();
 };

@@ -229,6 +229,18 @@ FVector AMetaliaCharacterBase::GetImpactSocketLocation_Implementation()
 	return FVector();
 }
 
+USoundBase* AMetaliaCharacterBase::GetEquippedWeaponImpactSound_Implementation()
+{
+	if (Inventory->GetEquippedWeapon())
+	{
+		return Inventory->GetEquippedWeapon()->GetImpactSound();
+	}
+
+	//TODO: they have no weapon equipped - Issue #8 in github for possible implementation strategy
+	UE_LOG(LogTemp, Error, TEXT("MetaliaCharacterBase - TODO: Issue #8 - add no weapon equipped impact sound"));
+	return nullptr;
+}
+
 bool AMetaliaCharacterBase::GetIsBlocking() const
 {
 	return bHitBlocking;

@@ -84,6 +84,11 @@ FRotator AWeapon::GetProjectileSocketForwardRotation()
 	return GetItemMesh()->GetForwardVector().Rotation();
 }
 
+USoundBase* AWeapon::GetImpactSound()
+{
+	return ImpactSound;
+}
+
 void AWeapon::OnOverlap(AActor* TargetActor)
 {
 	// this should be activated and deactivated via the anim blueprints and anim montages that will call Activate or Deactivate

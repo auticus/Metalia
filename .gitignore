@@ -80,3 +80,6 @@ DerivedDataCache/*
 Content/Animations/EssentialSwordShieldAnimationPack/*
 Content/Animations/MagicStaffAnimation_Raw/*
 Content/Animations/Mixamo/*
+
+# Sound Raw Files - these are brought into project but not put into source
+Content/Sounds/RawAssets/*

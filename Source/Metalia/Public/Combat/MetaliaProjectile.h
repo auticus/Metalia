@@ -29,9 +29,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAudioComponent> InFlightSoundComponent;
 
-	/* Special impact sound like explosion - do not use armor or create impact sounds here those should be defined on the character itself */
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<USoundBase> ImpactSound;
 	/* End FX */
 
 private:

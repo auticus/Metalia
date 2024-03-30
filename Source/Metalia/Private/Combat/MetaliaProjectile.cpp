@@ -140,4 +140,5 @@ void AMetaliaProjectile::HandleProjectileDestroyed()
 	{
 		InFlightSoundComponent->Stop();
 	}
+	bHit = true;
 }
