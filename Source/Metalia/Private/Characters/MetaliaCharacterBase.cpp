@@ -248,6 +248,18 @@ USoundBase* AMetaliaCharacterBase::GetCharacterDeathSound_Implementation()
 	return DeathSound;
 }
 
+TArray<AActor*> AMetaliaCharacterBase::GetActorsHitByEquippedWeapon_Implementation() const
+{
+	if (Inventory->GetEquippedWeapon())
+	{
+		return Inventory->GetEquippedWeapon()->GetActorsHitByWeapon();
+	}
+
+	//TODO: no weapon equipped - Issue #8 in github for striking with a natural weapon
+	UE_LOG(LogTemp, Error, TEXT("MetaliaCharacterBase - TODO: Issue #8 - add no weapon equipped to get who was hit"));
+	return TArray<AActor*>();
+}
+
 bool AMetaliaCharacterBase::GetIsBlocking() const
 {
 	return bHitBlocking;

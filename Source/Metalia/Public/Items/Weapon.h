@@ -71,6 +71,9 @@ public:
 	FORCEINLINE void SetOwningActor(AActor* Actor) { OwningActor = Actor; }
 
 	UFUNCTION(BlueprintCallable)
+	FORCEINLINE TArray<AActor*> GetActorsHitByWeapon() { return ActorsHitByWeapon; }
+
+	UFUNCTION(BlueprintCallable)
 	virtual void OnOverlap(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)

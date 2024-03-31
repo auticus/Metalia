@@ -135,6 +135,9 @@ public:
 	/* Combat Interface implementation to get the death sound back for the character */
 	virtual USoundBase* GetCharacterDeathSound_Implementation() override;
 
+	/* Combat Interface implementation to get the actors struck by the equipped weapon */
+	virtual TArray<AActor*> GetActorsHitByEquippedWeapon_Implementation() const override;
+
 	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;
 	

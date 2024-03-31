@@ -62,6 +62,9 @@ public:
 	AWeapon* GetEquippedWeapon() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	TArray<AActor*> GetActorsHitByEquippedWeapon() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void CauseDamageToTarget(AActor* Target);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
