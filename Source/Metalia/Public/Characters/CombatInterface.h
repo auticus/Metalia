@@ -78,4 +78,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	USoundBase* GetEquippedWeaponImpactSound();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	USoundBase* GetCharacterDeathSound();
 };

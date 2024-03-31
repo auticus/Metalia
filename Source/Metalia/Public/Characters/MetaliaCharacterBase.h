@@ -98,6 +98,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	class UNiagaraSystem* BloodEffect_Light;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+	TObjectPtr<USoundBase> DeathSound;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
@@ -128,6 +131,9 @@ public:
 
 	/* Combat Interface implementation to get back the equipped weapon's impact sound effect */
 	virtual USoundBase* GetEquippedWeaponImpactSound_Implementation() override;
+
+	/* Combat Interface implementation to get the death sound back for the character */
+	virtual USoundBase* GetCharacterDeathSound_Implementation() override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;

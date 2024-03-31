@@ -14,6 +14,7 @@
 #include "Game/MetaliaDamageAbility.h"
 #include <Game/Libraries/MetaliaAbilitySystemLibrary.h>
 #include "NiagaraSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMetaliaCharacterBase::AMetaliaCharacterBase()
@@ -195,6 +196,7 @@ void AMetaliaCharacterBase::Die_Implementation(bool UseRagDollDeath)
 
 void AMetaliaCharacterBase::MulticastHandleDeath_Implementation(bool UseRagDollDeath)
 {
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 	Inventory->HandleWeaponsOnDeath();
 	Inventory->DropEquippedWeaponsOnGround();
 
@@ -239,6 +241,11 @@ USoundBase* AMetaliaCharacterBase::GetEquippedWeaponImpactSound_Implementation()
 	//TODO: they have no weapon equipped - Issue #8 in github for possible implementation strategy
 	UE_LOG(LogTemp, Error, TEXT("MetaliaCharacterBase - TODO: Issue #8 - add no weapon equipped impact sound"));
 	return nullptr;
+}
+
+USoundBase* AMetaliaCharacterBase::GetCharacterDeathSound_Implementation()
+{
+	return DeathSound;
 }
 
 bool AMetaliaCharacterBase::GetIsBlocking() const
