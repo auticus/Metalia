@@ -83,3 +83,6 @@ Content/Animations/Mixamo/*
 
 # Sound Raw Files - these are brought into project but not put into source
 Content/Sounds/RawAssets/*
+
+# Fx Asset Raw Files - brought into project but not being used 
+Content/Fx/Assets/*
