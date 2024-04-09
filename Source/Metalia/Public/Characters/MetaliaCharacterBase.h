@@ -138,6 +138,9 @@ public:
 	/* Combat Interface implementation to get the actors struck by the equipped weapon */
 	virtual TArray<AActor*> GetActorsHitByEquippedWeapon_Implementation() const override;
 
+	/* Tells the weapon to generate a pre-shot aura if that is set up for it */
+	virtual void GenerateWeaponPreShotAura_Implementation() override;
+
 	UFUNCTION(BlueprintCallable)
 	virtual bool GetIsBlocking() const;
 	

@@ -260,6 +260,17 @@ TArray<AActor*> AMetaliaCharacterBase::GetActorsHitByEquippedWeapon_Implementati
 	return TArray<AActor*>();
 }
 
+void AMetaliaCharacterBase::GenerateWeaponPreShotAura_Implementation()
+{
+	if (Inventory->GetEquippedWeapon())
+	{
+		Inventory->GetEquippedWeapon()->GenerateWeaponPreShotAura();
+	}
+
+	//TODO: no weapon equipped - Issue #8 in github for striking with a natural weapon
+	UE_LOG(LogTemp, Error, TEXT("MetaliaCharacterBase - TODO: Issue #8 - no weapon to generate pre shot aura with."));
+}
+
 bool AMetaliaCharacterBase::GetIsBlocking() const
 {
 	return bHitBlocking;

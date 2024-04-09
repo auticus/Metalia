@@ -6,6 +6,9 @@
 #include <AbilitySystemBlueprintLibrary.h>
 #include "AbilitySystemComponent.h"
 #include "Game/MetaliaDamageAbility.h"
+#include "Engine/SkeletalMeshSocket.h"
+#include "NiagaraComponent.h"
+#include <NiagaraFunctionLibrary.h>
 
 AWeapon::AWeapon() :
 	bRequiresTwoHands(false),
@@ -87,6 +90,17 @@ FRotator AWeapon::GetProjectileSocketForwardRotation()
 USoundBase* AWeapon::GetImpactSound()
 {
 	return ImpactSound;
+}
+
+void AWeapon::GenerateWeaponPreShotAura()
+{
+	if (PreShotAuraSocketName == "" || Vfx_PreShotAura == nullptr || ItemMesh == nullptr) return;
+	
+	const USkeletalMeshSocket* WeaponAuraFxSocket = ItemMesh->GetSocketByName(FName(PreShotAuraSocketName));
+	if (WeaponAuraFxSocket == nullptr) return;
+
+	const FVector WeaponAuraFxTransform = WeaponAuraFxSocket->GetSocketTransform(ItemMesh).GetLocation();
+	UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), Vfx_PreShotAura, WeaponAuraFxTransform);
 }
 
 void AWeapon::OnOverlap(AActor* TargetActor)

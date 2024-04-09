@@ -62,6 +62,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<TObjectPtr<AActor>> ActorsHitByWeapon;
 
+	/* The socket name where the Pre-Shot Aura will originate */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+	FString PreShotAuraSocketName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	class UNiagaraSystem* Vfx_PreShotAura;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -94,4 +101,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	USoundBase* GetImpactSound();
+
+	/* Generates a pre-shot aura if one exists */
+	UFUNCTION(BlueprintCallable)
+	void GenerateWeaponPreShotAura();
 };

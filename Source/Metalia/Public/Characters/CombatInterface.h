@@ -84,4 +84,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	USoundBase* GetCharacterDeathSound();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void GenerateWeaponPreShotAura();
 };
