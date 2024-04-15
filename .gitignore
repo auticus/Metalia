@@ -80,9 +80,11 @@ DerivedDataCache/*
 Content/Animations/EssentialSwordShieldAnimationPack/*
 Content/Animations/MagicStaffAnimation_Raw/*
 Content/Animations/Mixamo/*
+Content/Animations/Werewolf_AnimSet/*
 
 # Sound Raw Files - these are brought into project but not put into source
 Content/Sounds/RawAssets/*
 
 # Fx Asset Raw Files - brought into project but not being used 
 Content/Fx/Assets/*
+
