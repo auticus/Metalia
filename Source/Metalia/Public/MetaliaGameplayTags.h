@@ -62,6 +62,17 @@ public:
 
 	FGameplayTag Abilities_Attack; //basic melee attack
 
+	FGameplayTag AttackSource_RightHand;
+	FGameplayTag AttackSource_LeftHand;
+	FGameplayTag AttackSource_RightKick;
+	FGameplayTag AttackSource_LeftKick;
+	FGameplayTag AttackSource_Bite;
+	FGameplayTag AttackSource_Head;
+	FGameplayTag AttackSource_Mouth;
+	FGameplayTag AttackSource_Tail;
+	FGameplayTag AttackSource_RearRightKick;
+	FGameplayTag AttackSource_RearLeftKick;
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistanceMap;
 
 private:

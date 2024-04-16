@@ -84,6 +84,17 @@ void FMetaliaGameplayTags::InitializeMiscTags()
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Damage.Physical"));
 
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Basic melee attack"));
+
+	GameplayTags.AttackSource_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.RightHand"), FString("Attack held in the Right Hand"));
+	GameplayTags.AttackSource_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.LeftHand"), FString("Attack held in the Left Hand"));
+	GameplayTags.AttackSource_RightKick = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.RightKick"), FString("Right Kick"));
+	GameplayTags.AttackSource_LeftKick = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.LeftKick"), FString("Left Kick"));
+	GameplayTags.AttackSource_Bite = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.Bite"), FString("Bite Attack"));
+	GameplayTags.AttackSource_Head = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.Head"), FString("Headbutt"));
+	GameplayTags.AttackSource_Mouth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.Mouth"), FString("Mouth attack like breath attack"));
+	GameplayTags.AttackSource_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.LeftKick"), FString("Tail Attack"));
+	GameplayTags.AttackSource_RearRightKick = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.RearRightKick"), FString("Rear Right Kick"));
+	GameplayTags.AttackSource_RearLeftKick = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("AttackSource.RearLeftKick"), FString("Rear Left Kick"));
 }
 
 void FMetaliaGameplayTags::InitializeResistanceTags()
